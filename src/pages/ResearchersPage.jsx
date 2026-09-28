@@ -1,12 +1,38 @@
 import React, { useState } from "react";
 
+// ─── SDG Goals ─────────────────────────────────────────────────────────
+const ALL_SDGS = [
+  { id: "sdg1",  label: "GOAL 1: No Poverty",                count: 312 },
+  { id: "sdg2",  label: "GOAL 2: Zero Hunger",               count: 92  },
+  { id: "sdg3",  label: "GOAL 3: Good Health and Well-Being",        count: 98  },
+  { id: "sdg4",  label: "GOAL 4: Quality Education",                 count: 67  },
+  { id: "sdg5",  label: "GOAL 5: Gender Equality",                   count: 54  },
+  { id: "sdg6",  label: "GOAL 6: Clean Water and Sanitation",        count: 43  },
+  { id: "sdg7",  label: "GOAL 7: Affordable and Clean Energy",       count: 78  },
+  { id: "sdg8",  label: "GOAL 8: Decent Work and Economic Growth",   count: 61  },
+  { id: "sdg9",  label: "GOAL 9: Industry, Innovation and Infrastructure", count: 55 },
+  { id: "sdg10", label: "GOAL 10: Reduced Inequalities",             count: 38  },
+  { id: "sdg11", label: "GOAL 11: Sustainable Cities and Communities", count: 47 },
+  { id: "sdg12", label: "GOAL 12: Responsible Consumption and Production", count: 33 },
+  { id: "sdg13", label: "GOAL 13: Climate Action",                   count: 89  },
+  { id: "sdg14", label: "GOAL 14: Life Below Water",                 count: 26  },
+  { id: "sdg15", label: "GOAL 15: Life on Land",                     count: 41  },
+  { id: "sdg16", label: "GOAL 16: Peace, Justice and Strong Institutions", count: 29 },
+  { id: "sdg17", label: "GOAL 17: Partnerships for the Goals",       count: 18  },
+];
+
+const SDG_INITIAL_COUNT = 4;
+
 // ─── Mock Data ─────────────────────────────────────────────────────────────
 const faculties = [
-  { id: "FKIK", label: "FKIK", count: 94120 },
-  { id: "FT",   label: "FT",   count: 32450 },
-  { id: "FMIPA",label: "FMIPA",count: 14100 },
-  { id: "FEB",  label: "FEB",  count: 6810  },
-  { id: "FKIP", label: "FKIP", count: 4247  },
+  { id: "FKIK",  label: "FKIK",  count: 941 },
+  { id: "FT",    label: "FT",    count: 324 },
+  { id: "FMIPA", label: "FMIPA", count: 141 },
+  { id: "FEB",   label: "FEB",   count: 681 },
+  { id: "FKIP",  label: "FKIP",  count: 357 },
+  { id: "FH",    label: "FH",    count: 427 },
+  { id: "FISIP", label: "FISIP", count: 429 },
+  { id: "FP",    label: "FP",    count: 654 },
 ];
 
 const topics = [
@@ -16,18 +42,11 @@ const topics = [
   { id: "gen",  label: "Genomics",                 count: 67  },
 ];
 
-const sdgs = [
-  { id: "sdg1", label: "GOAL 1: No Poverty",              count: 312 },
-  { id: "sdg2", label: "GOAL 2: Zero Hunger",             count: 92  },
-  { id: "sdg3", label: "GOAL 3: Good Health and Well-Being", count: 98 },
-  { id: "sdg4", label: "GOAL 4: Quality Education",       count: 67  },
-];
-
 const networks = [
-  { id: "ui",  label: "Universitas Indonesia",   count: 420 },
-  { id: "upj", label: "Universitas Padjajaran",  count: 28  },
-  { id: "ugm", label: "Universitas Gajah Mada",  count: 215 },
-  { id: "uns", label: "Universitas Sebelas Maret",count: 189 },
+  { id: "ui",  label: "Universitas Indonesia",    count: 420 },
+  { id: "upj", label: "Universitas Padjajaran",   count: 28  },
+  { id: "ugm", label: "Universitas Gajah Mada",   count: 215 },
+  { id: "uns", label: "Universitas Sebelas Maret", count: 189 },
 ];
 
 const researchers = [
@@ -35,12 +54,14 @@ const researchers = [
   { id: 2, name: "Prof. Dr. Eleanor Vance, Ph.D.", role: "Proffesor (Guru Besar)", dept: "Fakultas Teknik", hindex: 48, pubs: 248, projects: 18, citations: 4890 },
   { id: 3, name: "Prof. Dr. Eleanor Vance, Ph.D.", role: "Proffesor (Guru Besar)", dept: "Fakultas Teknik", hindex: 48, pubs: 248, projects: 18, citations: 4890 },
   { id: 4, name: "Prof. Dr. Eleanor Vance, Ph.D.", role: "Proffesor (Guru Besar)", dept: "Fakultas Teknik", hindex: 48, pubs: 248, projects: 18, citations: 4890 },
+  { id: 5, name: "Prof. Dr. Eleanor Vance, Ph.D.", role: "Proffesor (Guru Besar)", dept: "Fakultas Teknik", hindex: 48, pubs: 248, projects: 18, citations: 4890 },
+  { id: 6, name: "Prof. Dr. Eleanor Vance, Ph.D.", role: "Proffesor (Guru Besar)", dept: "Fakultas Teknik", hindex: 48, pubs: 248, projects: 18, citations: 4890 },
 ];
 
 // ─── Sub-components ─────────────────────────────────────────────────────────
 
 /** Collapsible filter section */
-function FilterSection({ title, icon, children, defaultOpen = true }) {
+function FilterSection({ title, children, defaultOpen = true }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
     <div className="border-b border-gray-100 py-4">
@@ -48,7 +69,7 @@ function FilterSection({ title, icon, children, defaultOpen = true }) {
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between text-sm font-bold text-gray-700 mb-0"
       >
-        <span className="flex items-center gap-2">{icon}{title}</span>
+        <span>{title}</span>
         <svg
           className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
           fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -79,19 +100,31 @@ function CheckRow({ label, count, checked, onChange }) {
   );
 }
 
-/** Source badge pill */
+/** Source badge pill — disesuaikan warnanya dengan desain */
 const badgeStyles = {
-  ORCID:         "border border-gray-300 text-gray-600",
-  Scopus:        "border border-orange-300 text-orange-600 bg-orange-50",
-  OpenAlex:      "border border-blue-300 text-blue-600 bg-blue-50",
-  "Google Scholar": "border border-sky-300 text-sky-600 bg-sky-50",
+  ORCID:           "bg-emerald-100 text-emerald-700 hover:bg-emerald-200",
+  Scopus:          "bg-orange-100 text-orange-700 hover:bg-orange-200",
+  OpenAlex:        "bg-purple-100 text-purple-700 hover:bg-purple-200",
+  "Google Scholar":"bg-blue-100 text-blue-700 hover:bg-blue-200",
+};
+
+const badgeUrls = {
+  ORCID:           "https://orcid.org",
+  Scopus:          "https://www.scopus.com",
+  OpenAlex:        "https://openalex.org",
+  "Google Scholar":"https://scholar.google.com",
 };
 
 function SourceBadge({ label }) {
   return (
-    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${badgeStyles[label] ?? "border border-gray-200 text-gray-500"}`}>
+    <a
+      href={badgeUrls[label] ?? "#"}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`text-xs font-bold px-3 py-1 rounded-full transition-colors cursor-pointer ${badgeStyles[label] ?? "bg-gray-100 text-gray-600"}`}
+    >
       {label}
-    </span>
+    </a>
   );
 }
 
@@ -122,7 +155,7 @@ function ResearcherCard({ researcher }) {
         <p className="text-sm text-gray-500">{researcher.dept}</p>
       </div>
 
-      {/* Source badges */}
+      {/* Source badges — warna baru sesuai desain */}
       <div className="flex flex-wrap gap-1.5">
         {["ORCID", "Scopus", "OpenAlex", "Google Scholar"].map((b) => (
           <SourceBadge key={b} label={b} />
@@ -151,42 +184,33 @@ function ResearcherCard({ researcher }) {
   );
 }
 
-// ─── Filter icons (tiny inline SVGs) ─────────────────────────────────────────
-const FacultyIcon = () => (
-  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-  </svg>
-);
-const TopicsIcon = () => (
-  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z" />
-  </svg>
-);
-const SdgIcon = () => (
-  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
-  </svg>
-);
-const NetworkIcon = () => (
-  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-  </svg>
-);
-
 // ─── Main Page ───────────────────────────────────────────────────────────────
 export default function ResearchersPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [topicSearch, setTopicSearch] = useState("");
+  const [searchQuery, setSearchQuery]       = useState("");
+  const [topicSearch, setTopicSearch]       = useState("");
   const [checkedFaculties, setCheckedFaculties] = useState({ FKIK: true });
-  const [checkedTopics, setCheckedTopics] = useState({});
-  const [checkedSdgs, setCheckedSdgs] = useState({});
+  const [checkedTopics, setCheckedTopics]   = useState({});
+  const [checkedSdgs, setCheckedSdgs]       = useState({});
   const [checkedNetworks, setCheckedNetworks] = useState({});
-  const [sortBy, setSortBy] = useState("Most Recent");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [sortBy, setSortBy]                 = useState("Most Cited");
+  const [currentPage, setCurrentPage]       = useState(1);
+  const [sdgExpanded, setSdgExpanded]       = useState(false);
   const totalPages = 493;
 
   const toggleCheck = (setter, id) =>
     setter((prev) => ({ ...prev, [id]: !prev[id] }));
+
+  const resetFilters = () => {
+    setCheckedFaculties({});
+    setCheckedTopics({});
+    setCheckedSdgs({});
+    setCheckedNetworks({});
+    setSearchQuery("");
+    setSortBy("Most Cited");
+    setSdgExpanded(false);
+  };
+
+  const visibleSdgs = sdgExpanded ? ALL_SDGS : ALL_SDGS.slice(0, SDG_INITIAL_COUNT);
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -203,11 +227,15 @@ export default function ResearchersPage() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()}
                 placeholder="Search researchers..."
                 className="flex-1 py-3 text-sm text-gray-700 placeholder-gray-400 outline-none bg-transparent"
               />
             </div>
-            <button className="bg-navy hover:bg-navy-dark text-white font-bold text-sm px-7 py-3 rounded-xl transition-colors duration-150 flex-shrink-0">
+            <button
+              onClick={() => { /* trigger search */ }}
+              className="bg-navy hover:bg-navy-dark text-white font-bold text-sm px-7 py-3 rounded-xl transition-colors duration-150 flex-shrink-0"
+            >
               Search
             </button>
           </div>
@@ -229,13 +257,17 @@ export default function ResearchersPage() {
                   </svg>
                   Filter
                 </span>
-                <button className="text-xs font-semibold" style={{ color: "rgba(0, 99, 152, 1)" }}>
+                <button
+                  onClick={resetFilters}
+                  className="text-xs font-semibold transition-colors hover:underline"
+                  style={{ color: "rgba(0, 99, 152, 1)" }}
+                >
                   Reset filters
                 </button>
               </div>
 
-              {/* Faculty */}
-              <FilterSection title="Faculty" icon={<FacultyIcon />}>
+              {/* Faculty — Tanpa tombol Show More */}
+              <FilterSection title="Faculty">
                 {faculties.map((f) => (
                   <CheckRow
                     key={f.id}
@@ -245,13 +277,10 @@ export default function ResearchersPage() {
                     onChange={() => toggleCheck(setCheckedFaculties, f.id)}
                   />
                 ))}
-                <button className="mt-2 text-xs font-semibold" style={{ color: "rgba(0, 99, 152, 1)" }}>
-                  Show More
-                </button>
               </FilterSection>
 
-              {/* Topics */}
-              <FilterSection title="Topics" icon={<TopicsIcon />}>
+              {/* Topics — Tanpa tombol Show More */}
+              <FilterSection title="Topics">
                 <div className="flex items-center bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 mb-3 gap-2">
                   <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -264,23 +293,22 @@ export default function ResearchersPage() {
                     className="flex-1 text-xs text-gray-600 placeholder-gray-400 outline-none bg-transparent"
                   />
                 </div>
-                {topics.map((t) => (
-                  <CheckRow
-                    key={t.id}
-                    label={t.label}
-                    count={t.count}
-                    checked={!!checkedTopics[t.id]}
-                    onChange={() => toggleCheck(setCheckedTopics, t.id)}
-                  />
-                ))}
-                <button className="mt-2 text-xs font-semibold" style={{ color: "rgba(0, 99, 152, 1)" }}>
-                  Show More
-                </button>
+                {topics
+                  .filter((t) => t.label.toLowerCase().includes(topicSearch.toLowerCase()))
+                  .map((t) => (
+                    <CheckRow
+                      key={t.id}
+                      label={t.label}
+                      count={t.count}
+                      checked={!!checkedTopics[t.id]}
+                      onChange={() => toggleCheck(setCheckedTopics, t.id)}
+                    />
+                  ))}
               </FilterSection>
 
-              {/* SDG */}
-              <FilterSection title="SDG" icon={<SdgIcon />}>
-                {sdgs.map((s) => (
+              {/* SDG — Show More tetap ada */}
+              <FilterSection title="SDG">
+                {visibleSdgs.map((s) => (
                   <CheckRow
                     key={s.id}
                     label={s.label}
@@ -289,13 +317,17 @@ export default function ResearchersPage() {
                     onChange={() => toggleCheck(setCheckedSdgs, s.id)}
                   />
                 ))}
-                <button className="mt-2 text-xs font-semibold" style={{ color: "rgba(0, 99, 152, 1)" }}>
-                  Show More
+                <button
+                  onClick={() => setSdgExpanded((prev) => !prev)}
+                  className="mt-2 text-xs font-semibold transition-colors hover:underline"
+                  style={{ color: "rgba(0, 99, 152, 1)" }}
+                >
+                  {sdgExpanded ? "Show Less" : `Show More (${ALL_SDGS.length - SDG_INITIAL_COUNT} more)`}
                 </button>
               </FilterSection>
 
               {/* Network */}
-              <FilterSection title="Network" icon={<NetworkIcon />} defaultOpen={true}>
+              <FilterSection title="Network" defaultOpen={true}>
                 {networks.map((n) => (
                   <CheckRow
                     key={n.id}
@@ -330,7 +362,6 @@ export default function ResearchersPage() {
                   onChange={(e) => setSortBy(e.target.value)}
                   className="text-sm font-semibold text-gray-700 border border-gray-200 rounded-lg px-3 py-1.5 outline-none bg-white cursor-pointer"
                 >
-                  <option>Most Recent</option>
                   <option>Most Cited</option>
                   <option>Alphabetical</option>
                   <option>H-Index</option>
@@ -366,7 +397,7 @@ export default function ResearchersPage() {
                   </svg>
                 </button>
 
-                {/* Page numbers: 1, 2, 3, ..., 493 */}
+                {/* Page numbers */}
                 {[1, 2, 3].map((p) => (
                   <button
                     key={p}

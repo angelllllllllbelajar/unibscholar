@@ -13,8 +13,9 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="w-full bg-white sticky top-0 z-50 border-b border-gray-100 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <header className="w-full bg-white sticky top-0 z-50 shadow-sm">
+      {/* Top bar: logo + nav links */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-stretch justify-between">
         {/* Logo */}
         <NavLink to="/" className="flex items-center gap-3 flex-shrink-0">
           <img
@@ -28,15 +29,15 @@ export default function Navbar() {
           </span>
         </NavLink>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-1">
+        {/* Desktop Nav — buttons stretch full height, text centered, underline flush with bottom border */}
+        <nav className="hidden md:flex items-stretch gap-1">
           {navItems.map((item) => (
             <NavLink
               key={item.label}
               to={item.to}
               end={item.to === "/"}
               className={({ isActive }) =>
-                `px-4 py-2 text-sm font-semibold transition-colors duration-150 relative
+                `relative flex items-center px-4 text-sm font-semibold transition-colors duration-150
                 ${isActive ? "text-navy" : "text-gray-500 hover:text-navy"}`
               }
             >
@@ -44,7 +45,7 @@ export default function Navbar() {
                 <>
                   {item.label}
                   {isActive && (
-                    <span className="absolute bottom-0 left-2 right-2 h-[3px] bg-navy rounded-full" />
+                    <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-navy" />
                   )}
                 </>
               )}
@@ -54,7 +55,7 @@ export default function Navbar() {
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden p-2 rounded-md text-gray-600 hover:text-navy"
+          className="md:hidden p-2 rounded-md text-gray-600 hover:text-navy self-center"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
@@ -67,6 +68,9 @@ export default function Navbar() {
           </svg>
         </button>
       </div>
+
+      {/* Bottom border — full width, flush below nav */}
+      <div className="border-b border-gray-100" />
 
       {/* Mobile dropdown */}
       {menuOpen && (
