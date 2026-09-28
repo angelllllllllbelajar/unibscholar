@@ -3,6 +3,7 @@
 @theme {
   --color-navy: #1a2b5f;
   --color-navy-dark: #0f1c42;
+  --color-scholar-blue: rgba(0, 99, 152, 1);
   --font-sans: "Inter", "Roboto", ui-sans-serif, system-ui, sans-serif;
 }
 

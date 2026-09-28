@@ -1,16 +1,22 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 
-const navItems = ["Home", "Researchers", "Publications", "Study Center", "Projects"];
+const navItems = [
+  { label: "Home",         to: "/"             },
+  { label: "Researchers",  to: "/researchers"  },
+  { label: "Publications", to: "/publications" },
+  { label: "Study Center", to: "/study-center" },
+  { label: "Projects",     to: "/projects"     },
+];
 
 export default function Navbar() {
-  const [active, setActive] = useState("Home");
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header className="w-full bg-white sticky top-0 z-50 border-b border-gray-100 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
-        <a href="/" className="flex items-center gap-3 flex-shrink-0">
+        <NavLink to="/" className="flex items-center gap-3 flex-shrink-0">
           <img
             src="/logo-unib.png"
             alt="UNIB Logo"
@@ -20,23 +26,29 @@ export default function Navbar() {
             <span className="text-navy">UNIVERSITAS</span>{" "}
             <span className="text-yellow-400">BENGKULU</span>
           </span>
-        </a>
+        </NavLink>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-1">
           {navItems.map((item) => (
-            <button
-              key={item}
-              onClick={() => setActive(item)}
-              className={`px-4 py-2 text-sm font-semibold transition-colors duration-150 relative
-                ${active === item ? "text-navy" : "text-gray-500 hover:text-navy"}
-              `}
+            <NavLink
+              key={item.label}
+              to={item.to}
+              end={item.to === "/"}
+              className={({ isActive }) =>
+                `px-4 py-2 text-sm font-semibold transition-colors duration-150 relative
+                ${isActive ? "text-navy" : "text-gray-500 hover:text-navy"}`
+              }
             >
-              {item}
-              {active === item && (
-                <span className="absolute bottom-0 left-2 right-2 h-[3px] bg-navy rounded-full" />
+              {({ isActive }) => (
+                <>
+                  {item.label}
+                  {isActive && (
+                    <span className="absolute bottom-0 left-2 right-2 h-[3px] bg-navy rounded-full" />
+                  )}
+                </>
               )}
-            </button>
+            </NavLink>
           ))}
         </nav>
 
@@ -60,15 +72,21 @@ export default function Navbar() {
       {menuOpen && (
         <div className="md:hidden bg-white border-t border-gray-100 px-4 pb-4">
           {navItems.map((item) => (
-            <button
-              key={item}
-              onClick={() => { setActive(item); setMenuOpen(false); }}
-              className={`block w-full text-left px-3 py-2.5 text-sm font-semibold rounded-md mt-1
-                ${active === item ? "text-navy bg-blue-50 border-l-4 border-navy" : "text-gray-600 hover:text-navy hover:bg-gray-50"}
-              `}
+            <NavLink
+              key={item.label}
+              to={item.to}
+              end={item.to === "/"}
+              onClick={() => setMenuOpen(false)}
+              className={({ isActive }) =>
+                `block w-full text-left px-3 py-2.5 text-sm font-semibold rounded-md mt-1
+                ${isActive
+                  ? "text-navy bg-blue-50 border-l-4 border-navy"
+                  : "text-gray-600 hover:text-navy hover:bg-gray-50"
+                }`
+              }
             >
-              {item}
-            </button>
+              {item.label}
+            </NavLink>
           ))}
         </div>
       )}

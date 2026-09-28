@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 // Icons as inline SVG components
 const ResearchersIcon = () => (
@@ -36,25 +37,25 @@ const features = [
     icon: <ResearchersIcon />,
     title: "Researchers",
     description: "Explore UNIB researchers, their expertise, and networks",
-    href: "#",
+    to: "/researchers",
   },
   {
     icon: <PublicationsIcon />,
     title: "Publications",
     description: "Search journals, article, conference, paper, and more",
-    href: "#",
+    to: "/publications",
   },
   {
     icon: <StudyCenterIcon />,
     title: "Study Center",
     description: "Browse faculties, schools, research centers, and groups.",
-    href: "#",
+    to: "/study-center",
   },
   {
     icon: <ProjectsIcon />,
     title: "Projects",
     description: "Discover research projects, sponsor, and outcomes.",
-    href: "#",
+    to: "/projects",
   },
 ];
 
@@ -64,9 +65,9 @@ export default function FeatureCards() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {features.map((feature) => (
-            <a
+            <Link
               key={feature.title}
-              href={feature.href}
+              to={feature.to}
               className="group flex items-center gap-4 bg-navy hover:bg-navy-dark rounded-2xl px-5 py-5 transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl"
             >
               {/* Icon Box */}
@@ -82,7 +83,7 @@ export default function FeatureCards() {
                   {feature.description}
                 </p>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

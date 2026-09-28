@@ -22,7 +22,7 @@ export default function HeroSection() {
             {/* Heading */}
             <h1 className="text-4xl sm:text-5xl xl:text-6xl font-extrabold tracking-tight leading-tight mb-5">
               <span className="text-navy">UNIB</span>{" "}
-              <span className="text-blue-500">Scholar</span>
+              <span className="text-scholar-blue">Scholar</span>
             </h1>
 
             {/* Description */}
@@ -72,55 +72,65 @@ export default function HeroSection() {
           {/* ─── Right Column ─── */}
           <div className="relative order-1 lg:order-2">
             {/* Image Container */}
-            <div className="relative rounded-2xl overflow-hidden shadow-xl aspect-[4/3]">
+            <div className="relative rounded-2xl overflow-hidden shadow-x aspect-[4/3]">
               {/* Aerial photo placeholder — replace src with real image */}
               <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Gedung_Rektorat_Universitas_Bengkulu.jpg/1280px-Gedung_Rektorat_Universitas_Bengkulu.jpg"
+                src="/rektorat-unib.jpg"
                 alt="Gedung Rektorat Universitas Bengkulu"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-top rounded-2xl"
                 onError={(e) => {
                   e.target.style.display = "none";
                   e.target.parentNode.classList.add("bg-gradient-to-br", "from-slate-200", "to-slate-400");
                 }}
               />
-
-              {/* Logo overlay top-left */}
-              <div className="absolute top-4 left-4 z-10">
-                <img
-                  src="/logo-unib.png"
-                  alt="Logo UNIB"
-                  className="w-14 h-14 object-contain drop-shadow-lg"
-                />
-              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-blue-900/90 via-blue-900/10 to-transparent pointer-events-none rounded-2xl"></div>
             </div>
 
-            {/* Badge Overlay Card */}
-            <div className="absolute -bottom-5 left-4 right-4 sm:left-6 sm:right-6 bg-white rounded-xl shadow-lg border border-gray-100 px-4 py-3 flex items-center gap-4">
-              {/* Left: icon + text */}
-              <div className="flex items-center gap-3 flex-1 min-w-0">
-                <div className="w-10 h-10 bg-navy rounded-lg flex items-center justify-center flex-shrink-0">
-                  {/* Document icon */}
-                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
+            {/* Floating Card di Bagian Bawah */}
+            <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur p-4 rounded-xl shadow-md flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="bg-slate-900 text-white p-2.5 rounded-lg">
+                  <div className="bg-[#0b1b3d] text-white p-2.5 rounded-lg flex items-center justify-center">
+                    <svg 
+                      xmlns="http://www.w3.org/2000/svg" 
+                      className="w-5 h-5" 
+                      fill="none" 
+                      viewBox="0 0 24 24" 
+                      stroke="currentColor"
+                    >
+                      <path 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        strokeWidth={2} 
+                        d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" 
+                      />
+                    </svg>
                 </div>
-                <div className="min-w-0">
-                  <p className="text-navy font-bold text-sm sm:text-base truncate">151,727+ Indexed Outputs</p>
-                  <p className="text-gray-500 text-xs truncate">Direct DOI allocation &amp; ORCID sync</p>
+
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-900 text-sm">151,727+ Indexed Outputs</h4>
+                  <p className="text-xs text-slate-500">Direct DOI allocation & ORCID sync</p>
                 </div>
               </div>
 
-              {/* Right: Scopus badge */}
-              <div className="flex items-center gap-1.5 bg-green-50 border border-green-200 text-green-700 font-semibold text-xs sm:text-sm rounded-full px-3 py-1.5 flex-shrink-0">
-                <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <span className="text-xs bg-emerald-50 text-emerald-600 px-3 py-1.5 rounded-full border border-emerald-200 font-medium flex items-center gap-1.5">
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  className="w-4 h-4" 
+                  viewBox="0 0 20 20" 
+                  fill="currentColor"
+                >
+                  <path 
+                    fillRule="evenodd" 
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" 
+                    clipRule="evenodd" 
+                  />
                 </svg>
-                Scopus &amp; WoS
-              </div>
+                Scopus & WoS
+              </span>
             </div>
           </div>
-
         </div>
       </div>
     </section>
