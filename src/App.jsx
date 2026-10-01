@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
 import ResearchersPage from "./pages/ResearchersPage";
+import ResearcherProfilePage from "./pages/ResearcherProfilePage";
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/researchers" element={<ResearchersPage />} />
+          <Route path="/researchers/:id" element={<ResearcherProfilePage />} />
         </Routes>
       </main>
       <Footer />

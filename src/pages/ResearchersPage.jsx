@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 // ─── SDG Goals ─────────────────────────────────────────────────────────
 const ALL_SDGS = [
@@ -135,7 +136,7 @@ function ResearcherCard({ researcher }) {
       {/* Top row: photo + h-index badge */}
       <div className="flex items-start justify-between">
         <img
-          src="/researcher-placeholder.jpg"
+          src="/researcher-placeholder.png"
           alt={researcher.name}
           className="w-16 h-16 rounded-xl object-cover bg-gray-200"
           onError={(e) => {
@@ -177,9 +178,12 @@ function ResearcherCard({ researcher }) {
       </div>
 
       {/* CTA */}
-      <button className="w-full bg-navy hover:bg-navy-dark text-white font-semibold text-sm py-2.5 rounded-xl transition-colors duration-150">
+      <Link
+        to={`/researchers/${researcher.id}`}
+        className="w-full bg-navy hover:bg-navy-dark text-white font-semibold text-sm py-2.5 rounded-xl transition-colors duration-150 text-center block"
+      >
         View Full Profile
-      </button>
+      </Link>
     </div>
   );
 }
