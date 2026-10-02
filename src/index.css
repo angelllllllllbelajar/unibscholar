@@ -18,3 +18,43 @@
     box-sizing: border-box;
   }
 }
+
+/* ── Shared layout primitives (same container & spacing on every page) ── */
+.page-container {
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 640px) {
+  .page-container { padding-inline: 1.5rem; }
+}
+
+@media (min-width: 1024px) {
+  .page-container { padding-inline: 2rem; }
+}
+
+.page-body {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.5rem;
+  padding-block: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .page-body {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.page-root {
+  min-height: 100vh;
+  background: #f9fafb;
+}
+
+.page-main {
+  flex: 1;
+  min-width: 0;
+}

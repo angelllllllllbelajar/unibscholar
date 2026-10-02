@@ -1,4 +1,11 @@
 // ─── Mock Publications Data ───────────────────────────────────────────────────
+export const TOTAL = 151727;
+export const TOTAL_PAGES = 15173;
+export const PER_PAGE = 6;
+export const SDG_INITIAL_COUNT = 4;
+export const YEAR_MIN = 2006;
+export const YEAR_MAX = 2026;
+
 export const publications = [
   {
     id: 1,
@@ -131,3 +138,37 @@ export const sdgGoals = [
   { name: "GOAL 16: Peace, Justice and Strong Institutions", count: 29 },
   { name: "GOAL 17: Partnerships for the Goals",         count: 18  },
 ];
+
+// Mocked "Cited By" references keyed by publication id
+export const citedBy = {
+  1: [
+    { title: "Deep Multi-Agent Integration in Power Systems", year: 2025, authors: "Eleanor Vance, Marcus Chen" },
+    { title: "Scalable Frameworks for Decentralized Grids",    year: 2024, authors: "Dr. Sarah Al-Mansoor, dkk." },
+    { title: "Resilience Analysis in Smart Microgrids",        year: 2024, authors: "David K. Lindqvist, Elena Rostova" },
+  ],
+  2: [
+    { title: "RNA Editing in Pathogen Surveillance",           year: 2025, authors: "T. K. Gupta, B. Hartono" },
+    { title: "Cas13 Off-Target Landscape in Diagnostics",     year: 2024, authors: "Maria Santos, et al." },
+    { title: "Single-Cell Transcriptomics in Infection",      year: 2024, authors: "Dr. Sarah Al-Mansoor" },
+  ],
+  3: [
+    { title: "High-Resolution Coastal Dynamics and Sea-Surface Temperature Mapping", year: 2025, authors: "Eleanor Vance, Marcus Chen" },
+    { title: "High-Density Elevation Grids for Pacific Coastal Vulnerability",       year: 2025, authors: "Dr. Sarah Al-Mansoor, T. K. Gupta" },
+    { title: "Coupled Hydro-Atmospheric Modeling in Regional Ecosystems",            year: 2024, authors: "David K. Lindqvist, Elena Rostova" },
+  ],
+  4: [
+    { title: "Chiral Majorana Signatures in 2D Materials",   year: 2025, authors: "J. H. Miller, et al." },
+    { title: "Topological Surface States via ARPES",          year: 2024, authors: "Prof. Aris Thorne" },
+    { title: "van der Waals Superconductor Proximity Effect", year: 2024, authors: "Elena Rostova, dkk." },
+  ],
+  5: [
+    { title: "On-Device NAS for Autonomous Vehicles",          year: 2025, authors: "K. Tanaka, et al." },
+    { title: "Hardware-Aware NAS Benchmarks",                  year: 2024, authors: "Eleanor Vance, B. Hartono" },
+    { title: "FPGA-Based Neural Search Accelerators",          year: 2024, authors: "Prof. Marcus Chen" },
+  ],
+  6: [
+    { title: "Ionic Liquid Applications in Green Chemistry",   year: 2025, authors: "B. Hartono, Maria Santos" },
+    { title: "Lignocellulose Pre-treatment Review",            year: 2024, authors: "Dr. Sarah Al-Mansoor" },
+    { title: "Circular Economy in Agricultural Biomass",       year: 2024, authors: "David K. Lindqvist" },
+  ],
+};
