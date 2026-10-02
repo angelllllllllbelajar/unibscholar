@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
 import ResearchersPage from "./pages/ResearchersPage";
 import ResearcherProfilePage from "./pages/ResearcherProfilePage";
+import PublicationsPage from "./pages/PublicationsPage";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/researchers" element={<ResearchersPage />} />
           <Route path="/researchers/:id" element={<ResearcherProfilePage />} />
+          <Route path="/publications" element={<PublicationsPage />} />
         </Routes>
       </main>
       <Footer />
