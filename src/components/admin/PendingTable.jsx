@@ -1,0 +1,167 @@
+import React from "react";
+import { pendingPublications, PENDING_COUNT, PENDING_SHOWN } from "../../data/adminData";
+
+const FunnelIcon = () => (
+  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h18M6 8h12M9 12h6M12 16h0" />
+  </svg>
+);
+
+const ArrowRight = () => (
+  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+  </svg>
+);
+
+const CheckIcon = () => (
+  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+  </svg>
+);
+
+const ChevronLeft = () => (
+  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+  </svg>
+);
+
+const ChevronRight = () => (
+  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+  </svg>
+);
+
+function SourceIcon({ icon }) {
+  if (icon === "scopus") {
+    return (
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10m0-7h6m-6 3h6m10-6v10m0-7h-6m6 3h-6" />
+      </svg>
+    );
+  }
+  if (icon === "node") {
+    return (
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v4m0 8v4m8-8h-4M8 12H4m12.5-3.5l-2.8 2.8m-3.4 3.4l-2.8 2.8m9-0l-2.8-2.8m-3.4-3.4L7.5 8.5" />
+      </svg>
+    );
+  }
+  if (icon === "scholar") {
+    return (
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0v6" />
+      </svg>
+    );
+  }
+  return (
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  );
+}
+
+export default function PendingTable() {
+  return (
+    <div className="ad-tablecard">
+      <div className="ad-tablecard__head">
+        <div className="ad-tablecard__title">
+          Pending Publications for Approval
+          <span className="ad-pill-pending">{PENDING_COUNT} Pending</span>
+        </div>
+        <div className="ad-tablecard__actions">
+          <button type="button" className="ad-filterbtn">
+            <FunnelIcon />
+            Filter
+          </button>
+          <button type="button" className="ad-viewall">
+            View All Items
+            <ArrowRight />
+          </button>
+        </div>
+      </div>
+
+      <div className="ad-tablewrap">
+        <table className="ad-table">
+          <thead>
+            <tr>
+              <th>Title &amp; Venue</th>
+              <th>Lead Author &amp; ID</th>
+              <th>Date Submitted</th>
+              <th>Indexing Source</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pendingPublications.map((row) => (
+              <tr key={row.id}>
+                <td>
+                  <p className="ad-cell-title">{row.title}</p>
+                  <p className="ad-cell-sub">
+                    <span>{row.venue}</span>
+                    <span className="ad-cell-sub__dot">•</span>
+                    <span>{row.qualifier}</span>
+                  </p>
+                </td>
+                <td>
+                  <p className="ad-cell-author">{row.author}</p>
+                  <p className="ad-cell-id">ID: {row.authorId}</p>
+                </td>
+                <td>
+                  <span className="ad-cell-date">{row.date}</span>
+                </td>
+                <td>
+                  <span className={`ad-src ad-src--${row.source.variant}`}>
+                    <SourceIcon icon={row.source.icon} />
+                    {row.source.label}
+                  </span>
+                </td>
+                <td>
+                  <span className={`ad-status ad-status--${row.status}`}>
+                    {row.status === "pending" ? "Pending" : "Approved"}
+                  </span>
+                </td>
+                <td>
+                  {row.status === "pending" ? (
+                    <div className="ad-actions">
+                      <button type="button" className="ad-approve">
+                        <CheckIcon />
+                        Approve
+                      </button>
+                      <button type="button" className="ad-edit">Edit</button>
+                      <button type="button" className="ad-reject">Reject</button>
+                    </div>
+                  ) : (
+                    <div className="ad-actions">
+                      <span className="ad-completed">
+                        <CheckIcon />
+                        Completed
+                      </span>
+                    </div>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="ad-tablefoot">
+        <p className="ad-tablefoot__info">
+          Showing 1-{PENDING_SHOWN} of {PENDING_COUNT} items
+        </p>
+        <div className="ad-tablefoot__nav">
+          <button type="button" className="ad-pagebtn" disabled>
+            <ChevronLeft />
+            Previous
+          </button>
+          <button type="button" className="ad-pagebtn ad-pagebtn--plain">1</button>
+          <button type="button" className="ad-pagebtn">
+            Next
+            <ChevronRight />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
