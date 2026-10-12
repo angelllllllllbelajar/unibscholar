@@ -55,7 +55,7 @@ function GridCard({ pub }) {
   return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden flex flex-col">
       {/* Thumbnail */}
-      <div className="relative h-44 bg-gray-100 overflow-hidden flex-shrink-0">
+      <div className="relative h-44 bg-gray-100 overflow-hidden shrink-0">
         <img
           src={pub.image}
           alt={pub.title}
@@ -90,7 +90,7 @@ function GridCard({ pub }) {
             <EyeIcon />
             View Paper
           </button>
-          <div className="flex items-center gap-1 bg-gray-50 border border-gray-200 text-gray-600 text-xs font-medium px-3 py-2 rounded-lg flex-shrink-0">
+          <div className="flex items-center gap-1 bg-gray-50 border border-gray-200 text-gray-600 text-xs font-medium px-3 py-2 rounded-lg shrink-0">
             {pub.citations} Citations
           </div>
         </div>
