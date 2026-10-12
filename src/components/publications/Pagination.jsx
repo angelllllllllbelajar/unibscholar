@@ -1,38 +1,44 @@
 import React, { useState } from "react";
-import { TOTAL, TOTAL_PAGES, PER_PAGE } from "../../data/publicationsData";
 
 /**
- * Left-anchored token list so that after jumping to a page the window starts at
- * that page, e.g. current 26 → [26,27,"...",15173]. Near the end it slides back
- * to include the last page, e.g. [15172,15173].
+ * Page token rules:
+ *  - current < total        → [current, current+1?, "...", total]
+ *    "…" is ALWAYS present so the jump input is always reachable.
+ *  - current >= total (last) → ["...", total-1, total]
+ *    Flips to a left-side "…" so the user can still jump backward.
  */
 function buildPages(current, total) {
-  if (total <= 4) return Array.from({ length: total }, (_, i) => i + 1);
+  if (total <= 2) return Array.from({ length: total }, (_, i) => i + 1);
 
-  let start = current;
-  let end = current + 1;
-
-  if (end > total) {
-    end = total;
-    start = Math.max(1, total - 1);
+  // ── At the very last page → left-anchored view ───────────────────────────
+  if (current >= total) {
+    return ["...", total - 1, total];
   }
 
-  const pages = [];
-  for (let p = start; p <= end; p++) pages.push(p);
+  // ── Every other page → always include "…" + last ────────────────────────
+  const pages = [current];
 
-  if (end < total) {
-    if (end < total - 1) pages.push("...");
-    pages.push(total);
-  }
+  // Show the next page for context, if it isn't the last page
+  if (current + 1 < total) pages.push(current + 1);
+
+  // "…" is always present (acts as the jump-to-any-page control)
+  pages.push("...");
+
+  // Always end with the last page
+  pages.push(total);
 
   return pages;
 }
 
-export default function Pagination({ current, total, onChange }) {
+
+export default function Pagination({ current, total, perPage, onChange }) {
   const [openSide, setOpenSide] = useState(null); // null | "left" | "right"
   const [dotValue, setDotValue] = useState("");
 
   const pages = buildPages(current, total);
+
+  // Keep the displayed result count consistent with the (demo-capped) page count.
+  const totalResults = perPage * total;
 
   const commitJump = () => {
     const n = parseInt(dotValue, 10);
@@ -46,8 +52,8 @@ export default function Pagination({ current, total, onChange }) {
   return (
     <div className="pub-pagination">
       <p className="pub-pagination__info">
-        Displaying 1 – {PER_PAGE} of {TOTAL.toLocaleString()} publications &nbsp;•&nbsp; Page {current} of{" "}
-        {TOTAL_PAGES.toLocaleString()}
+        Displaying 1 – {perPage} of {totalResults.toLocaleString()} publications &nbsp;•&nbsp; Page {current} of{" "}
+        {total.toLocaleString()}
       </p>
 
       <nav className="pub-pagination__nav">

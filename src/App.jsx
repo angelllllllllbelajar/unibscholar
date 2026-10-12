@@ -12,6 +12,7 @@ import StudyCenterPage from "./pages/StudyCenterPage";
 import StudyCenterProfilePage from "./pages/StudyCenterProfilePage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
+import ProjectsPage from "./pages/ProjectsPage";
 
 /** Public chrome (navbar + footer) shared by all visitor-facing pages. */
 function PublicLayout() {
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="/publications" element={<PublicationsPage />} />
           <Route path="/study-center" element={<StudyCenterPage />} />
           <Route path="/study-center/:id" element={<StudyCenterProfilePage />} />
+          <Route path="/projects" element={<ProjectsPage />} />
         </Route>
 
         {/* Admin-only area — not linked anywhere in the public UI. */}
