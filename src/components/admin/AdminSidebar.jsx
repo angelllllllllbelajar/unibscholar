@@ -72,10 +72,10 @@ export default function AdminSidebar() {
           <DashboardIcon />
           Dashboard
         </NavLink>
-        <Link to="/researchers" className="ad-menu__item">
+        <NavLink to="/admin/researchers" className="ad-menu__item">
           <ResearchersIcon />
           Researchers
-        </Link>
+        </NavLink>
         <Link to="/study-center" className="ad-menu__item">
           <StudyCenterIcon />
           Study Center

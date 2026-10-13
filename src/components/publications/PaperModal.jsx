@@ -60,7 +60,7 @@ export default function PaperModal({ pub, onClose }) {
         {/* Top accent bar: navy blending into yellow at the right */}
         <div
           className="h-1.5"
-          style={{ background: "linear-gradient(90deg, var(--color-navy) 0%, var(--color-navy) 55%, #10b981 78%, #fbbf24 100%)" }}
+          style={{ background: "linear-gradient(90deg, var(--color-navy) 0%, var(--color-navy) 72%, #fbbf24 100%)" }}
         />
 
         {/* Close button */}
@@ -76,15 +76,15 @@ export default function PaperModal({ pub, onClose }) {
         <div className="px-8 pt-6 pb-4">
           <h2 className="text-gray-900 font-bold text-xl leading-snug pr-8 mb-3">{pub.title}</h2>
           <div className="flex items-center flex-wrap text-sm">
-            <span className="font-bold text-navy">{pub.date}</span>
+            <span className="font-bold text-blue-800">{pub.date}</span>
             {pub.volume && (
               <>
                 <Divider />
-                <span className="text-navy font-semibold">{pub.volume}</span>
+                <span className="text-blue-800 font-semibold">{pub.volume}</span>
               </>
             )}
             <Divider />
-            <span className="text-navy font-semibold">DOI: <span className="font-mono">{pub.doi}</span></span>
+            <span className="text-blue-800 font-semibold">DOI: <span className="font-mono">{pub.doi}</span></span>
             <Divider />
           </div>
         </div>
@@ -95,7 +95,7 @@ export default function PaperModal({ pub, onClose }) {
             <img
               src={pub.image}
               alt={pub.title}
-              className="w-full h-64 object-cover"
+              className="w-full h-auto block"
               onError={e => { e.target.style.display = "none"; }}
             />
             <div className="absolute bottom-2 right-2 bg-black/60 backdrop-blur-sm text-white text-[10px] font-mono px-2 py-0.5 rounded-md">
@@ -165,14 +165,14 @@ export default function PaperModal({ pub, onClose }) {
         {/* Abstract + Cited By */}
         <div className="px-8 py-6 grid grid-cols-1 md:grid-cols-[1fr_380px] gap-8">
           <div>
-            <h3 className="text-gray-900 font-bold text-3xl mb-3">Abstract</h3>
+            <h3 className="text-gray-900 font-bold text-2xl mb-3">Abstract</h3>
             <p className="text-gray-700 text-sm leading-relaxed">{details.abstract || pub.abstract}</p>
           </div>
           <div>
-            <h3 className="text-gray-900 font-bold text-xl mb-3">Citied By</h3>
-            <div className="divide-y divide-gray-100">
+            <h3 className="text-gray-900 font-bold text-2xl mb-3">Citied By</h3>
+            <div>
               {refs.map((r, i) => (
-                <div key={i} className="py-2 first:pt-0 last:pb-0">
+                <div key={i} className="py-2.5 border-b border-gray-100 first:pt-0">
                   <p className="text-gray-800 text-sm leading-snug">{r.title}</p>
                   <p className="text-gray-400 text-xs mt-1">[{r.year}] • {r.authors}</p>
                 </div>

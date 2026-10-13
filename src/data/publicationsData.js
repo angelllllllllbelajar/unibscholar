@@ -26,7 +26,7 @@ export const publications = [
     abstract:
       "We present a novel distributed multi-agent actor-critic paradigm designed to optimize energy distribution across heterogeneous smart grid topologies.",
     citations: 42,
-    image: "https://images.unsplash.com/photo-1548690312-e3b507d8c110?w=600&q=80",
+    image: "/smart-grid-architecture.png",
     faculty: "FKIK",
   },
   {

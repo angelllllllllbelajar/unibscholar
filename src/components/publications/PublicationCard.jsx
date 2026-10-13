@@ -51,7 +51,7 @@ const citedBy = {
 };
 
 // ── Grid Card (original compact style) ───────────────────────────────────────
-function GridCard({ pub }) {
+function GridCard({ pub, onOpen }) {
   return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden flex flex-col">
       {/* Thumbnail */}
@@ -86,7 +86,10 @@ function GridCard({ pub }) {
         <p className="text-blue-500 text-xs mb-2 line-clamp-1">{pub.authors.join(", ")}</p>
         <p className="text-gray-500 text-xs leading-relaxed line-clamp-3 flex-1 mb-4">{pub.abstract}</p>
         <div className="flex items-center gap-2 mt-auto">
-          <button className="flex items-center gap-1.5 bg-navy hover:bg-navy-dark text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors flex-1 justify-center">
+          <button
+            onClick={onOpen}
+            className="flex items-center gap-1.5 bg-navy hover:bg-navy-dark text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors flex-1 justify-center"
+          >
             <EyeIcon />
             View Paper
           </button>
@@ -100,7 +103,7 @@ function GridCard({ pub }) {
 }
 
 // ── List Card (wide banner + two-column body) ─────────────────────────────────
-function ListCard({ pub }) {
+function ListCard({ pub, onOpen }) {
   const refs = citedBy[pub.id] || [];
 
   return (
@@ -153,7 +156,10 @@ function ListCard({ pub }) {
 
           {/* Actions */}
           <div className="flex items-center gap-3 mt-auto">
-            <button className="flex items-center gap-1.5 bg-navy hover:bg-navy-dark text-white text-xs font-semibold px-5 py-2.5 rounded-lg transition-colors">
+            <button
+              onClick={onOpen}
+              className="flex items-center gap-1.5 bg-navy hover:bg-navy-dark text-white text-xs font-semibold px-5 py-2.5 rounded-lg transition-colors"
+            >
               <EyeIcon />
               View Paper
             </button>
@@ -189,8 +195,8 @@ function ListCard({ pub }) {
 }
 
 // ── Exported card that switches based on viewMode ─────────────────────────────
-export default function PublicationCard({ pub, viewMode = "grid" }) {
+export default function PublicationCard({ pub, viewMode = "grid", onOpen }) {
   return viewMode === "list"
-    ? <ListCard pub={pub} />
-    : <GridCard pub={pub} />;
+    ? <ListCard pub={pub} onOpen={onOpen} />
+    : <GridCard pub={pub} onOpen={onOpen} />;
 }
