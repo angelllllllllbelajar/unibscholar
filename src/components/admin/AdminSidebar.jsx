@@ -1,6 +1,5 @@
 import React from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useAdminAuth } from "../../context/adminAuthContext";
+import { Link, NavLink } from "react-router-dom";
 import { adminUser } from "../../data/adminData";
 
 const DashboardIcon = () => (
@@ -46,14 +45,6 @@ const LogoutIcon = () => (
 );
 
 export default function AdminSidebar() {
-  const { logout } = useAdminAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate("/admin/login");
-  };
-
   return (
     <aside className="ad-sidebar">
       <div className="ad-sidebar__brand">
@@ -80,22 +71,22 @@ export default function AdminSidebar() {
           <StudyCenterIcon />
           Study Center
         </NavLink>
-        <Link to="/publications" className="ad-menu__item">
+        <NavLink to="/admin/publications" className="ad-menu__item">
           <PublicationsIcon />
           Publications
-        </Link>
-        <button type="button" className="ad-menu__item">
+        </NavLink>
+        <NavLink to="/admin/projects" className="ad-menu__item">
           <ProjectsIcon />
           Projects
-        </button>
-        <button type="button" className="ad-menu__item">
+        </NavLink>
+        <Link to="/admin/change-password" className="ad-menu__item">
           <KeyIcon />
           Change Password
-        </button>
-        <button type="button" className="ad-menu__item" onClick={handleLogout}>
+        </Link>
+        <Link to="/admin/sign-out" className="ad-menu__item">
           <LogoutIcon />
           Log Out
-        </button>
+        </Link>
       </nav>
 
       <div className="ad-sidebar__user">

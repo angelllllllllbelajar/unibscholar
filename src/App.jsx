@@ -14,6 +14,10 @@ import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import AdminResearcherManagementPage from "./pages/AdminResearcherManagementPage";
 import AdminStudyCenterManagementPage from "./pages/AdminStudyCenterManagementPage";
+import AdminChangePasswordPage from "./pages/AdminChangePasswordPage";
+import AdminSignOutPage from "./pages/AdminSignOutPage";
+import AdminPublicationsManagementPage from "./pages/AdminPublicationsManagementPage";
+import AdminProjectsManagementPage from "./pages/AdminProjectsManagementPage";
 import ProjectsPage from "./pages/ProjectsPage";
 
 /** Public chrome (navbar + footer) shared by all visitor-facing pages. */
@@ -66,6 +70,38 @@ export default function App() {
           element={
             <RequireAdmin>
               <AdminStudyCenterManagementPage />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/admin/change-password"
+          element={
+            <RequireAdmin>
+              <AdminChangePasswordPage />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/admin/sign-out"
+          element={
+            <RequireAdmin>
+              <AdminSignOutPage />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/admin/publications"
+          element={
+            <RequireAdmin>
+              <AdminPublicationsManagementPage />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/admin/projects"
+          element={
+            <RequireAdmin>
+              <AdminProjectsManagementPage />
             </RequireAdmin>
           }
         />

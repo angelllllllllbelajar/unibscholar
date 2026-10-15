@@ -60,5 +60,6 @@ export const PENDING_SHOWN = 4;
 export const adminUser = {
   name: "Dr. Eleanor Vance",
   role: "Admin",
+  title: "Head of Research Oversight (LPPM)",
   photo: "/researcher-placeholder.png",
 };
