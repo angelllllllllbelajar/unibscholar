@@ -79,7 +79,9 @@
 .ad-menu__item:hover { background: #f1f5f9; }
 
 .ad-menu__item--active,
-.ad-menu__item--active:hover {
+.ad-menu__item--active:hover,
+.ad-menu__item.active,
+.ad-menu__item.active:hover {
   background: var(--color-navy);
   color: #fff;
 }

@@ -13,6 +13,7 @@ import StudyCenterProfilePage from "./pages/StudyCenterProfilePage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import AdminResearcherManagementPage from "./pages/AdminResearcherManagementPage";
+import AdminStudyCenterManagementPage from "./pages/AdminStudyCenterManagementPage";
 import ProjectsPage from "./pages/ProjectsPage";
 
 /** Public chrome (navbar + footer) shared by all visitor-facing pages. */
@@ -57,6 +58,14 @@ export default function App() {
           element={
             <RequireAdmin>
               <AdminResearcherManagementPage />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/admin/study-center"
+          element={
+            <RequireAdmin>
+              <AdminStudyCenterManagementPage />
             </RequireAdmin>
           }
         />
