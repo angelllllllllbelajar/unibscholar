@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import AdminSidebar from "../components/admin/AdminSidebar";
 import ProfileInfoCard from "../components/admin/ProfileInfoCard";
 import ResearchTopicsCard from "../components/admin/ResearchTopicsCard";
@@ -48,6 +49,8 @@ const SaveIcon = () => (
 );
 
 export default function AdminResearcherManagementPage() {
+  const navigate = useNavigate();
+
   return (
     <div className="ad-root">
       <div className="ad-shell">
@@ -90,7 +93,7 @@ export default function AdminResearcherManagementPage() {
                   <DownloadIcon />
                   Export List (CSV)
                 </button>
-                <button type="button" className="ar-addnew">
+                <button type="button" className="ar-addnew" onClick={() => navigate("/admin/researchers/new")}>
                   <PlusIcon />
                   Add New Researcher
                 </button>

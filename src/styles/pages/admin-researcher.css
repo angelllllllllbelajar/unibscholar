@@ -323,9 +323,12 @@
 .ar-tagrow {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.75rem;
   margin-top: 1.25rem;
 }
+
+.ar-tagrow .ar-input { flex: 1 1 10rem; }
 
 .ar-addtag {
   display: inline-flex;
@@ -413,6 +416,7 @@
 .ar-sdgrow {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.75rem;
   margin-top: 1.25rem;
 }
@@ -673,3 +677,59 @@
 .ar-saveall:hover { background: var(--color-navy-dark); }
 
 .ar-saveall svg { width: 1rem; height: 1rem; }
+
+/* ── Add New Researcher page ── */
+.ar-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #334155;
+  transition: background-color 0.15s ease;
+}
+
+.ar-back:hover { background: #f8fafc; }
+
+.ar-back svg { width: 1rem; height: 1rem; }
+
+.ar-req { color: #dc2626; }
+
+.ar-photo__img--empty {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #e2e8f0;
+  color: #94a3b8;
+}
+
+.ar-photo__img--empty svg { width: 1.75rem; height: 1.75rem; }
+
+.ar-selectwrap { position: relative; display: flex; }
+
+.ar-selectwrap--grow { flex: 1 1 14rem; min-width: 0; }
+
+.ar-selectwrap__chev {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  pointer-events: none;
+  display: inline-flex;
+}
+
+.ar-selectwrap__chev svg { width: 1rem; height: 1rem; }
+
+.ar-empty {
+  color: #94a3b8;
+  font-size: 0.8125rem;
+  background: #f8fafc;
+  border: 1px dashed #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+}

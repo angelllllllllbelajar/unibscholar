@@ -93,3 +93,45 @@ export const assignedProjects = [
 
 export const PUB_TOTAL     = 42;
 export const PROJECT_TOTAL = 18;
+
+// ─── Options & blank-field definitions for the "Add New Researcher" page ────
+
+export const facultyOptions = [
+  "Faculty of Electrical Engineering & Informatics",
+  "Faculty of Agriculture (FAPERTA)",
+  "Faculty of Engineering (FT)",
+  "Faculty of Mathematics & Natural Sciences (FMIPA)",
+  "Faculty of Social & Political Sciences (FISIP)",
+  "Faculty of Cultural Sciences (FIB)",
+  "Faculty of Economics & Business (FEB)",
+];
+
+export const rankOptions = [
+  "Asisten Ahli (Assistant Professor)",
+  "Lektor (Lecturer)",
+  "Lektor Kepala (Associate Professor)",
+  "Full Professor (Guru Besar)",
+];
+
+export const createProfileFields = [
+  { key: "name",  label: "Full Name & Academic Titles",  mono: false, required: true,  placeholder: "e.g. Prof. Dr. Jane Doe, Ph.D." },
+  { key: "nidn",  label: "Employee / Faculty ID (NIDN)", mono: true,  required: true,  placeholder: "0014028201" },
+  { key: "email", label: "Official University Email",    mono: false, required: true,  placeholder: "name@university.ac.id" },
+];
+
+export const createExternalIds = [
+  { key: "orcid",   label: "ORCID ID",          placeholder: "0000-0000-0000-0000" },
+  { key: "scopus",  label: "Scopus Author ID",  placeholder: "7004182910" },
+  { key: "scholar", label: "Google Scholar ID", placeholder: "author_id" },
+];
+
+export const sdgGoalOptions = [
+  { num: "01", label: "No Poverty",                       color: "#e11d48" },
+  { num: "03", label: "Good Health & Well-being",         color: "#16a34a" },
+  { num: "04", label: "Quality Education",                color: "#e11d48" },
+  { num: "06", label: "Clean Water & Sanitation",         color: "#2563eb" },
+  { num: "07", label: "Affordable & Clean Energy",        color: "#f59e0b" },
+  { num: "09", label: "Industry, Innovation & Infrastructure", color: "#ea580c" },
+  { num: "11", label: "Sustainable Cities & Communities", color: "#16a34a" },
+  { num: "13", label: "Climate Action",                   color: "#16a34a" },
+];

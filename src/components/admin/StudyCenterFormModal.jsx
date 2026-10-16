@@ -46,7 +46,7 @@ const XSmall = () => (
   </svg>
 );
 
-export default function StudyCenterFormModal({ mode = "add", unit, onClose }) {
+export default function StudyCenterFormModal({ mode = "add", unit, onClose, onSave, suspendEscape = false }) {
   const isEdit = mode === "edit";
   const title = isEdit ? "Edit Study Center" : "Add New Study Center";
 
@@ -62,13 +62,20 @@ export default function StudyCenterFormModal({ mode = "add", unit, onClose }) {
 
   useEffect(() => {
     const onKey = e => { if (e.key === "Escape") onClose(); };
-    window.addEventListener("keydown", onKey);
+    if (!suspendEscape) window.addEventListener("keydown", onKey);
+
+    // Lock scroll but reserve the scrollbar width so the page behind
+    // (header/topbar) does not shift sideways when the scrollbar disappears.
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     document.body.style.overflow = "hidden";
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+
     return () => {
-      window.removeEventListener("keydown", onKey);
+      if (!suspendEscape) window.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
     };
-  }, [onClose]);
+  }, [onClose, suspendEscape]);
 
   const setField = key => e => setForm(f => ({ ...f, [key]: e.target.value }));
 
@@ -172,7 +179,7 @@ export default function StudyCenterFormModal({ mode = "add", unit, onClose }) {
 
         <div className="scm-footer">
           <button type="button" className="scm-cancel" onClick={onClose}>Cancel</button>
-          <button type="button" className="scm-save" onClick={onClose}>Save Changes</button>
+          <button type="button" className="scm-save" onClick={onSave || onClose}>Save Changes</button>
         </div>
       </div>
     </div>

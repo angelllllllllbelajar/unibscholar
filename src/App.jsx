@@ -13,6 +13,7 @@ import StudyCenterProfilePage from "./pages/StudyCenterProfilePage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import AdminResearcherManagementPage from "./pages/AdminResearcherManagementPage";
+import AdminResearcherCreatePage from "./pages/AdminResearcherCreatePage";
 import AdminStudyCenterManagementPage from "./pages/AdminStudyCenterManagementPage";
 import AdminChangePasswordPage from "./pages/AdminChangePasswordPage";
 import AdminSignOutPage from "./pages/AdminSignOutPage";
@@ -62,6 +63,14 @@ export default function App() {
           element={
             <RequireAdmin>
               <AdminResearcherManagementPage />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/admin/researchers/new"
+          element={
+            <RequireAdmin>
+              <AdminResearcherCreatePage />
             </RequireAdmin>
           }
         />

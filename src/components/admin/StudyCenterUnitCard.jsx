@@ -28,47 +28,47 @@ const TrashIcon = () => (
   </svg>
 );
 
-export default function StudyCenterUnitCard({ unit, onEdit }) {
+export default function StudyCenterUnitCard({ unit, onEdit, onDelete }) {
   const { title, faculty, stats, expanded } = unit;
 
   return (
-    <div className="sc-card">
-      <h3 className="sc-card__title">{title}</h3>
+    <div className="asc-card">
+      <h3 className="asc-card__title">{title}</h3>
 
-      <p className="sc-card__faculty">
-        <span className="sc-card__facultyicon"><BuildingIcon /></span>
+      <p className="asc-card__faculty">
+        <span className="asc-card__facultyicon"><BuildingIcon /></span>
         {faculty}
       </p>
 
       {expanded ? (
         <>
-          <div className="sc-card__stats">
-            <span className="sc-stat"><i className="sc-dot" />{stats.members} Members</span>
-            <span className="sc-stat"><i className="sc-dot" />{stats.publications} Publications</span>
-            <span className="sc-stat sc-stat--green"><i className="sc-dot" />{stats.projects} Active Projects</span>
+          <div className="asc-card__stats">
+            <span className="asc-stat"><i className="asc-dot" />{stats.members} Members</span>
+            <span className="asc-stat"><i className="asc-dot" />{stats.publications} Publications</span>
+            <span className="asc-stat asc-stat--green"><i className="asc-dot" />{stats.projects} Active Projects</span>
           </div>
 
-          <div className="sc-card__actions">
-            <button type="button" className="sc-btn sc-btn--edit" onClick={onEdit}>
+          <div className="asc-card__actions">
+            <button type="button" className="asc-btn asc-btn--edit" onClick={onEdit}>
               <PencilIcon />
               Edit Unit
             </button>
-            <button type="button" className="sc-btn sc-btn--members">
+            <button type="button" className="asc-btn asc-btn--members">
               <PeopleIcon />
               Manage Members
             </button>
-            <button type="button" className="sc-btn sc-btn--trash" aria-label="Delete unit">
+            <button type="button" className="asc-btn asc-btn--trash" aria-label="Delete unit" onClick={onDelete}>
               <TrashIcon />
             </button>
           </div>
         </>
       ) : (
-        <div className="sc-card__actions sc-card__actions--compact">
-          <button type="button" className="sc-btn sc-btn--edit" onClick={onEdit}>
+        <div className="asc-card__actions asc-card__actions--compact">
+          <button type="button" className="asc-btn asc-btn--edit" onClick={onEdit}>
             <PencilIcon />
             Edit Unit
           </button>
-          <button type="button" className="sc-btn sc-btn--trash" aria-label="Delete unit">
+          <button type="button" className="asc-btn asc-btn--trash" aria-label="Delete unit" onClick={onDelete}>
             <TrashIcon />
           </button>
         </div>
