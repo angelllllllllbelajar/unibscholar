@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Combobox from "./Combobox";
+import { lockScroll, unlockScroll } from "../../utils/scrollLock";
 import {
   SDG_FORM_OPTIONS,
   SDG_STYLES,
@@ -92,7 +93,7 @@ const CheckIcon = () => (
   </svg>
 );
 
-export default function PublicationFormModal({ mode, publication, onClose, onSave }) {
+export default function PublicationFormModal({ mode, publication, onClose, onSave, suspendEscape = false }) {
   const [form, setForm] = useState(() => initialForm(mode, publication));
   const [sdgPick, setSdgPick] = useState("");
 
@@ -100,13 +101,13 @@ export default function PublicationFormModal({ mode, publication, onClose, onSav
     const onKey = (e) => {
       if (e.key === "Escape") onClose();
     };
-    window.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
+    if (!suspendEscape) window.addEventListener("keydown", onKey);
+    lockScroll();
     return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
+      if (!suspendEscape) window.removeEventListener("keydown", onKey);
+      unlockScroll();
     };
-  }, [onClose]);
+  }, [onClose, suspendEscape]);
 
   const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
   const setValue = (key) => (value) => setForm((f) => ({ ...f, [key]: value }));

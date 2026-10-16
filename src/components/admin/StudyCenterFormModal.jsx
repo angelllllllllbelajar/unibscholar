@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { lockScroll, unlockScroll } from "../../utils/scrollLock";
 import { facultyOptions, sdgCatalogue } from "../../data/adminStudyCenterData";
 
 const dotColors = {
@@ -63,17 +64,11 @@ export default function StudyCenterFormModal({ mode = "add", unit, onClose, onSa
   useEffect(() => {
     const onKey = e => { if (e.key === "Escape") onClose(); };
     if (!suspendEscape) window.addEventListener("keydown", onKey);
-
-    // Lock scroll but reserve the scrollbar width so the page behind
-    // (header/topbar) does not shift sideways when the scrollbar disappears.
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    document.body.style.overflow = "hidden";
-    document.body.style.paddingRight = `${scrollbarWidth}px`;
+    lockScroll();
 
     return () => {
       if (!suspendEscape) window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
+      unlockScroll();
     };
   }, [onClose, suspendEscape]);
 

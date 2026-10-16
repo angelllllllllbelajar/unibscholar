@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { lockScroll, unlockScroll } from "../../utils/scrollLock";
 import { citedBy, paperDetails } from "../../data/publicationsData";
 
 const sdgColorStyles = {
@@ -32,10 +33,10 @@ export default function PaperModal({ pub, onClose }) {
   useEffect(() => {
     const onKey = e => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
+    lockScroll();
     return () => {
       window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
+      unlockScroll();
     };
   }, [onClose]);
 

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { lockScroll, unlockScroll } from "../../utils/scrollLock";
 import { projects } from "../../data/projectsData";
 
 const BADGE_STYLES = {
@@ -50,10 +51,10 @@ export default function ProjectModal({ project, onClose }) {
   useEffect(() => {
     const onKey = (e) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
+    lockScroll();
     return () => {
       window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
+      unlockScroll();
     };
   }, [onClose]);
 

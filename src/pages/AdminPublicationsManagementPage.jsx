@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import AdminSidebar from "../components/admin/AdminSidebar";
 import PublicationFormModal from "../components/admin/PublicationFormModal";
+import ConfirmDialog from "../components/admin/ConfirmDialog";
 import { adminUser } from "../data/adminData";
 import {
   ADMIN_PUB_TOTAL,
@@ -63,6 +64,8 @@ export default function AdminPublicationsManagementPage() {
   const [status, setStatus] = useState("All");
   const [checked, setChecked] = useState({});
   const [formModal, setFormModal] = useState(null);
+  // null | { type: "save", form } | { type: "delete", row }
+  const [confirm, setConfirm] = useState(null);
 
   const filtersActive =
     query.trim() !== "" || year !== "All" || faculty !== "All" || status !== "All";
@@ -118,23 +121,14 @@ export default function AdminPublicationsManagementPage() {
     });
   };
 
-  const confirmEdit = (row) => {
-    if (window.confirm(`Edit this publication?\n\n"${row.title}"`)) {
-      setFormModal({ mode: "edit", id: row.id });
-    }
+  const requestDelete = (row) => setConfirm({ type: "delete", row });
+
+  const requestSave = (form) => {
+    if (formModal?.mode === "edit") setConfirm({ type: "save", form });
+    else applySave(form);
   };
 
-  const confirmDelete = (row) => {
-    if (
-      window.confirm(
-        `Delete this publication?\n\n"${row.title}"\n\nThis action cannot be undone.`
-      )
-    ) {
-      deleteRow(row.id);
-    }
-  };
-
-  const handleSave = (form) => {
+  const applySave = (form) => {
     const payload = {
       title: form.title,
       doi: form.doi,
@@ -158,6 +152,12 @@ export default function AdminPublicationsManagementPage() {
       setRows((prev) => [{ id: Date.now(), nidn: "—", ...payload }, ...prev]);
     }
     setFormModal(null);
+  };
+
+  const handleConfirm = () => {
+    if (confirm?.type === "save") applySave(confirm.form);
+    if (confirm?.type === "delete") deleteRow(confirm.row.id);
+    setConfirm(null);
   };
 
   return (
@@ -361,7 +361,7 @@ export default function AdminPublicationsManagementPage() {
                               type="button"
                               className="ap-iconbtn"
                               title="Edit publication"
-                              onClick={() => confirmEdit(row)}
+                              onClick={() => setFormModal({ mode: "edit", id: row.id })}
                             >
                               <PencilIcon />
                             </button>
@@ -369,7 +369,7 @@ export default function AdminPublicationsManagementPage() {
                               type="button"
                               className="ap-iconbtn ap-iconbtn--danger"
                               title="Delete publication"
-                              onClick={() => confirmDelete(row)}
+                              onClick={() => requestDelete(row)}
                             >
                               <TrashIcon />
                             </button>
@@ -419,7 +419,30 @@ export default function AdminPublicationsManagementPage() {
           mode={formModal.mode}
           publication={rows.find((row) => row.id === formModal.id) ?? null}
           onClose={() => setFormModal(null)}
-          onSave={handleSave}
+          onSave={requestSave}
+          suspendEscape={confirm !== null}
+        />
+      )}
+
+      {confirm?.type === "save" && (
+        <ConfirmDialog
+          tone="save"
+          title="Save Changes?"
+          message="You are about to save the changes made to this publication. This action will update the publication record across the repository."
+          confirmLabel="Yes, Save Changes"
+          onConfirm={handleConfirm}
+          onCancel={() => setConfirm(null)}
+        />
+      )}
+
+      {confirm?.type === "delete" && (
+        <ConfirmDialog
+          tone="delete"
+          title="Delete Publication?"
+          message={`You are about to permanently remove "${confirm.row.title}". This action cannot be undone.`}
+          confirmLabel="Yes, Delete Publication"
+          onConfirm={handleConfirm}
+          onCancel={() => setConfirm(null)}
         />
       )}
     </div>

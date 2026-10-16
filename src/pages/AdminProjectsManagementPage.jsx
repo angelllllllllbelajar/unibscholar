@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import AdminSidebar from "../components/admin/AdminSidebar";
 import ProjectFormModal from "../components/admin/ProjectFormModal";
+import ConfirmDialog from "../components/admin/ConfirmDialog";
 import { adminUser } from "../data/adminData";
 import { SDG_LABELS, SDG_STYLES } from "../data/adminPublicationsData";
 import {
@@ -121,6 +122,8 @@ export default function AdminProjectsManagementPage() {
   const [scheme, setScheme] = useState("All");
   const [status, setStatus] = useState("All");
   const [formModal, setFormModal] = useState(null);
+  // null | { type: "save", form } | { type: "delete", row }
+  const [confirm, setConfirm] = useState(null);
 
   const filtersActive =
     query.trim() !== "" || year !== "2026" || scheme !== "All" || status !== "All";
@@ -141,23 +144,14 @@ export default function AdminProjectsManagementPage() {
 
   const displayTotal = filtersActive ? filtered.length : PROJECT_TOTAL;
 
-  const confirmDelete = (row) => {
-    if (
-      window.confirm(
-        `Delete this research project?\n\n"${row.title}"\n\nThis action cannot be undone.`
-      )
-    ) {
-      setRows((prev) => prev.filter((item) => item.id !== row.id));
-    }
+  const requestDelete = (row) => setConfirm({ type: "delete", row });
+
+  const requestSave = (form) => {
+    if (formModal?.mode === "edit") setConfirm({ type: "save", form });
+    else applySave(form);
   };
 
-  const confirmEdit = (row) => {
-    if (window.confirm(`Edit this research project?\n\n"${row.title}"`)) {
-      setFormModal({ mode: "edit", id: row.id });
-    }
-  };
-
-  const handleSave = (form) => {
+  const applySave = (form) => {
     const editing = formModal?.mode === "edit" ? rows.find((r) => r.id === formModal.id) : null;
     const abbrev = facultyAbbrev(form.faculty);
     const piName = form.pi.replace(/\(.*\)/, "").trim();
@@ -198,6 +192,14 @@ export default function AdminProjectsManagementPage() {
       setRows((prev) => [{ id: Date.now(), ...payload }, ...prev]);
     }
     setFormModal(null);
+  };
+
+  const handleConfirm = () => {
+    if (confirm?.type === "save") applySave(confirm.form);
+    if (confirm?.type === "delete") {
+      setRows((prev) => prev.filter((item) => item.id !== confirm.row.id));
+    }
+    setConfirm(null);
   };
 
   return (
@@ -409,7 +411,7 @@ export default function AdminProjectsManagementPage() {
                               type="button"
                               className="rp-iconbtn"
                               title="Edit project"
-                              onClick={() => confirmEdit(row)}
+                              onClick={() => setFormModal({ mode: "edit", id: row.id })}
                             >
                               <PencilIcon />
                             </button>
@@ -417,7 +419,7 @@ export default function AdminProjectsManagementPage() {
                               type="button"
                               className="rp-iconbtn rp-iconbtn--danger"
                               title="Delete project"
-                              onClick={() => confirmDelete(row)}
+                              onClick={() => requestDelete(row)}
                             >
                               <TrashIcon />
                             </button>
@@ -470,7 +472,30 @@ export default function AdminProjectsManagementPage() {
           mode={formModal.mode}
           project={rows.find((row) => row.id === formModal.id) ?? null}
           onClose={() => setFormModal(null)}
-          onSave={handleSave}
+          onSave={requestSave}
+          suspendEscape={confirm !== null}
+        />
+      )}
+
+      {confirm?.type === "save" && (
+        <ConfirmDialog
+          tone="save"
+          title="Save Changes?"
+          message="You are about to save the changes made to this research project. This action will update the project record across the repository."
+          confirmLabel="Yes, Save Changes"
+          onConfirm={handleConfirm}
+          onCancel={() => setConfirm(null)}
+        />
+      )}
+
+      {confirm?.type === "delete" && (
+        <ConfirmDialog
+          tone="delete"
+          title="Delete Project?"
+          message={`You are about to permanently remove "${confirm.row.title}". This action cannot be undone.`}
+          confirmLabel="Yes, Delete Project"
+          onConfirm={handleConfirm}
+          onCancel={() => setConfirm(null)}
         />
       )}
     </div>

@@ -53,7 +53,10 @@ const citedBy = {
 // ── Grid Card (original compact style) ───────────────────────────────────────
 function GridCard({ pub, onOpen }) {
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden flex flex-col">
+    <div
+      onClick={onOpen}
+      className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden flex flex-col cursor-pointer"
+    >
       {/* Thumbnail */}
       <div className="relative h-44 bg-gray-100 overflow-hidden shrink-0">
         <img
@@ -82,7 +85,7 @@ function GridCard({ pub, onOpen }) {
             </span>
           )}
         </div>
-        <h3 className="text-navy font-bold text-sm leading-snug mb-2 line-clamp-3">{pub.title}</h3>
+        <h3 className="text-navy font-bold text-sm leading-snug mb-2 line-clamp-3 hover:text-blue-700 transition-colors">{pub.title}</h3>
         <p className="text-blue-500 text-xs mb-2 line-clamp-1">{pub.authors.join(", ")}</p>
         <p className="text-gray-500 text-xs leading-relaxed line-clamp-3 flex-1 mb-4">{pub.abstract}</p>
         <div className="flex items-center gap-2 mt-auto">
@@ -107,7 +110,10 @@ function ListCard({ pub, onOpen }) {
   const refs = citedBy[pub.id] || [];
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
+    <div
+      onClick={onOpen}
+      className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden cursor-pointer"
+    >
       {/* Banner image */}
       <div className="relative h-48 sm:h-56 bg-gray-100 overflow-hidden">
         <img
@@ -140,7 +146,7 @@ function ListCard({ pub, onOpen }) {
           </div>
 
           {/* Title */}
-          <h3 className="text-navy font-extrabold text-base sm:text-lg leading-snug mb-1.5">
+          <h3 className="text-navy font-extrabold text-base sm:text-lg leading-snug mb-1.5 hover:text-blue-700 transition-colors">
             {pub.title}
           </h3>
 

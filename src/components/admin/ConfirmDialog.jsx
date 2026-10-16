@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { lockScroll, unlockScroll } from "../../utils/scrollLock";
+import "../../styles/shared/confirm-dialog.css";
 
 const SaveIcon = () => (
   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -20,7 +22,7 @@ const CloseIcon = () => (
   </svg>
 );
 
-export default function StudyCenterConfirmModal({
+export default function ConfirmDialog({
   tone = "save",
   title,
   message,
@@ -33,37 +35,41 @@ export default function StudyCenterConfirmModal({
   useEffect(() => {
     const onKey = e => { if (e.key === "Escape") onCancel(); };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    lockScroll();
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      unlockScroll();
+    };
   }, [onCancel]);
 
   return (
-    <div className="scc-backdrop" onClick={onCancel}>
+    <div className="cfd-backdrop" onClick={onCancel}>
       <div
         role="alertdialog"
         aria-modal="true"
         aria-label={title}
-        className="scc-dialog"
+        className="cfd-dialog"
         onClick={e => e.stopPropagation()}
       >
-        <div className="scc-accent" />
+        <div className="cfd-accent" />
 
-        <div className="scc-header">
-          <span className={`scc-header__icon ${isDelete ? "scc-header__icon--red" : "scc-header__icon--amber"}`}>
+        <div className="cfd-header">
+          <span className={`cfd-header__icon ${isDelete ? "cfd-header__icon--red" : "cfd-header__icon--amber"}`}>
             {isDelete ? <TrashIcon /> : <SaveIcon />}
           </span>
-          <h2 className="scc-header__title">{title}</h2>
-          <button type="button" className="scc-close" aria-label="Close" onClick={onCancel}>
+          <h2 className="cfd-header__title">{title}</h2>
+          <button type="button" className="cfd-close" aria-label="Close" onClick={onCancel}>
             <CloseIcon />
           </button>
         </div>
 
-        <p className="scc-message">{message}</p>
+        <p className="cfd-message">{message}</p>
 
-        <div className="scc-footer">
-          <button type="button" className="scc-cancel" onClick={onCancel}>Cancel</button>
+        <div className="cfd-footer">
+          <button type="button" className="cfd-cancel" onClick={onCancel}>Cancel</button>
           <button
             type="button"
-            className={`scc-confirm ${isDelete ? "scc-confirm--red" : ""}`}
+            className={`cfd-confirm ${isDelete ? "cfd-confirm--red" : ""}`}
             onClick={onConfirm}
           >
             {confirmLabel}

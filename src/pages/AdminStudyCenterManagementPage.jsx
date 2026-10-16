@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AdminSidebar from "../components/admin/AdminSidebar";
 import StudyCenterUnitCard from "../components/admin/StudyCenterUnitCard";
 import StudyCenterFormModal from "../components/admin/StudyCenterFormModal";
-import StudyCenterConfirmModal from "../components/admin/StudyCenterConfirmModal";
+import ConfirmDialog from "../components/admin/ConfirmDialog";
 import {
   adminStudyCenters,
   SC_ADMIN_TOTAL,
@@ -188,7 +188,7 @@ export default function AdminStudyCenterManagementPage() {
       )}
 
       {confirm?.type === "save" && (
-        <StudyCenterConfirmModal
+        <ConfirmDialog
           tone="save"
           title="Save Changes?"
           message="You are about to save the changes made to this study center unit. This action will update the unit profile across the repository."
@@ -199,7 +199,7 @@ export default function AdminStudyCenterManagementPage() {
       )}
 
       {confirm?.type === "delete" && (
-        <StudyCenterConfirmModal
+        <ConfirmDialog
           tone="delete"
           title="Delete Study Center?"
           message={`You are about to permanently remove "${confirm.unit.title}". All members, publications, and projects linked to this unit will be unassigned.`}
