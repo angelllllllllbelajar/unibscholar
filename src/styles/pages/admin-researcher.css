@@ -70,51 +70,6 @@
   padding: 0.25rem 0.5rem;
 }
 
-.ar-editbar__right {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.ar-editbar__search {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: #eef2f6;
-  border-radius: 0.5rem;
-  padding: 0.4375rem 0.75rem;
-  width: 14rem;
-}
-
-.ar-editbar__search svg { width: 0.875rem; height: 0.875rem; color: #94a3b8; flex-shrink: 0; }
-
-.ar-editbar__search input {
-  flex: 1;
-  min-width: 0;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: 0.8125rem;
-  color: #334155;
-}
-
-.ar-changebtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.5rem;
-  padding: 0.4375rem 0.875rem;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: #334155;
-}
-
-.ar-changebtn svg { width: 0.875rem; height: 0.875rem; color: #64748b; }
-
 /* ── Two-column editor grid ── */
 .ar-grid {
   display: grid;
@@ -546,7 +501,6 @@
   flex-shrink: 0;
 }
 
-.ar-btn-edit,
 .ar-btn-remove {
   display: inline-flex;
   align-items: center;
@@ -557,16 +511,12 @@
   padding: 0.4375rem 0.75rem;
   font-size: 0.75rem;
   font-weight: 600;
-  color: #334155;
+  color: #dc2626;
   transition: background-color 0.15s ease;
 }
 
-.ar-btn-edit:hover { background: #f8fafc; }
-
-.ar-btn-remove { color: #dc2626; }
 .ar-btn-remove:hover { background: #fef2f2; }
 
-.ar-btn-edit svg,
 .ar-btn-remove svg { width: 0.75rem; height: 0.75rem; }
 
 .ar-pubfoot {
@@ -660,6 +610,24 @@
   font-weight: 600;
   color: #334155;
 }
+
+.ar-delete {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  background: #fff;
+  border: 1px solid #fecaca;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #dc2626;
+  transition: background-color 0.15s ease;
+}
+
+.ar-delete:hover { background: #fef2f2; }
+
+.ar-delete svg { width: 0.875rem; height: 0.875rem; }
 
 .ar-saveall {
   display: inline-flex;

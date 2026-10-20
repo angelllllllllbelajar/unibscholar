@@ -20,7 +20,7 @@ const PlusIcon = () => (
   </svg>
 );
 
-export default function ResearchTopicsCard() {
+export default function ResearchTopicsCard({ ask }) {
   const [topics, setTopics] = useState(researchTopics);
   const [draft, setDraft] = useState("");
 
@@ -31,6 +31,27 @@ export default function ResearchTopicsCard() {
     if (!value || topics.includes(value)) return;
     setTopics((prev) => [...prev, value]);
     setDraft("");
+  };
+
+  const requestRemoveTopic = (label) =>
+    ask({
+      tone: "delete",
+      title: "Remove Topic?",
+      message: `You are about to remove the research topic "${label}" from this researcher profile.`,
+      confirmLabel: "Yes, Remove",
+      onConfirm: () => removeTopic(label),
+    });
+
+  const requestAddTopic = () => {
+    const value = draft.trim();
+    if (!value || topics.includes(value)) return;
+    ask({
+      tone: "save",
+      title: "Add Research Topic?",
+      message: `You are about to add the research topic "${value}" to this researcher profile.`,
+      confirmLabel: "Yes, Add Topic",
+      onConfirm: addTopic,
+    });
   };
 
   return (
@@ -49,7 +70,7 @@ export default function ResearchTopicsCard() {
                 type="button"
                 className="ar-tag__x"
                 aria-label={`Remove ${t}`}
-                onClick={() => removeTopic(t)}
+                onClick={() => requestRemoveTopic(t)}
               >
                 <XIcon />
               </button>
@@ -62,11 +83,11 @@ export default function ResearchTopicsCard() {
             type="text"
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
-            onKeyDown={(e) => { if (e.key === "Enter") addTopic(); }}
+            onKeyDown={(e) => { if (e.key === "Enter") requestAddTopic(); }}
             placeholder="Enter new topic..."
             className="ar-input"
           />
-          <button type="button" className="ar-addtag" onClick={addTopic}>
+          <button type="button" className="ar-addtag" onClick={requestAddTopic}>
             <PlusIcon />
             Add Tag
           </button>

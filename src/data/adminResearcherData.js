@@ -11,7 +11,7 @@ export const profileFields = [
   { label: "Full Name & Academic Titles",    value: "Prof. Dr. Eleanor Vance, Ph.D.",              mono: false },
   { label: "Academic Title / Rank",          value: "Full Professor (Guru Besar)",                 mono: false },
   { label: "Employee / Faculty ID (NIDN)",   value: "0014028201",                                  mono: true  },
-  { label: "Faculty",                        value: "Faculty of Electrical Engineering & Informatics", mono: false },
+  { label: "Faculty",                        value: "Faculty of Electrical Engineering & Informatics", mono: false, select: true },
   { label: "Official University Email",      value: "eleanor.vance@university.ac.id",              mono: false },
 ];
 
@@ -19,6 +19,7 @@ export const externalIds = [
   { label: "ORCID ID",         value: "0000-0002-1825-0097" },
   { label: "Scopus Author ID", value: "7004182910"          },
   { label: "Google Scholar ID", value: "vance_e_2026"      },
+  { label: "SINTA ID",         value: "6789012"            },
 ];
 
 export const researchTopics = [

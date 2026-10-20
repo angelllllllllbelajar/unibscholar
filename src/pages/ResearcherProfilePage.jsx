@@ -12,7 +12,7 @@ const researcher = {
   photo: "/researcher-placeholder.png",
   orcid: "https://orcid.org",
   scopus: "https://www.scopus.com",
-  openalex: "https://openalex.org",
+  sinta: "https://sinta.kemdikbud.go.id",
   googleScholar: "https://scholar.google.com",
   publications: 403,
   projects: 95,
@@ -60,18 +60,20 @@ const allTopics = [
 ];
 
 const networkNodes = [
-  { id: "BY", label: "Prof. Brian Y.",   x: 395, y: 195, r: 19, color: "#fcc30b", main: true,  aff: "Universitas Bengkulu", weight: "—" },
-  { id: "SA", label: "Dr. Sarah Al-M.",  x: 175, y: 48,  r: 13, color: "#12366b", aff: "FKIK",  weight: 18 },
-  { id: "MC", label: "Prof. M. Chen",    x: 490, y: 50,  r: 13, color: "#12366b", aff: "FMIPA", weight: 14 },
-  { id: "SL", label: "Sensors Lab",      x: 150, y: 238, r: 13, color: "#0d9488", aff: "Lab Partner", weight: 11 },
-  { id: "MP", label: "MPI Munich",       x: 505, y: 238, r: 12, color: "#d97706", aff: "Intl. Partner", weight: 9 },
-  { id: "N1", x: 70,  y: 25,  r: 7, color: "#d97706", aff: "FKIK",  weight: 4 },
-  { id: "N2", x: 325, y: 25,  r: 7, color: "#d97706", aff: "FMIPA", weight: 5 },
-  { id: "N3", x: 605, y: 18,  r: 7, color: "#12366b", aff: "FT",    weight: 3 },
-  { id: "N4", x: 45,  y: 258, r: 7, color: "#6366f1", aff: "FKIP",  weight: 2 },
-  { id: "N5", x: 325, y: 288, r: 7, color: "#6366f1", aff: "FEB",   weight: 3 },
-  { id: "N6", x: 615, y: 255, r: 7, color: "#0d9488", aff: "Intl.", weight: 2 },
+  { id: "BY", label: "Prof. Brian Y.",   x: 395, y: 195, r: 19, color: "#fcc30b", main: true,  aff: "Universitas Bengkulu", uni: "Universitas Bengkulu", weight: "—" },
+  { id: "SA", label: "Dr. Sarah Al-M.",  x: 175, y: 48,  r: 13, color: "#12366b", aff: "FKIK",  uni: "Universitas Bengkulu", weight: 18 },
+  { id: "MC", label: "Prof. M. Chen",    x: 490, y: 50,  r: 13, color: "#12366b", aff: "FMIPA", uni: "Universitas Bengkulu", weight: 14 },
+  { id: "SL", label: "Sensors Lab",      x: 150, y: 238, r: 13, color: "#0d9488", aff: "Lab Partner", uni: "Universitas Indonesia", weight: 11 },
+  { id: "MP", label: "MPI Munich",       x: 505, y: 238, r: 12, color: "#d97706", aff: "Intl. Partner", uni: "Max Planck Institute", weight: 9 },
+  { id: "N1", x: 70,  y: 25,  r: 7, color: "#d97706", aff: "FKIK",  uni: "Universitas Indonesia", weight: 4 },
+  { id: "N2", x: 325, y: 25,  r: 7, color: "#d97706", aff: "FMIPA", uni: "Universitas Padjajaran", weight: 5 },
+  { id: "N3", x: 605, y: 18,  r: 7, color: "#12366b", aff: "FT",    uni: "Universitas Gajah Mada", weight: 3 },
+  { id: "N4", x: 45,  y: 258, r: 7, color: "#6366f1", aff: "FKIP",  uni: "Universitas Indonesia", weight: 2 },
+  { id: "N5", x: 325, y: 288, r: 7, color: "#6366f1", aff: "FEB",   uni: "Universitas Sebelas Maret", weight: 3 },
+  { id: "N6", x: 615, y: 255, r: 7, color: "#0d9488", aff: "Intl.", uni: "Max Planck Institute", weight: 2 },
 ];
+
+const universityOptions = [...new Set(networkNodes.map((n) => n.uni))];
 
 const networkEdges = [
   ["N1", "SA"], ["SA", "BY"], ["SA", "SL"], ["N2", "BY"], ["MC", "BY"],
@@ -114,10 +116,12 @@ function CollaborationNetwork() {
   const [hovered, setHovered] = useState(null);
   const [showFaculty, setShowFaculty] = useState(true);
   const [showResearchers, setShowResearchers] = useState(true);
+  const [university, setUniversity] = useState("all");
   const [scale, setScale] = useState(1);
   const W = 660, H = 310;
 
   const hoveredNode = networkNodes.find((n) => n.id === hovered);
+  const matchesUniversity = (node) => university === "all" || node.uni === university || node.main;
 
   return (
     <div className="flex gap-5 items-stretch">
@@ -146,6 +150,20 @@ function CollaborationNetwork() {
           <span className="text-xs font-semibold text-slate-700">Researchers</span>
           <span className="ml-auto text-[11px] bg-slate-100 text-slate-500 font-bold px-2 py-0.5 rounded">73</span>
         </label>
+
+        <p className="text-[10px] font-bold text-slate-500 tracking-widest uppercase mt-4 mb-2">University</p>
+        <select
+          value={university}
+          onChange={(e) => setUniversity(e.target.value)}
+          className="bg-white rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-700 border border-slate-200 cursor-pointer w-full"
+          style={{ accentColor: ACCENT }}
+        >
+          <option value="all">All Universities</option>
+          {universityOptions.map((u) => (
+            <option key={u} value={u}>{u}</option>
+          ))}
+        </select>
+
         <div className="border-t border-slate-200 my-4" />
         <div className="bg-white rounded-lg p-3 flex items-start gap-2 mt-auto">
           <svg className="w-4 h-4 flex-shrink-0 mt-0.5" fill="none" stroke={ACCENT} viewBox="0 0 24 24">
@@ -167,7 +185,8 @@ function CollaborationNetwork() {
               const nb = networkNodes.find((n) => n.id === b);
               if (!na || !nb) return null;
               const dim = (showFaculty === false && !na.main && !nb.main) ||
-                          (showResearchers === false && (na.main || nb.main));
+                          (showResearchers === false && (na.main || nb.main)) ||
+                          (!matchesUniversity(na) || !matchesUniversity(nb));
               return (
                 <line
                   key={i}
@@ -183,6 +202,7 @@ function CollaborationNetwork() {
                 onMouseEnter={() => setHovered(node.id)}
                 onMouseLeave={() => setHovered(null)}
                 className="cursor-pointer"
+                opacity={matchesUniversity(node) ? 1 : 0.2}
               >
                 {node.main && <circle cx={node.x} cy={node.y} r={node.r + 7} fill="#e2e8f0" />}
                 <circle
@@ -334,9 +354,9 @@ export default function ResearcherProfilePage() {
                     className="text-xs font-bold px-3.5 py-1.5 rounded-full bg-orange-100 text-orange-700 hover:bg-orange-200 transition-colors">
                     Scopus
                   </a>
-                  <a href={researcher.openalex} target="_blank" rel="noopener noreferrer"
+                  <a href={researcher.sinta} target="_blank" rel="noopener noreferrer"
                     className="text-xs font-bold px-3.5 py-1.5 rounded-full bg-purple-100 text-purple-700 hover:bg-purple-200 transition-colors">
-                    OpenAlex
+                    SINTA
                   </a>
                   <a href={researcher.googleScholar} target="_blank" rel="noopener noreferrer"
                     className="text-xs font-bold px-3.5 py-1.5 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors">

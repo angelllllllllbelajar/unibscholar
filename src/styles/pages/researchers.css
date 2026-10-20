@@ -125,8 +125,8 @@
 .r-badge--orcid:hover    { background: #a7f3d0; }
 .r-badge--scopus   { background: #ffedd5; color: #c2410c; }
 .r-badge--scopus:hover   { background: #fed7aa; }
-.r-badge--openalex { background: #f3e8ff; color: #7e22ce; }
-.r-badge--openalex:hover { background: #e9d5ff; }
+.r-badge--sinta { background: #f3e8ff; color: #7e22ce; }
+.r-badge--sinta:hover { background: #e9d5ff; }
 .r-badge--gs       { background: #dbeafe; color: #1d4ed8; }
 .r-badge--gs:hover       { background: #bfdbfe; }
 

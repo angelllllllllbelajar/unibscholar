@@ -1,18 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const CapIcon = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z" />
-  </svg>
-);
-
-const FacIcon = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 2l8 4v2H4V6l8-4zM6 10h2v7H6v-7zm5 0h2v7h-2v-7zm5 0h2v7h-2v-7zM4 19h16v2H4v-2z" />
-  </svg>
-);
-
 const MailIcon = () => (
   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -56,20 +44,10 @@ function ContactBox({ unit }) {
   );
 }
 
-function Badge({ unit }) {
-  return (
-    <span className="sc-badge">
-      {unit.badgeIcon === "cap" ? <CapIcon /> : <FacIcon />}
-      {unit.badge}
-    </span>
-  );
-}
-
 export default function UnitCard({ unit }) {
   if (!unit.featured) {
     return (
       <Link to={`/study-center/${unit.id}`} className="sc-card">
-        <Badge unit={unit} />
         <h3 className="sc-card__title">{unit.title}</h3>
         <ContactBox unit={unit} />
       </Link>
@@ -78,7 +56,6 @@ export default function UnitCard({ unit }) {
 
   return (
     <div className="sc-card sc-card--featured">
-      <Badge unit={unit} />
       <h3 className="sc-card__title">{unit.title}</h3>
 
       <div className="sc-stats">

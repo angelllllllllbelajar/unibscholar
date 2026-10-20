@@ -1,5 +1,5 @@
 import React from "react";
-import { editingResearcher, profileFields, externalIds } from "../../data/adminResearcherData";
+import { editingResearcher, profileFields, externalIds, facultyOptions } from "../../data/adminResearcherData";
 
 const UserIcon = () => (
   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -14,7 +14,37 @@ const CheckIcon = () => (
   </svg>
 );
 
-export default function ProfileInfoCard() {
+const ChevronDown = () => (
+  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+  </svg>
+);
+
+export default function ProfileInfoCard({ ask }) {
+  const requestUploadPhoto = () =>
+    ask({
+      tone: "save",
+      title: "Upload Profile Photo?",
+      message: "You are about to upload a new profile photo (JPG/PNG, max 2MB). The current photo will be replaced.",
+      confirmLabel: "Yes, Upload",
+    });
+
+  const requestRemovePhoto = () =>
+    ask({
+      tone: "delete",
+      title: "Remove Profile Photo?",
+      message: "You are about to remove the current profile photo. The profile will fall back to the default placeholder.",
+      confirmLabel: "Yes, Remove",
+    });
+
+  const requestSaveProfile = () =>
+    ask({
+      tone: "save",
+      title: "Save Profile Information?",
+      message: `You are about to save the personal & academic information for ${editingResearcher.name}. This action will update the profile across the repository.`,
+      confirmLabel: "Yes, Save",
+    });
+
   return (
     <section className="ar-card">
       <header className="ar-card__head">
@@ -28,9 +58,9 @@ export default function ProfileInfoCard() {
           <div>
             <p className="ar-photo__label">Profile Photo</p>
             <p className="ar-photo__links">
-              <button type="button" className="ar-photo__upload">Upload Photo</button>
+              <button type="button" className="ar-photo__upload" onClick={requestUploadPhoto}>Upload Photo</button>
               <span className="ar-photo__dot">•</span>
-              <button type="button" className="ar-photo__remove">Remove</button>
+              <button type="button" className="ar-photo__remove" onClick={requestRemovePhoto}>Remove</button>
             </p>
             <p className="ar-photo__hint">JPG, PNG max 2MB</p>
           </div>
@@ -39,11 +69,22 @@ export default function ProfileInfoCard() {
         {profileFields.map((f) => (
           <div key={f.label} className="ar-field">
             <label className="ar-field__label">{f.label}</label>
-            <input
-              type="text"
-              defaultValue={f.value}
-              className={`ar-input ${f.mono ? "ar-input--mono" : ""}`}
-            />
+            {f.select ? (
+              <div className="ar-selectwrap">
+                <select defaultValue={f.value} className="ar-input ar-select">
+                  {facultyOptions.map((opt) => (
+                    <option key={opt} value={opt}>{opt}</option>
+                  ))}
+                </select>
+                <span className="ar-selectwrap__chev"><ChevronDown /></span>
+              </div>
+            ) : (
+              <input
+                type="text"
+                defaultValue={f.value}
+                className={`ar-input ${f.mono ? "ar-input--mono" : ""}`}
+              />
+            )}
           </div>
         ))}
 
@@ -58,7 +99,7 @@ export default function ProfileInfoCard() {
           </div>
         ))}
 
-        <button type="button" className="ar-saveprofile">
+        <button type="button" className="ar-saveprofile" onClick={requestSaveProfile}>
           <CheckIcon />
           Save Profile Information
         </button>

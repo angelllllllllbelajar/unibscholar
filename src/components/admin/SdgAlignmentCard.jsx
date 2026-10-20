@@ -20,10 +20,27 @@ const PlusIcon = () => (
   </svg>
 );
 
-export default function SdgAlignmentCard() {
+export default function SdgAlignmentCard({ ask }) {
   const [sdgs, setSdgs] = useState(sdgAssignments);
 
   const removeSdg = (num) => setSdgs((prev) => prev.filter((s) => s.num !== num));
+
+  const requestRemoveSdg = (num) =>
+    ask({
+      tone: "delete",
+      title: "Remove SDG Alignment?",
+      message: `You are about to unlink SDG Goal ${num} from this researcher profile. Linked publication counts will no longer appear under this goal.`,
+      confirmLabel: "Yes, Remove",
+      onConfirm: () => removeSdg(num),
+    });
+
+  const requestAssignSdg = () =>
+    ask({
+      tone: "save",
+      title: "Assign SDG Goal?",
+      message: "You are about to map the selected UN Sustainable Development Goal to this researcher profile.",
+      confirmLabel: "Yes, Assign",
+    });
 
   return (
     <section className="ar-card">
@@ -49,7 +66,7 @@ export default function SdgAlignmentCard() {
                 type="button"
                 className="ar-sdg__x"
                 aria-label={`Remove SDG ${s.num}`}
-                onClick={() => removeSdg(s.num)}
+                onClick={() => requestRemoveSdg(s.num)}
               >
                 <XIcon />
               </button>
@@ -67,7 +84,7 @@ export default function SdgAlignmentCard() {
             <option>GOAL 5: Gender Equality</option>
             <option>GOAL 6: Clean Water and Sanitation</option>
           </select>
-          <button type="button" className="ar-assignsdg">
+          <button type="button" className="ar-assignsdg" onClick={requestAssignSdg}>
             <PlusIcon />
             Assign SDG Goal
           </button>

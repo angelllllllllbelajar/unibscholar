@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { pendingPublications, PENDING_COUNT, PENDING_SHOWN } from "../../data/adminData";
 
 const FunnelIcon = () => (
@@ -7,22 +7,9 @@ const FunnelIcon = () => (
   </svg>
 );
 
-const ArrowRight = () => (
-  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-  </svg>
-);
-
 const CheckIcon = () => (
   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-  </svg>
-);
-
-const PencilIcon = () => (
-  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
   </svg>
 );
 
@@ -74,23 +61,55 @@ function SourceIcon({ icon }) {
   );
 }
 
+const FILTER_OPTIONS = [
+  { id: "all", label: "All Statuses" },
+  { id: "pending", label: "Pending" },
+  { id: "approved", label: "Approved" },
+];
+
 export default function PendingTable() {
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
+
+  const visibleRows = pendingPublications.filter(
+    (row) => statusFilter === "all" || row.status === statusFilter
+  );
+
   return (
     <div className="ad-tablecard">
       <div className="ad-tablecard__head">
         <div className="ad-tablecard__title">
-          Pending Publications for Approval
+          Pending Publications and Projects for Approval
           <span className="ad-pill-pending">{PENDING_COUNT} Pending</span>
         </div>
         <div className="ad-tablecard__actions">
-          <button type="button" className="ad-filterbtn">
-            <FunnelIcon />
-            Filter
-          </button>
-          <button type="button" className="ad-viewall">
-            View All Items
-            <ArrowRight />
-          </button>
+          <div className="ad-filterwrap">
+            <button
+              type="button"
+              className="ad-filterbtn"
+              onClick={() => setFilterOpen((v) => !v)}
+            >
+              <FunnelIcon />
+              Filter
+            </button>
+            {filterOpen && (
+              <div className="ad-filtermenu">
+                {FILTER_OPTIONS.map((opt) => (
+                  <button
+                    key={opt.id}
+                    type="button"
+                    className={`ad-filtermenu__item ${statusFilter === opt.id ? "ad-filtermenu__item--active" : ""}`}
+                    onClick={() => {
+                      setStatusFilter(opt.id);
+                      setFilterOpen(false);
+                    }}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -107,7 +126,7 @@ export default function PendingTable() {
             </tr>
           </thead>
           <tbody>
-            {pendingPublications.map((row) => (
+            {visibleRows.map((row) => (
               <tr key={row.id}>
                 <td>
                   <p className="ad-cell-title">{row.title}</p>
@@ -142,10 +161,6 @@ export default function PendingTable() {
                       <button type="button" className="ad-approve">
                         <CheckIcon />
                         Approve
-                      </button>
-                      <button type="button" className="ad-edit">
-                        <PencilIcon />
-                        Edit
                       </button>
                       <button type="button" className="ad-reject">
                         <TrashIcon />

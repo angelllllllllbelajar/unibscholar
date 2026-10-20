@@ -210,7 +210,6 @@
   font-size: 0.75rem;
 }
 
-.ad-topbar__chev { width: 1rem; height: 1rem; color: #64748b; }
 
 .ad-content {
   padding: 0 1.5rem 2rem;
@@ -382,16 +381,39 @@
 
 .ad-filterbtn svg { width: 0.875rem; height: 0.875rem; }
 
-.ad-viewall {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  color: #2563eb;
-  font-weight: 600;
-  font-size: 0.8125rem;
+.ad-filterwrap { position: relative; }
+
+.ad-filtermenu {
+  position: absolute;
+  top: calc(100% + 0.375rem);
+  right: 0;
+  z-index: 20;
+  min-width: 9rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+  padding: 0.375rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
 }
 
-.ad-viewall svg { width: 0.875rem; height: 0.875rem; }
+.ad-filtermenu__item {
+  text-align: left;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #334155;
+  padding: 0.4375rem 0.625rem;
+  border-radius: 0.375rem;
+}
+
+.ad-filtermenu__item:hover { background: #f1f5f9; }
+
+.ad-filtermenu__item--active {
+  background: #eff6ff;
+  color: #2563eb;
+}
 
 .ad-tablewrap { overflow-x: auto; }
 
@@ -518,19 +540,6 @@
 
 .ad-approve svg { width: 0.75rem; height: 0.75rem; }
 
-.ad-edit {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  color: #334155;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.4375rem 0.75rem;
-  border-radius: 0.375rem;
-}
-
 .ad-reject {
   display: inline-flex;
   align-items: center;
@@ -544,7 +553,6 @@
   border-radius: 0.375rem;
 }
 
-.ad-edit svg,
 .ad-reject svg { width: 0.75rem; height: 0.75rem; }
 
 .ad-completed {

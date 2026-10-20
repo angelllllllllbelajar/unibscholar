@@ -11,12 +11,6 @@ const SearchIcon = () => (
   </svg>
 );
 
-const ChevronDown = () => (
-  <svg className="ad-topbar__chev" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-  </svg>
-);
-
 const DownloadIcon = () => (
   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -67,7 +61,6 @@ export default function AdminDashboardPage() {
                 <p className="ad-topbar__name">{adminUser.name}</p>
                 <p className="ad-topbar__role">{adminUser.role}</p>
               </div>
-              <ChevronDown />
             </div>
           </div>
 

@@ -62,6 +62,6 @@ export const researchers = [
 export const sourceBadges = [
   { label: "ORCID",            url: "https://orcid.org",          variant: "orcid" },
   { label: "Scopus",           url: "https://www.scopus.com",     variant: "scopus" },
-  { label: "OpenAlex",         url: "https://openalex.org",       variant: "openalex" },
+  { label: "SINTA",            url: "https://sinta.kemdikbud.go.id", variant: "sinta" },
   { label: "Google Scholar",   url: "https://scholar.google.com", variant: "gs" },
 ];

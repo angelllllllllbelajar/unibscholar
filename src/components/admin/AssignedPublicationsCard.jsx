@@ -13,13 +13,6 @@ const BookIcon = () => (
   </svg>
 );
 
-const PencilIcon = () => (
-  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-  </svg>
-);
-
 const TrashIcon = () => (
   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -45,7 +38,7 @@ const ChevronRight = () => (
   </svg>
 );
 
-function ItemRow({ item }) {
+function ItemRow({ item, onRemove }) {
   return (
     <div className="ar-pub">
       <div className="ar-pub__info">
@@ -66,11 +59,7 @@ function ItemRow({ item }) {
         </p>
       </div>
       <div className="ar-pub__actions">
-        <button type="button" className="ar-btn-edit">
-          <PencilIcon />
-          Edit
-        </button>
-        <button type="button" className="ar-btn-remove">
+        <button type="button" className="ar-btn-remove" onClick={onRemove}>
           <TrashIcon />
           Remove
         </button>
@@ -79,12 +68,34 @@ function ItemRow({ item }) {
   );
 }
 
-export default function AssignedPublicationsCard() {
+export default function AssignedPublicationsCard({ ask }) {
   const [tab, setTab] = useState("publications");
+  const [pubs, setPubs] = useState(assignedPublications);
+  const [projects, setProjects] = useState(assignedProjects);
 
-  const items = tab === "publications" ? assignedPublications : assignedProjects;
+  const items = tab === "publications" ? pubs : projects;
   const total = tab === "publications" ? PUB_TOTAL : PROJECT_TOTAL;
   const noun  = tab === "publications" ? "publications" : "projects";
+
+  const requestRemoveItem = (item) =>
+    ask({
+      tone: "delete",
+      title: tab === "publications" ? "Remove Publication?" : "Remove Project?",
+      message: `You are about to unassign "${item.title}" (${item.year}) from this researcher profile.`,
+      confirmLabel: "Yes, Remove",
+      onConfirm: () => {
+        if (tab === "publications") setPubs((prev) => prev.filter((p) => p.id !== item.id));
+        else setProjects((prev) => prev.filter((p) => p.id !== item.id));
+      },
+    });
+
+  const requestAssign = () =>
+    ask({
+      tone: "save",
+      title: "Assign Publication?",
+      message: "You are about to open the publication assignment picker. Selected items will be linked to this researcher profile.",
+      confirmLabel: "Yes, Continue",
+    });
 
   return (
     <section className="ar-card">
@@ -93,7 +104,7 @@ export default function AssignedPublicationsCard() {
           <span className="ar-card__icon"><BookIcon /></span>
           <h2 className="ar-card__title">Assigned Publications</h2>
         </span>
-        <button type="button" className="ar-assignpub">
+        <button type="button" className="ar-assignpub" onClick={requestAssign}>
           <PlusIcon />
           Assign Publication
         </button>
@@ -118,7 +129,7 @@ export default function AssignedPublicationsCard() {
 
       <div className="ar-pubs">
         {items.map((item) => (
-          <ItemRow key={item.id} item={item} />
+          <ItemRow key={item.id} item={item} onRemove={() => requestRemoveItem(item)} />
         ))}
       </div>
 

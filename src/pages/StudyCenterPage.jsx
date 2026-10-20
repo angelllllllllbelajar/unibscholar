@@ -1,12 +1,5 @@
 import React, { useState } from "react";
 import SearchBar from "../components/shared/SearchBar";
-import {
-  FilterSidebar,
-  FilterSection,
-  FilterCheckRow,
-  FilterSearch,
-  FilterLink,
-} from "../components/shared/FilterSidebar";
 import UnitCard from "../components/studycenter/UnitCard";
 import {
   SC_SHOWN,
@@ -14,7 +7,6 @@ import {
   SC_PAGES,
   units,
 } from "../data/studyCenterData";
-import { topics, sdgFilters, SDG_INITIAL_COUNT } from "../data/researchersData";
 import "../styles/pages/study-center.css";
 
 const ChevronLeft = () => (
@@ -31,26 +23,8 @@ const ChevronRight = () => (
 
 export default function StudyCenterPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [topicSearch, setTopicSearch] = useState("");
-  const [checkedTopics, setCheckedTopics] = useState({});
-  const [checkedSdgs, setCheckedSdgs] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
-  const [sdgExpanded, setSdgExpanded] = useState(false);
 
-  const [topicsOpen, setTopicsOpen] = useState(true);
-  const [sdgOpen, setSdgOpen] = useState(true);
-
-  const toggleCheck = (setter, id) => setter((prev) => ({ ...prev, [id]: !prev[id] }));
-
-  const resetFilters = () => {
-    setCheckedTopics({});
-    setCheckedSdgs({});
-    setSearchQuery("");
-    setTopicSearch("");
-    setSdgExpanded(false);
-  };
-
-  const visibleSdgs = sdgExpanded ? sdgFilters : sdgFilters.slice(0, SDG_INITIAL_COUNT);
   const visibleUnits = units.slice(0, SC_SHOWN);
 
   return (
@@ -58,44 +32,6 @@ export default function StudyCenterPage() {
       <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder="Search study center..." />
 
       <div className="page-container page-body">
-        <FilterSidebar onReset={resetFilters}>
-          <FilterSection title="Topics" open={topicsOpen} onToggle={() => setTopicsOpen((v) => !v)}>
-            <FilterSearch value={topicSearch} onChange={setTopicSearch} />
-            <div className="filter-list">
-              {topics
-                .filter((t) => t.label.toLowerCase().includes(topicSearch.toLowerCase()))
-                .map((t) => (
-                  <FilterCheckRow
-                    key={t.id}
-                    id={`sc-topic-${t.id}`}
-                    label={t.label}
-                    count={t.count}
-                    checked={!!checkedTopics[t.id]}
-                    onChange={() => toggleCheck(setCheckedTopics, t.id)}
-                  />
-                ))}
-            </div>
-          </FilterSection>
-
-          <FilterSection title="SDG" open={sdgOpen} onToggle={() => setSdgOpen((v) => !v)}>
-            <div className="filter-list">
-              {visibleSdgs.map((s) => (
-                <FilterCheckRow
-                  key={s.id}
-                  id={`sc-sdg-${s.id}`}
-                  label={s.label}
-                  count={s.count}
-                  checked={!!checkedSdgs[s.id]}
-                  onChange={() => toggleCheck(setCheckedSdgs, s.id)}
-                />
-              ))}
-            </div>
-            <FilterLink onClick={() => setSdgExpanded((v) => !v)}>
-              {sdgExpanded ? "Show Less" : "Show More"}
-            </FilterLink>
-          </FilterSection>
-        </FilterSidebar>
-
         <div className="page-main">
           <div className="sc-grid">
             {visibleUnits.map((u) => (

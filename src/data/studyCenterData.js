@@ -45,8 +45,6 @@ export const units = [
   {
     id: 1,
     featured: true,
-    badge: "Fakultas Pertanian",
-    badgeIcon: "cap",
     title: "Pusat SDG'S dan Renper",
     email: "fti@unib.ac.id",
     url: "fti.unib.ac.id/fisika-teknik",
@@ -65,8 +63,7 @@ export const units = [
     ...sharedDetail,
   },
   {
-    id: 2, badge: "Fakultas", badgeIcon: "fac",
-    title: "Pusat Studi Mitigasi Bencana, Energi, dan Geospasial",
+    id: 2, title: "Pusat Studi Mitigasi Bencana, Energi, dan Geospasial",
     email: "fti@unib.ac.id", url: "fti.unib.ac.id/fisika-teknik",
     kepala: "Prof. Dr. Drs. Mukhammad Farid, MS",
     facultyFull: "Fakultas Matematika dan Ilmu Pengetahuan Alam (FMIPA)",
@@ -76,8 +73,7 @@ export const units = [
     ...sharedDetail,
   },
   {
-    id: 3, badge: "Fakultas", badgeIcon: "fac",
-    title: "Pusat Studi Lingkungan dan Kehutanan",
+    id: 3, title: "Pusat Studi Lingkungan dan Kehutanan",
     email: "fti@unib.ac.id", url: "fti.unib.ac.id/fisika-teknik",
     kepala: "Prof. Dr. Ir. Agus Susatya, M. Sc",
     facultyFull: "Fakultas Pertanian (FAPERTA)",
@@ -87,8 +83,7 @@ export const units = [
     ...sharedDetail,
   },
   {
-    id: 4, badge: "Fakultas", badgeIcon: "fac",
-    title: "Pusat Studi Gender, Keluarga, dan Pedesaan",
+    id: 4, title: "Pusat Studi Gender, Keluarga, dan Pedesaan",
     email: "fti@unib.ac.id", url: "fti.unib.ac.id/fisika-teknik",
     kepala: "Dra. Yayah Chanafiah, M Hum.",
     facultyFull: "Fakultas Ilmu Sosial dan Ilmu Politik (FISIP)",
@@ -98,8 +93,7 @@ export const units = [
     ...sharedDetail,
   },
   {
-    id: 5, badge: "Fakultas", badgeIcon: "fac",
-    title: "Pusat Studi Pengelolaan Kawasan Pesisir dan Kelautan",
+    id: 5, title: "Pusat Studi Pengelolaan Kawasan Pesisir dan Kelautan",
     email: "fti@unib.ac.id", url: "fti.unib.ac.id/fisika-teknik",
     kepala: "Dr. Ir. Deddy Bakhtiar, M. Si",
     facultyFull: "Fakultas Pertanian (FAPERTA)",
@@ -109,8 +103,7 @@ export const units = [
     ...sharedDetail,
   },
   {
-    id: 6, badge: "Fakultas", badgeIcon: "fac",
-    title: "Pusat Studi Budaya, Sosial, Humaniora dan Literasi",
+    id: 6, title: "Pusat Studi Budaya, Sosial, Humaniora dan Literasi",
     email: "fti@unib.ac.id", url: "fti.unib.ac.id/fisika-teknik",
     kepala: "Prof. Dr. Drs. Sarwit Sarwono, M.Hum.",
     facultyFull: "Fakultas Ilmu Budaya (FIB)",
@@ -120,8 +113,7 @@ export const units = [
     ...sharedDetail,
   },
   {
-    id: 7, badge: "Fakultas", badgeIcon: "fac",
-    title: "Pusat Pengelolaan Kawasan Hutan Dengan Tujuan Khusus (KHDTK)",
+    id: 7, title: "Pusat Pengelolaan Kawasan Hutan Dengan Tujuan Khusus (KHDTK)",
     email: "fti@unib.ac.id", url: "fti.unib.ac.id/fisika-teknik",
     kepala: "Dr. Ir. Enggar Apriyanto, M.Sc.",
     facultyFull: "Fakultas Pertanian (FAPERTA)",
@@ -131,8 +123,7 @@ export const units = [
     ...sharedDetail,
   },
   {
-    id: 8, badge: "Fakultas", badgeIcon: "fac",
-    title: "Pusat Studi Ketahanan Pangan dan Gizi",
+    id: 8, title: "Pusat Studi Ketahanan Pangan dan Gizi",
     email: "fti@unib.ac.id", url: "fti.unib.ac.id/fisika-teknik",
     kepala: "Dr. Ir. Fitri Yulianti, M.Sc.",
     facultyFull: "Fakultas Pertanian (FAPERTA)",
@@ -142,8 +133,7 @@ export const units = [
     ...sharedDetail,
   },
   {
-    id: 9, badge: "Fakultas", badgeIcon: "fac",
-    title: "Pusat Studi Energi Terbarukan dan Elektrifikasi Desa",
+    id: 9, title: "Pusat Studi Energi Terbarukan dan Elektrifikasi Desa",
     email: "fti@unib.ac.id", url: "fti.unib.ac.id/fisika-teknik",
     kepala: "Dr. Eng. Ir. Andi Prasetyo, S.T., M.T.",
     facultyFull: "Fakultas Teknik (FT)",
@@ -153,8 +143,7 @@ export const units = [
     ...sharedDetail,
   },
   {
-    id: 10, badge: "Fakultas", badgeIcon: "fac",
-    title: "Pusat Studi Pariwisata dan Ekonomi Kreatif",
+    id: 10, title: "Pusat Studi Pariwisata dan Ekonomi Kreatif",
     email: "fti@unib.ac.id", url: "fti.unib.ac.id/fisika-teknik",
     kepala: "Dr. Rina Marlina, S.E., M.M.",
     facultyFull: "Fakultas Ekonomi dan Bisnis (FEB)",
