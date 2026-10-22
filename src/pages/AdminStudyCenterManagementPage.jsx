@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AdminSidebar from "../components/admin/AdminSidebar";
 import StudyCenterUnitCard from "../components/admin/StudyCenterUnitCard";
 import StudyCenterFormModal from "../components/admin/StudyCenterFormModal";
@@ -21,6 +22,12 @@ const SearchIcon = () => (
 const ChevronDown = () => (
   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+  </svg>
+);
+
+const UploadIcon = () => (
+  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
   </svg>
 );
 
@@ -49,6 +56,7 @@ const ChevronRight = () => (
 );
 
 export default function AdminStudyCenterManagementPage() {
+  const navigate = useNavigate();
   // null | "add" | { mode: "edit", unit }
   const [modal, setModal] = useState(null);
   // null | { type: "save" } | { type: "delete", unit }
@@ -109,21 +117,27 @@ export default function AdminStudyCenterManagementPage() {
                   Manage academic faculties, research groups, and university study centers.
                 </p>
               </div>
-              <button type="button" className="asc-addnew" onClick={openAdd}>
-                <PlusIcon />
-                Add New Unit
-              </button>
+              <div className="asc-headactions">
+                <button type="button" className="ad-export">
+                  <UploadIcon />
+                  Export CSV
+                </button>
+                <button type="button" className="ad-export">
+                  <DownloadIcon />
+                  Import CSV
+                </button>
+                <button type="button" className="asc-addnew" onClick={openAdd}>
+                  <PlusIcon />
+                  Add New Unit
+                </button>
+              </div>
             </div>
 
-            {/* Count + export bar */}
+            {/* Count bar */}
             <div className="asc-countbar">
               <p className="asc-countbar__text">
                 Showing <strong>{units.length}</strong> of <strong>{shownTotal}</strong> Study Center
               </p>
-              <button type="button" className="asc-export">
-                <DownloadIcon />
-                Export CSV
-              </button>
             </div>
 
             {/* Unit grid */}
@@ -134,6 +148,7 @@ export default function AdminStudyCenterManagementPage() {
                   unit={unit}
                   onEdit={() => openEdit(unit)}
                   onDelete={() => requestDelete(unit)}
+                  onManageMembers={() => navigate(`/admin/study-center/${unit.id}/members`)}
                 />
               ))}
             </div>

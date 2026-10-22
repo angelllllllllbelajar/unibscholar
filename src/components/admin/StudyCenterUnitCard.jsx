@@ -1,12 +1,5 @@
 import React from "react";
 
-const BuildingIcon = () => (
-  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-  </svg>
-);
-
 const PencilIcon = () => (
   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -28,32 +21,21 @@ const TrashIcon = () => (
   </svg>
 );
 
-export default function StudyCenterUnitCard({ unit, onEdit, onDelete }) {
-  const { title, faculty, stats, expanded } = unit;
+export default function StudyCenterUnitCard({ unit, onEdit, onDelete, onManageMembers }) {
+  const { title, expanded } = unit;
 
   return (
     <div className="asc-card">
       <h3 className="asc-card__title">{title}</h3>
 
-      <p className="asc-card__faculty">
-        <span className="asc-card__facultyicon"><BuildingIcon /></span>
-        {faculty}
-      </p>
-
       {expanded ? (
         <>
-          <div className="asc-card__stats">
-            <span className="asc-stat"><i className="asc-dot" />{stats.members} Members</span>
-            <span className="asc-stat"><i className="asc-dot" />{stats.publications} Publications</span>
-            <span className="asc-stat asc-stat--green"><i className="asc-dot" />{stats.projects} Active Projects</span>
-          </div>
-
           <div className="asc-card__actions">
             <button type="button" className="asc-btn asc-btn--edit" onClick={onEdit}>
               <PencilIcon />
               Edit Unit
             </button>
-            <button type="button" className="asc-btn asc-btn--members">
+            <button type="button" className="asc-btn asc-btn--members" onClick={onManageMembers}>
               <PeopleIcon />
               Manage Members
             </button>

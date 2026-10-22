@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { lockScroll, unlockScroll } from "../../utils/scrollLock";
-import { facultyOptions, sdgCatalogue } from "../../data/adminStudyCenterData";
+import { sdgCatalogue } from "../../data/adminStudyCenterData";
 
 const dotColors = {
   blue: "#2563eb",
@@ -54,7 +54,6 @@ export default function StudyCenterFormModal({ mode = "add", unit, onClose, onSa
   const [form, setForm] = useState(() => ({
     name: unit?.title || "",
     head: unit?.head || "",
-    faculty: unit?.faculty || "",
     url: unit?.url || "",
     email: unit?.email || "",
   }));
@@ -112,17 +111,6 @@ export default function StudyCenterFormModal({ mode = "add", unit, onClose, onSa
             <div className="scm-field">
               <label className="scm-label">Head of Unit <span className="scm-req">*</span></label>
               <input className="scm-input" type="text" value={form.head} onChange={setField("head")} />
-            </div>
-
-            <div className="scm-field">
-              <label className="scm-label">Unit Faculty <span className="scm-req">*</span></label>
-              <div className="scm-selectwrap">
-                <select className="scm-input scm-select" value={form.faculty} onChange={setField("faculty")}>
-                  <option value="">Select faculty...</option>
-                  {facultyOptions.map(f => <option key={f} value={f}>{f}</option>)}
-                </select>
-                <span className="scm-selectwrap__chev"><ChevronDown /></span>
-              </div>
             </div>
 
             <div className="scm-field">

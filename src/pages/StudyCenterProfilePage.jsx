@@ -115,7 +115,6 @@ export default function StudyCenterProfilePage() {
               </div>
               <div>
                 <h1 className="scp-header__title">{unit.title}</h1>
-                <p className="scp-header__faculty">{unit.facultyFull}</p>
               </div>
             </div>
             <button type="button" className="scp-contact-btn">
@@ -209,17 +208,8 @@ export default function StudyCenterProfilePage() {
         <div className="scp-section-header">
           <h2 className="scp-section-title">
             <MembersIcon />
-            Members ({unit.members.length} Faculty &amp; Researchers)
+            Members ({unit.members.length} Researchers)
           </h2>
-          <div className="scp-member-search">
-            <SearchMiniIcon />
-            <input
-              type="text"
-              value={memberSearch}
-              onChange={(e) => setMemberSearch(e.target.value)}
-              placeholder="Search members by name..."
-            />
-          </div>
         </div>
         <div className="scp-members">
           {members.map((m) => (

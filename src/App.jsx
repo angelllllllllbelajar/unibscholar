@@ -15,6 +15,7 @@ import AdminDashboardPage from "./pages/AdminDashboardPage";
 import AdminResearcherManagementPage from "./pages/AdminResearcherManagementPage";
 import AdminResearcherCreatePage from "./pages/AdminResearcherCreatePage";
 import AdminStudyCenterManagementPage from "./pages/AdminStudyCenterManagementPage";
+import AdminStudyCenterMembersPage from "./pages/AdminStudyCenterMembersPage";
 import AdminChangePasswordPage from "./pages/AdminChangePasswordPage";
 import AdminSignOutPage from "./pages/AdminSignOutPage";
 import AdminPublicationsManagementPage from "./pages/AdminPublicationsManagementPage";
@@ -79,6 +80,14 @@ export default function App() {
           element={
             <RequireAdmin>
               <AdminStudyCenterManagementPage />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/admin/study-center/:unitId/members"
+          element={
+            <RequireAdmin>
+              <AdminStudyCenterMembersPage />
             </RequireAdmin>
           }
         />

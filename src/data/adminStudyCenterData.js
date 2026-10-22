@@ -4,8 +4,8 @@ export const SC_ADMIN_SHOWN = 6;
 export const SC_ADMIN_TOTAL = 10;
 export const SC_ADMIN_PAGES = [1, 2];
 
-// Each unit carries the stats shown on the expanded card. Only the first unit
-// renders the full stats band + actions row in the design; the rest stay compact.
+// Only the first unit renders the full actions row (Edit / Manage Members /
+// Delete) in the design; the rest stay compact.
 export const adminStudyCenters = [
   {
     id: 1,
@@ -90,14 +90,14 @@ export const adminStudyCenters = [
   },
 ];
 
-// Options for the UNIT FACULTY select in the create/edit modal.
-export const facultyOptions = [
-  "Fakultas Pertanian (FAPERTA)",
-  "Fakultas Teknik (FT)",
-  "Fakultas Matematika dan Ilmu Pengetahuan Alam (FMIPA)",
-  "Fakultas Ilmu Sosial dan Ilmu Politik (FISIP)",
-  "Fakultas Ilmu Budaya (FIB)",
-  "Fakultas Ekonomi dan Bisnis (FEB)",
+// Members shown in the "Manage Members" editor page for a study center unit.
+export const scUnitMembers = [
+  { id: 1, name: "Adityo Pratikno Ramadhan, S.IP., M.Sc., Ph.D.", role: "Head of Study Center" },
+  { id: 2, name: "Angga Bakti Pratama, S.T., M.T.",               role: "Senior Researcher" },
+  { id: 3, name: "Betseba Br Sibarani, S.Si., M.Sc.",             role: "Researcher" },
+  { id: 4, name: "Dimas Taha Maulana, S.T., M.T.",                role: "Researcher" },
+  { id: 5, name: "Hendra Grandis, S.T., M.Sc.",                   role: "Assistant Researcher" },
+  { id: 6, name: "Heru Berian, S.T., M.T.",                       role: "Assistant Researcher" },
 ];
 
 // Catalogue offered in the "Select SDG goal to map..." dropdown.
@@ -119,7 +119,6 @@ export const sdgCatalogue = [
 export const emptyUnitForm = {
   name: "",
   head: "",
-  faculty: "",
   url: "",
   email: "",
 };
