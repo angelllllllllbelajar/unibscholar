@@ -246,7 +246,7 @@ export default function AdminProjectsManagementPage() {
                   onClick={() => setFormModal({ mode: "add" })}
                 >
                   <PlusIcon />
-                  Add Manual Project
+                  Add Project
                 </button>
               </div>
             </div>

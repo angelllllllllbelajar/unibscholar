@@ -7,7 +7,6 @@ import {
   PROJECT_FISCAL_YEAR_OPTIONS,
   PROJECT_SCHEME_FORM_OPTIONS,
   UNIB_FACULTY_FULL_OPTIONS,
-  PROJECT_STATUS_FORM_OPTIONS,
   facultyFullName,
 } from "../../data/adminProjectsData";
 
@@ -303,43 +302,25 @@ export default function ProjectFormModal({ mode, project, onClose, onSave, suspe
             </div>
           </div>
 
-          <div className="pjm-grid2">
-            <div className="pjm-field">
-              <label className="pjm-label" htmlFor="pjm-start">Project Duration (Start &amp; End)</label>
-              <div className="pjm-durrow">
-                <input
-                  id="pjm-start"
-                  className="pjm-input"
-                  type="text"
-                  value={form.start}
-                  onChange={set("start")}
-                  placeholder="Mar 2026"
-                />
-                <input
-                  id="pjm-end"
-                  className="pjm-input"
-                  type="text"
-                  value={form.end}
-                  onChange={set("end")}
-                  placeholder="Nov 2026"
-                />
-              </div>
-            </div>
-            <div className="pjm-field">
-              <label className="pjm-label" htmlFor="pjm-status">Initial Project Status</label>
-              <span className="pjm-selectwrap">
-                <select
-                  id="pjm-status"
-                  className="pjm-select"
-                  value={form.status}
-                  onChange={set("status")}
-                >
-                  {PROJECT_STATUS_FORM_OPTIONS.map((option) => (
-                    <option key={option} value={option}>{option}</option>
-                  ))}
-                </select>
-                <ChevronDown />
-              </span>
+          <div className="pjm-field">
+            <label className="pjm-label" htmlFor="pjm-start">Project Duration (Start &amp; End)</label>
+            <div className="pjm-durrow">
+              <input
+                id="pjm-start"
+                className="pjm-input"
+                type="text"
+                value={form.start}
+                onChange={set("start")}
+                placeholder="Mar 2026"
+              />
+              <input
+                id="pjm-end"
+                className="pjm-input"
+                type="text"
+                value={form.end}
+                onChange={set("end")}
+                placeholder="Nov 2026"
+              />
             </div>
           </div>
 

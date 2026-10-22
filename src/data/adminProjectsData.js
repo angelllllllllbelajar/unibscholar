@@ -27,14 +27,6 @@ export const projectStats = [
     icon: "doc",
     tint: "amber",
   },
-  {
-    label: "Research Impact Output",
-    value: "182",
-    unit: "Publications",
-    stacked: true,
-    icon: "book",
-    tint: "indigo",
-  },
 ];
 
 export const managedProjects = [

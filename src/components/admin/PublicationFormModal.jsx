@@ -277,30 +277,18 @@ export default function PublicationFormModal({ mode, publication, onClose, onSav
             </div>
           </div>
 
-          <div className="apm-grid2 apm-field">
-            <div>
-              <label className="apm-label" htmlFor="apm-faculty">
-                Faculty / Research Unit <span className="apm-req">*</span>
-              </label>
-              <Combobox
-                id="apm-faculty"
-                inputClass="apm-input"
-                value={form.faculty}
-                options={UNIB_FACULTIES}
-                placeholder="Select or type faculty / unit..."
-                onChange={setValue("faculty")}
-              />
-            </div>
-            <div>
-              <label className="apm-label" htmlFor="apm-status">Initial Status</label>
-              <span className="apm-selectwrap">
-                <select id="apm-status" className="apm-select" value={form.status} onChange={set("status")}>
-                  <option>Pending Review</option>
-                  <option>Verified</option>
-                </select>
-                <ChevronDown />
-              </span>
-            </div>
+          <div className="apm-field">
+            <label className="apm-label" htmlFor="apm-faculty">
+              Faculty / Research Unit <span className="apm-req">*</span>
+            </label>
+            <Combobox
+              id="apm-faculty"
+              inputClass="apm-input"
+              value={form.faculty}
+              options={UNIB_FACULTIES}
+              placeholder="Select or type faculty / unit..."
+              onChange={setValue("faculty")}
+            />
           </div>
 
           {/* SDG mapping */}
