@@ -218,20 +218,6 @@
 
 .rp-pi { display: flex; align-items: flex-start; gap: 0.75rem; }
 
-.rp-pi__avatar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 9999px;
-  background: #dbeafe;
-  color: #1d4ed8;
-  font-size: 0.75rem;
-  font-weight: 800;
-  flex-shrink: 0;
-}
-
 .rp-pi__name {
   color: #111827;
   font-weight: 700;

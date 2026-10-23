@@ -30,9 +30,9 @@ const DownloadIcon = () => (
   </svg>
 );
 
-const ImportIcon = () => (
+const UploadIcon = () => (
   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v12m0-12L8 7m4-4l4 4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1M12 12V4m0 0l-4 4m4-4l4 4" />
   </svg>
 );
 
@@ -168,14 +168,6 @@ export default function AdminPublicationsManagementPage() {
         <div className="ad-main">
           {/* Top bar */}
           <div className="ad-topbar">
-            <div className="ad-topbar__search">
-              <div className="ad-searchfield">
-                <SearchIcon />
-                <input type="text" placeholder="Search publications..." />
-              </div>
-              <button type="button" className="ad-searchbtn">Search</button>
-            </div>
-
             <div className="ad-topbar__user">
               <img src={adminUser.photo} alt={adminUser.name} />
               <div className="ad-topbar__meta">
@@ -199,12 +191,12 @@ export default function AdminPublicationsManagementPage() {
               </div>
               <div className="ap-headactions">
                 <button type="button" className="ad-export">
-                  <DownloadIcon />
-                  Export CSV
+                  <UploadIcon />
+                  Export List (CSV)
                 </button>
-                <button type="button" className="ap-import">
-                  <ImportIcon />
-                  Import
+                <button type="button" className="ad-export">
+                  <DownloadIcon />
+                  Import List (CSV)
                 </button>
                 <button
                   type="button"

@@ -34,6 +34,18 @@ const PlusIcon = () => (
   </svg>
 );
 
+const UploadIcon = () => (
+  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1M12 12V4m0 0l-4 4m4-4l4 4" />
+  </svg>
+);
+
+const DownloadIcon = () => (
+  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+  </svg>
+);
+
 const FlaskIcon = () => (
   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3h6m-5 0v6.5L4.8 18a2 2 0 001.7 3h11a2 2 0 001.7-3L14 9.5V3m-4 10h4" />
@@ -210,14 +222,6 @@ export default function AdminProjectsManagementPage() {
         <div className="ad-main">
           {/* Top bar */}
           <div className="ad-topbar">
-            <div className="ad-topbar__search">
-              <div className="ad-searchfield">
-                <SearchIcon />
-                <input type="text" placeholder="Search research units..." />
-              </div>
-              <button type="button" className="ad-searchbtn">Search</button>
-            </div>
-
             <div className="ad-topbar__user">
               <img src={adminUser.photo} alt={adminUser.name} />
               <div className="ad-topbar__meta">
@@ -240,6 +244,14 @@ export default function AdminProjectsManagementPage() {
                 </p>
               </div>
               <div className="rp-headactions">
+                <button type="button" className="ad-export">
+                  <UploadIcon />
+                  Export List (CSV)
+                </button>
+                <button type="button" className="ad-export">
+                  <DownloadIcon />
+                  Import List (CSV)
+                </button>
                 <button
                   type="button"
                   className="rp-add"
@@ -365,7 +377,6 @@ export default function AdminProjectsManagementPage() {
                         </td>
                         <td>
                           <div className="rp-pi">
-                            <span className="rp-pi__avatar">{row.pi.initials}</span>
                             <div>
                               <p className="rp-pi__name">{row.pi.name}</p>
                               <div className="rp-pi__sub">

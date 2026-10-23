@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
-import { adminUser } from "../../data/adminData";
 
 const DashboardIcon = () => (
   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -88,16 +87,6 @@ export default function AdminSidebar() {
           Log Out
         </Link>
       </nav>
-
-      <div className="ad-sidebar__user">
-        <div className="ad-userchip">
-          <img src={adminUser.photo} alt={adminUser.name} />
-          <div>
-            <p className="ad-userchip__name">{adminUser.name}</p>
-            <p className="ad-userchip__role">Logged in as Admin</p>
-          </div>
-        </div>
-      </div>
     </aside>
   );
 }
