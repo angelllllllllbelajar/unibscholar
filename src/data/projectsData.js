@@ -1,6 +1,6 @@
 // ── Mock Projects Data ────────────────────────────────────────────────────────
 export const PROJECTS_TOTAL      = 11144;
-export const PROJECTS_PER_PAGE   = 4;
+export const PROJECTS_PER_PAGE   = 5;
 export const MAX_PAGES_DEMO      = 100;
 export const PROJECTS_TOTAL_PAGES = Math.min(
   Math.ceil(PROJECTS_TOTAL / PROJECTS_PER_PAGE),
@@ -130,6 +130,15 @@ export const studyCenters = [
   { name: "FISIP", count: 741,  checked: false },
   { name: "FP",    count: 654,  checked: false },
   { name: "FKIP",  count: 530,  checked: false },
+];
+
+export const principalInvestigators = [
+  { name: "Asril Pramutadi Andi Mustari",  count: 287 },
+  { name: "Hanni Garminia Y.",             count: 214 },
+  { name: "Saut Aritua Hasiholan Sagala",  count: 176 },
+  { name: "Trio Adiono",                   count: 149 },
+  { name: "Dr. Ratna Dewi Puspita Sari",   count: 118 },
+  { name: "Prof. Dr. Kamaludin",           count: 96  },
 ];
 
 export const projectTopics = [

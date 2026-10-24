@@ -14,6 +14,7 @@ import ProjectModal from "../components/projects/ProjectModal";
 import {
   projects,
   studyCenters,
+  principalInvestigators,
   projectTopics,
   fundingSchemes,
   projectSdgGoals,
@@ -32,6 +33,7 @@ export default function ProjectsPage() {
   const [yearStart,    setYearStart]    = useState(YEAR_MIN);
   const [yearEnd,      setYearEnd]      = useState(YEAR_MAX);
   const [topicsSearch, setTopicsSearch] = useState("");
+  const [piSearch,     setPiSearch]     = useState("");
   const [sdgExpanded,  setSdgExpanded]  = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 
@@ -39,12 +41,14 @@ export default function ProjectsPage() {
     Object.fromEntries(studyCenters.map((s) => [s.name, !!s.checked]))
   );
   const [checkedTopics,  setCheckedTopics]  = useState({});
+  const [checkedPis,     setCheckedPis]     = useState({});
   const [checkedSchemes, setCheckedSchemes] = useState(() =>
     Object.fromEntries(fundingSchemes.map((f) => [f.name, !!f.checked]))
   );
   const [checkedSdgs, setCheckedSdgs] = useState({});
 
   const [centerOpen,  setCenterOpen]  = useState(true);
+  const [piOpen,      setPiOpen]      = useState(true);
   const [topicsOpen,  setTopicsOpen]  = useState(true);
   const [schemesOpen, setSchemesOpen] = useState(true);
   const [sdgOpen,     setSdgOpen]     = useState(true);
@@ -54,9 +58,11 @@ export default function ProjectsPage() {
   const resetFilters = () => {
     setCheckedCenters(Object.fromEntries(studyCenters.map((s) => [s.name, false])));
     setCheckedTopics({});
+    setCheckedPis({});
     setCheckedSchemes(Object.fromEntries(fundingSchemes.map((f) => [f.name, false])));
     setCheckedSdgs({});
     setTopicsSearch("");
+    setPiSearch("");
     setQuery("");
     setYearStart(YEAR_MIN);
     setYearEnd(YEAR_MAX);
@@ -82,18 +88,23 @@ export default function ProjectsPage() {
       const anyCenter = Object.values(checkedCenters).some(Boolean);
       if (anyCenter && !checkedCenters[proj.faculty]) return false;
 
+      // Principal Investigator filter
+      const anyPi = Object.values(checkedPis).some(Boolean);
+      if (anyPi && !checkedPis[proj.leadPI]) return false;
+
       // Funding scheme filter
       const anyScheme = Object.values(checkedSchemes).some(Boolean);
       if (anyScheme && !checkedSchemes[proj.fundingScheme]) return false;
 
       return true;
     });
-  }, [query, checkedCenters, checkedSchemes]);
+  }, [query, checkedCenters, checkedPis, checkedSchemes]);
 
   const visibleProjects = filtered.slice(0, PROJECTS_PER_PAGE);
 
   const displayTotal = query ||
     Object.values(checkedCenters).some(Boolean) ||
+    Object.values(checkedPis).some(Boolean) ||
     Object.values(checkedSchemes).some(Boolean)
     ? filtered.length
     : PROJECTS_TOTAL;
@@ -160,6 +171,33 @@ export default function ProjectsPage() {
                   onChange={() => toggle(setCheckedCenters, s.name)}
                 />
               ))}
+            </div>
+          </FilterSection>
+
+          {/* Principal Investigator */}
+          <FilterSection
+            title="Principal Investigator (PI)"
+            open={piOpen}
+            onToggle={() => setPiOpen((v) => !v)}
+          >
+            <FilterSearch
+              value={piSearch}
+              onChange={setPiSearch}
+              placeholder="Search investigator..."
+            />
+            <div className="filter-list">
+              {principalInvestigators
+                .filter((p) => p.name.toLowerCase().includes(piSearch.toLowerCase()))
+                .map((p) => (
+                  <FilterCheckRow
+                    key={p.name}
+                    id={`pi-${p.name}`}
+                    label={p.name}
+                    count={p.count}
+                    checked={!!checkedPis[p.name]}
+                    onChange={() => toggle(setCheckedPis, p.name)}
+                  />
+                ))}
             </div>
           </FilterSection>
 
@@ -260,6 +298,8 @@ export default function ProjectsPage() {
             current={page}
             total={PROJECTS_TOTAL_PAGES}
             perPage={PROJECTS_PER_PAGE}
+            unitLabel="research projects"
+            totalResults={displayTotal}
             onChange={(p) => {
               setPage(p);
               window.scrollTo({ top: 0, behavior: "smooth" });

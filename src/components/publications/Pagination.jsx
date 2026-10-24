@@ -31,14 +31,21 @@ function buildPages(current, total) {
 }
 
 
-export default function Pagination({ current, total, perPage, onChange }) {
+export default function Pagination({
+  current,
+  total,
+  perPage,
+  onChange,
+  unitLabel = "publications",
+  totalResults: totalResultsProp,
+}) {
   const [openSide, setOpenSide] = useState(null); // null | "left" | "right"
   const [dotValue, setDotValue] = useState("");
 
   const pages = buildPages(current, total);
 
   // Keep the displayed result count consistent with the (demo-capped) page count.
-  const totalResults = perPage * total;
+  const totalResults = totalResultsProp ?? perPage * total;
 
   const commitJump = () => {
     const n = parseInt(dotValue, 10);
@@ -52,7 +59,7 @@ export default function Pagination({ current, total, perPage, onChange }) {
   return (
     <div className="pub-pagination">
       <p className="pub-pagination__info">
-        Displaying 1 – {perPage} of {totalResults.toLocaleString()} publications &nbsp;•&nbsp; Page {current} of{" "}
+        Displaying 1 – {perPage} of {totalResults.toLocaleString()} {unitLabel} &nbsp;•&nbsp; Page {current} of{" "}
         {total.toLocaleString()}
       </p>
 
