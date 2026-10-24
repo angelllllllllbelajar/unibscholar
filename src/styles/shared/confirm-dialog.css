@@ -1,0 +1,115 @@
+/* ── Shared confirmation dialog (save / delete) ──
+   Stacked above page form modals (apm z-50, pjm z-60). */
+.cfd-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(15 23 42 / 0.6);
+  padding: 1rem;
+}
+
+.cfd-dialog {
+  position: relative;
+  width: 100%;
+  max-width: 28rem;
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.35);
+  overflow: hidden;
+}
+
+.cfd-accent {
+  height: 0.375rem;
+  background: linear-gradient(90deg, var(--color-navy) 0%, #0d9488 55%, #facc15 100%);
+}
+
+.cfd-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem 1.5rem 0;
+}
+
+.cfd-header__icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.625rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cfd-header__icon svg { width: 1.25rem; height: 1.25rem; }
+
+.cfd-header__icon--amber { background: #fef3c7; color: #d97706; }
+.cfd-header__icon--red   { background: #fee2e2; color: #dc2626; }
+
+.cfd-header__title {
+  color: var(--color-navy);
+  font-weight: 700;
+  font-size: 1.125rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.cfd-close {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background: #f1f5f9;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.cfd-close:hover { background: #e2e8f0; color: #334155; }
+.cfd-close svg { width: 1rem; height: 1rem; }
+
+.cfd-message {
+  color: #64748b;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  padding: 0.875rem 1.5rem 1.25rem;
+}
+
+.cfd-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  padding: 0.875rem 1.5rem;
+}
+
+.cfd-cancel {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.125rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.cfd-confirm {
+  background: var(--color-navy);
+  color: #fff;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  transition: background-color 0.15s ease;
+}
+
+.cfd-confirm:hover { background: var(--color-navy-dark); }
+
+.cfd-confirm--red { background: #dc2626; }
+.cfd-confirm--red:hover { background: #b91c1c; }
