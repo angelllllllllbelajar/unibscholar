@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import AdminSidebar from "../components/admin/AdminSidebar";
 import ConfirmDialog from "../components/admin/ConfirmDialog";
+import MemberPickerModal from "../components/admin/MemberPickerModal";
 import { adminStudyCenters, scUnitMembers } from "../data/adminStudyCenterData";
 import { adminUser } from "../data/adminData";
 import "../styles/pages/admin-dashboard.css";
@@ -66,8 +67,7 @@ export default function AdminStudyCenterMembersPage() {
   const unit = adminStudyCenters.find((u) => u.id === Number(unitId));
 
   const [members, setMembers] = useState(scUnitMembers);
-  const [draftName, setDraftName] = useState("");
-  const [draftRole, setDraftRole] = useState("");
+  const [pickerOpen, setPickerOpen] = useState(false);
   const [confirm, setConfirm] = useState(null);
 
   const ask = (cfg) => setConfirm(cfg);
@@ -85,24 +85,8 @@ export default function AdminStudyCenterMembersPage() {
       onConfirm: () => setMembers((prev) => prev.filter((m) => m.id !== member.id)),
     });
 
-  const requestAdd = () => {
-    const name = draftName.trim();
-    if (!name) return;
-    ask({
-      tone: "save",
-      title: "Add Member?",
-      message: `You are about to add "${name}" as a member of ${unit?.title ?? "this study center"}.`,
-      confirmLabel: "Yes, Add Member",
-      onConfirm: () => {
-        setMembers((prev) => [
-          ...prev,
-          { id: Date.now(), name, role: draftRole.trim() || "Researcher" },
-        ]);
-        setDraftName("");
-        setDraftRole("");
-      },
-    });
-  };
+  const handleAssign = (member) =>
+    setMembers((prev) => [...prev, member]);
 
   const requestSave = () =>
     ask({
@@ -166,17 +150,12 @@ export default function AdminStudyCenterMembersPage() {
                   {members.map((m, i) => (
                     <div key={m.id} className="ascm-row">
                       <span className="ascm-row__index">{i + 1}</span>
-                      <input
-                        type="text"
-                        className="scm-input"
-                        value={m.name}
-                        aria-label="Member name"
-                        onChange={(e) => updateMember(m.id, { name: e.target.value })}
-                      />
+                      <span className="ascm-name">{m.name}</span>
                       <input
                         type="text"
                         className="scm-input ascm-row__role"
                         value={m.role}
+                        placeholder="Role / rank in this study center..."
                         aria-label="Member role"
                         onChange={(e) => updateMember(m.id, { role: e.target.value })}
                       />
@@ -193,21 +172,10 @@ export default function AdminStudyCenterMembersPage() {
                 </div>
 
                 <div className="ascm-addrow">
-                  <input
-                    type="text"
-                    className="scm-input"
-                    placeholder="New member name & academic titles..."
-                    value={draftName}
-                    onChange={(e) => setDraftName(e.target.value)}
-                  />
-                  <input
-                    type="text"
-                    className="scm-input ascm-addrow__role"
-                    placeholder="Role (e.g. Researcher)"
-                    value={draftRole}
-                    onChange={(e) => setDraftRole(e.target.value)}
-                  />
-                  <button type="button" className="ascm-addbtn" onClick={requestAdd}>
+                  <p className="ascm-addrow__hint">
+                    Pick a researcher from the directory. Only their role / rank in this study center is entered manually.
+                  </p>
+                  <button type="button" className="ascm-addbtn" onClick={() => setPickerOpen(true)}>
                     <PlusIcon />
                     Add Member
                   </button>
@@ -231,6 +199,15 @@ export default function AdminStudyCenterMembersPage() {
           </div>
         </div>
       </div>
+
+      {pickerOpen && (
+        <MemberPickerModal
+          existingNames={members.map((m) => m.name)}
+          onAssign={handleAssign}
+          onClose={() => setPickerOpen(false)}
+          suspendEscape={confirm !== null}
+        />
+      )}
 
       {confirm && (
         <ConfirmDialog

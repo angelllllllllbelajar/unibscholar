@@ -32,9 +32,6 @@ export default function UnitMemberCard({ member }) {
       </div>
 
       <div className="m-card__foot">
-        <span className="m-card__meta">
-          {member.pubs} pubs • {member.projects} project{member.projects === 1 ? "" : "s"}
-        </span>
         <Link to={`/researchers/${member.id}`} className="m-card__profile">
           View Profile
           <ArrowRight />

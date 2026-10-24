@@ -100,6 +100,21 @@ export const scUnitMembers = [
   { id: 6, name: "Heru Berian, S.T., M.T.",                       role: "Assistant Researcher" },
 ];
 
+// Researcher directory offered in the "Add Member" picker. Admins pick a name
+// from this list instead of typing it; only the role/rank is entered manually.
+export const scMemberDirectory = [
+  { id: 101, name: "Prof. Dr. Eleanor Vance, Ph.D.",            dept: "Fakultas Teknik (FT)" },
+  { id: 102, name: "Dr. Asril Pramutadi Andi Mustari",          dept: "Fakultas Teknik (FT)" },
+  { id: 103, name: "Dr. Hanni Garminia",                        dept: "FMIPA" },
+  { id: 104, name: "Prof. Trio Adiono",                         dept: "Fakultas Teknik (FT)" },
+  { id: 105, name: "Dr. Ir. Enggar Apriyanto, M.Sc.",           dept: "Fakultas Pertanian (FAPERTA)" },
+  { id: 106, name: "Prof. Dr. Drs. Mukhammad Farid, MS",        dept: "Fakultas Teknik (FT)" },
+  { id: 107, name: "Dr. Ir. Budhi Prihartono, DEA",             dept: "Fakultas Teknik (FT)" },
+  { id: 108, name: "Prof. Dr. Drs. Sarwit Sarwono, M.Hum.",     dept: "FISIP" },
+  { id: 109, name: "Dr. Ir. Deddy Bakhtiar, M.Si",              dept: "Fakultas Teknik (FT)" },
+  { id: 110, name: "Angga Bakti Pratama, S.T., M.T.",           dept: "Fakultas Teknik (FT)" },
+];
+
 // Catalogue offered in the "Select SDG goal to map..." dropdown.
 export const sdgCatalogue = [
   { num: 1, label: "No Poverty", dot: "red" },

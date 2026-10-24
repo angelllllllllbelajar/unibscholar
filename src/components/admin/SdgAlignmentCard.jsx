@@ -20,8 +20,18 @@ const PlusIcon = () => (
   </svg>
 );
 
+const GOAL_OPTIONS = [
+  { num: "01", label: "No Poverty", color: "#e11d48" },
+  { num: "02", label: "Zero Hunger", color: "#ca8a04" },
+  { num: "03", label: "Good Health and Well-Being", color: "#16a34a" },
+  { num: "04", label: "Quality Education", color: "#dc2626" },
+  { num: "05", label: "Gender Equality", color: "#ea580c" },
+  { num: "06", label: "Clean Water and Sanitation", color: "#0891b2" },
+];
+
 export default function SdgAlignmentCard({ ask }) {
   const [sdgs, setSdgs] = useState(sdgAssignments);
+  const [selected, setSelected] = useState("");
 
   const removeSdg = (num) => setSdgs((prev) => prev.filter((s) => s.num !== num));
 
@@ -34,13 +44,12 @@ export default function SdgAlignmentCard({ ask }) {
       onConfirm: () => removeSdg(num),
     });
 
-  const requestAssignSdg = () =>
-    ask({
-      tone: "save",
-      title: "Assign SDG Goal?",
-      message: "You are about to map the selected UN Sustainable Development Goal to this researcher profile.",
-      confirmLabel: "Yes, Assign",
-    });
+  const assignSdg = () => {
+    const chosen = GOAL_OPTIONS.find((g) => g.num === selected);
+    if (!chosen || sdgs.some((s) => s.num === chosen.num)) return;
+    setSdgs((prev) => [...prev, { ...chosen, pubs: 0 }]);
+    setSelected("");
+  };
 
   return (
     <section className="ar-card">
@@ -75,16 +84,17 @@ export default function SdgAlignmentCard({ ask }) {
         </div>
 
         <div className="ar-sdgrow">
-          <select className="ar-input ar-select" defaultValue="">
+          <select
+            className="ar-input ar-select"
+            value={selected}
+            onChange={(e) => setSelected(e.target.value)}
+          >
             <option value="" disabled>Select UN Sustainable Development Goal to map...</option>
-            <option>GOAL 1: No Poverty</option>
-            <option>GOAL 2: Zero Hunger</option>
-            <option>GOAL 3: Good Health and Well-Being</option>
-            <option>GOAL 4: Quality Education</option>
-            <option>GOAL 5: Gender Equality</option>
-            <option>GOAL 6: Clean Water and Sanitation</option>
+            {GOAL_OPTIONS.filter((g) => !sdgs.some((s) => s.num === g.num)).map((g) => (
+              <option key={g.num} value={g.num}>GOAL {Number(g.num)}: {g.label}</option>
+            ))}
           </select>
-          <button type="button" className="ar-assignsdg" onClick={requestAssignSdg}>
+          <button type="button" className="ar-assignsdg" onClick={assignSdg}>
             <PlusIcon />
             Assign SDG Goal
           </button>

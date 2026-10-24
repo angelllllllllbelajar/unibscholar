@@ -10,6 +10,7 @@ import { editingResearcher } from "../data/adminResearcherData";
 import { adminUser } from "../data/adminData";
 import "../styles/pages/admin-dashboard.css";
 import "../styles/pages/admin-researcher.css";
+import "../styles/pages/admin-study-center.css";
 
 const SearchIcon = () => (
   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -65,18 +66,11 @@ const TrashIcon = () => (
 export default function AdminResearcherManagementPage() {
   const navigate = useNavigate();
   const [confirm, setConfirm] = useState(null);
+  const [query, setQuery] = useState("");
 
   const ask = (cfg) => setConfirm(cfg);
 
-  const requestCreate = () =>
-    ask({
-      tone: "save",
-      title: "Create New Researcher?",
-      message:
-        "You are about to open the researcher creation form. A new faculty profile will be added to the repository once submitted.",
-      confirmLabel: "Yes, Continue",
-      onConfirm: () => navigate("/admin/researchers/new"),
-    });
+  const requestCreate = () => navigate("/admin/researchers/new");
 
   const requestSaveAll = () =>
     ask({
@@ -102,14 +96,6 @@ export default function AdminResearcherManagementPage() {
         <div className="ad-main">
           {/* Top bar */}
           <div className="ad-topbar">
-            <div className="ad-topbar__search">
-              <div className="ad-searchfield">
-                <SearchIcon />
-                <input type="text" placeholder="Search researchers..." />
-              </div>
-              <button type="button" className="ad-searchbtn">Search</button>
-            </div>
-
             <div className="ad-topbar__user">
               <img src={adminUser.photo} alt={adminUser.name} />
               <div className="ad-topbar__meta">
@@ -149,11 +135,22 @@ export default function AdminResearcherManagementPage() {
 
             {/* Currently-editing bar */}
             <div className="ar-editbar">
-              <span className="ar-editbar__avatar">{editingResearcher.initials}</span>
               <p className="ar-editbar__text">
                 Currently Editing: <strong>{editingResearcher.name}</strong>
               </p>
               <span className="ar-editbar__id">(ID: {editingResearcher.id})</span>
+              <div className="ar-editbar__search">
+                <div className="ad-searchfield">
+                  <SearchIcon />
+                  <input
+                    type="text"
+                    placeholder="Search researchers"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                  />
+                </div>
+                <button type="button" className="ad-searchbtn">Search</button>
+              </div>
             </div>
 
             {/* Two-column editor */}
@@ -163,7 +160,7 @@ export default function AdminResearcherManagementPage() {
               <div className="ar-col">
                 <ResearchTopicsCard ask={ask} />
                 <SdgAlignmentCard ask={ask} />
-                <AssignedPublicationsCard ask={ask} />
+                <AssignedPublicationsCard ask={ask} query={query} />
               </div>
             </div>
 

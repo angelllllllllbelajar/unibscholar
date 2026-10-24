@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import AssignPickerModal from "./AssignPickerModal";
 import {
   assignedPublications,
   assignedProjects,
@@ -68,34 +69,39 @@ function ItemRow({ item, onRemove }) {
   );
 }
 
-export default function AssignedPublicationsCard({ ask }) {
+export default function AssignedPublicationsCard({ ask, query = "" }) {
   const [tab, setTab] = useState("publications");
   const [pubs, setPubs] = useState(assignedPublications);
   const [projects, setProjects] = useState(assignedProjects);
+  const [pickerOpen, setPickerOpen] = useState(false);
 
-  const items = tab === "publications" ? pubs : projects;
-  const total = tab === "publications" ? PUB_TOTAL : PROJECT_TOTAL;
-  const noun  = tab === "publications" ? "publications" : "projects";
+  const isPubs = tab === "publications";
+  const total = isPubs ? PUB_TOTAL : PROJECT_TOTAL;
+  const noun  = isPubs ? "publications" : "projects";
+
+  const needle = query.trim().toLowerCase();
+  const items = (isPubs ? pubs : projects).filter((item) =>
+    [item.title, item.venue, item.doi, String(item.year)]
+      .filter(Boolean)
+      .some((v) => v.toLowerCase().includes(needle))
+  );
 
   const requestRemoveItem = (item) =>
     ask({
       tone: "delete",
-      title: tab === "publications" ? "Remove Publication?" : "Remove Project?",
+      title: isPubs ? "Remove Publication?" : "Remove Project?",
       message: `You are about to unassign "${item.title}" (${item.year}) from this researcher profile.`,
       confirmLabel: "Yes, Remove",
       onConfirm: () => {
-        if (tab === "publications") setPubs((prev) => prev.filter((p) => p.id !== item.id));
+        if (isPubs) setPubs((prev) => prev.filter((p) => p.id !== item.id));
         else setProjects((prev) => prev.filter((p) => p.id !== item.id));
       },
     });
 
-  const requestAssign = () =>
-    ask({
-      tone: "save",
-      title: "Assign Publication?",
-      message: "You are about to open the publication assignment picker. Selected items will be linked to this researcher profile.",
-      confirmLabel: "Yes, Continue",
-    });
+  const handleAssign = (item) => {
+    if (isPubs) setPubs((prev) => [...prev, item]);
+    else setProjects((prev) => [...prev, item]);
+  };
 
   return (
     <section className="ar-card">
@@ -104,9 +110,9 @@ export default function AssignedPublicationsCard({ ask }) {
           <span className="ar-card__icon"><BookIcon /></span>
           <h2 className="ar-card__title">Assigned Publications</h2>
         </span>
-        <button type="button" className="ar-assignpub" onClick={requestAssign}>
+        <button type="button" className="ar-assignpub" onClick={() => setPickerOpen(true)}>
           <PlusIcon />
-          Assign Publication
+          {isPubs ? "Assign Publications" : "Assign Projects"}
         </button>
       </header>
 
@@ -131,10 +137,15 @@ export default function AssignedPublicationsCard({ ask }) {
         {items.map((item) => (
           <ItemRow key={item.id} item={item} onRemove={() => requestRemoveItem(item)} />
         ))}
+        {items.length === 0 && (
+          <p className="ar-empty">No matching {noun} found.</p>
+        )}
       </div>
 
       <footer className="ar-pubfoot">
-        <p className="ar-pubfoot__info">Showing 1 to {items.length} of {total} {noun}</p>
+        <p className="ar-pubfoot__info">
+          Showing {items.length === 0 ? "0" : `1 to ${items.length}`} of {total} {noun}
+        </p>
         <div className="ar-pubfoot__nav">
           <button type="button" className="ar-pagebtn ar-pagebtn--plain" disabled>
             <ChevronLeft />
@@ -147,6 +158,15 @@ export default function AssignedPublicationsCard({ ask }) {
           </button>
         </div>
       </footer>
+
+      {pickerOpen && (
+        <AssignPickerModal
+          type={tab}
+          existingTitles={(isPubs ? pubs : projects).map((p) => p.title)}
+          onAssign={handleAssign}
+          onClose={() => setPickerOpen(false)}
+        />
+      )}
     </section>
   );
 }

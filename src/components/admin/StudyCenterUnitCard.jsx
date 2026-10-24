@@ -28,33 +28,21 @@ export default function StudyCenterUnitCard({ unit, onEdit, onDelete, onManageMe
     <div className="asc-card">
       <h3 className="asc-card__title">{title}</h3>
 
-      {expanded ? (
-        <>
-          <div className="asc-card__actions">
-            <button type="button" className="asc-btn asc-btn--edit" onClick={onEdit}>
-              <PencilIcon />
-              Edit Unit
-            </button>
-            <button type="button" className="asc-btn asc-btn--members" onClick={onManageMembers}>
-              <PeopleIcon />
-              Manage Members
-            </button>
-            <button type="button" className="asc-btn asc-btn--trash" aria-label="Delete unit" onClick={onDelete}>
-              <TrashIcon />
-            </button>
-          </div>
-        </>
-      ) : (
-        <div className="asc-card__actions asc-card__actions--compact">
-          <button type="button" className="asc-btn asc-btn--edit" onClick={onEdit}>
-            <PencilIcon />
-            Edit Unit
+      <div className="asc-card__actions">
+        <button type="button" className="asc-btn asc-btn--edit" onClick={onEdit}>
+          <PencilIcon />
+          Edit Unit
+        </button>
+        {expanded && (
+          <button type="button" className="asc-btn asc-btn--members" onClick={onManageMembers}>
+            <PeopleIcon />
+            Manage Members
           </button>
-          <button type="button" className="asc-btn asc-btn--trash" aria-label="Delete unit" onClick={onDelete}>
-            <TrashIcon />
-          </button>
-        </div>
-      )}
+        )}
+        <button type="button" className="asc-btn asc-btn--trash" aria-label="Delete unit" onClick={onDelete}>
+          <TrashIcon />
+        </button>
+      </div>
     </div>
   );
 }

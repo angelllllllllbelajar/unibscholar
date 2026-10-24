@@ -632,14 +632,12 @@
 .m-card__foot {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 0.5rem;
   background: #f8f9fa;
   border-top: 1px solid #f3f4f6;
   padding: 0.5rem 1rem;
 }
-
-.m-card__meta { color: #6b7280; font-size: 0.75rem; }
 
 .m-card__profile {
   display: inline-flex;

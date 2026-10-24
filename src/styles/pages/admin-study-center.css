@@ -46,12 +46,27 @@
 
 .asc-countbar__text strong { color: #111827; font-weight: 700; }
 
+.asc-countbar__search {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1 1 18rem;
+  max-width: 26rem;
+  min-width: 0;
+}
+
+.asc-countbar__search .ad-searchfield { flex: 1; min-width: 0; }
+
+@media (max-width: 640px) {
+  .asc-countbar__search { max-width: none; }
+}
+
 /* ── Unit grid ── */
 .asc-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.25rem;
-  align-items: start;
+  align-items: stretch;
 }
 
 @media (min-width: 768px) {
@@ -65,6 +80,7 @@
 .asc-card {
   display: flex;
   flex-direction: column;
+  min-height: 15rem;
   background: #fff;
   border-radius: 0.75rem;
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -76,14 +92,21 @@
   font-weight: 700;
   font-size: 1rem;
   line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 4.2rem;
 }
 
 /* Actions */
 .asc-card__actions {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.625rem;
-  margin-top: 1rem;
+  margin-top: auto;
+  padding-top: 1rem;
 }
 
 .asc-card__actions--compact { justify-content: flex-end; }
@@ -454,6 +477,14 @@
 
 .ascm-row .scm-input.ascm-row__role { flex: 0 0 13rem; }
 
+.ascm-name {
+  flex: 1 1 0;
+  min-width: 0;
+  color: #111827;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
 .ascm-remove {
   width: 2.25rem;
   height: 2.25rem;
@@ -485,6 +516,13 @@
 .ascm-addrow .scm-input { flex: 1 1 0; min-width: 0; }
 
 .ascm-addrow .scm-input.ascm-addrow__role { flex: 0 0 13rem; }
+
+.ascm-addrow__hint {
+  flex: 1 1 0;
+  min-width: 0;
+  color: #64748b;
+  font-size: 0.8125rem;
+}
 
 .ascm-addbtn {
   display: inline-flex;

@@ -63,6 +63,7 @@ export default function AdminStudyCenterManagementPage() {
   const [confirm, setConfirm] = useState(null);
   const [units, setUnits] = useState(adminStudyCenters);
   const [page, setPage] = useState(1);
+  const [query, setQuery] = useState("");
 
   const openAdd = () => setModal("add");
   const openEdit = unit => setModal({ mode: "edit", unit });
@@ -70,6 +71,11 @@ export default function AdminStudyCenterManagementPage() {
 
   const removedCount = adminStudyCenters.length - units.length;
   const shownTotal = SC_ADMIN_TOTAL - removedCount;
+
+  const needle = query.trim().toLowerCase();
+  const visibleUnits = units.filter(u =>
+    [u.title, u.faculty, u.head].some(v => v.toLowerCase().includes(needle))
+  );
 
   const requestSave = () => setConfirm({ type: "save" });
   const requestDelete = unit => setConfirm({ type: "delete", unit });
@@ -90,14 +96,6 @@ export default function AdminStudyCenterManagementPage() {
         <div className="ad-main">
           {/* Top bar */}
           <div className="ad-topbar">
-            <div className="ad-topbar__search">
-              <div className="ad-searchfield">
-                <SearchIcon />
-                <input type="text" placeholder="Search study center..." />
-              </div>
-              <button type="button" className="ad-searchbtn">Search</button>
-            </div>
-
             <div className="ad-topbar__user">
               <img src={adminUser.photo} alt={adminUser.name} />
               <div className="ad-topbar__meta">
@@ -136,13 +134,25 @@ export default function AdminStudyCenterManagementPage() {
             {/* Count bar */}
             <div className="asc-countbar">
               <p className="asc-countbar__text">
-                Showing <strong>{units.length}</strong> of <strong>{shownTotal}</strong> Study Center
+                Showing <strong>{visibleUnits.length}</strong> of <strong>{shownTotal}</strong> Study Center
               </p>
+              <div className="asc-countbar__search">
+                <div className="ad-searchfield">
+                  <SearchIcon />
+                  <input
+                    type="text"
+                    placeholder="Search study center..."
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                  />
+                </div>
+                <button type="button" className="ad-searchbtn">Search</button>
+              </div>
             </div>
 
             {/* Unit grid */}
             <div className="asc-grid">
-              {units.map(unit => (
+              {visibleUnits.map(unit => (
                 <StudyCenterUnitCard
                   key={unit.id}
                   unit={unit}
@@ -155,7 +165,7 @@ export default function AdminStudyCenterManagementPage() {
 
             {/* Pagination footer */}
             <div className="asc-pager">
-              <p className="asc-pager__info">Showing 1 to {units.length} of {shownTotal} results</p>
+              <p className="asc-pager__info">Showing 1 to {visibleUnits.length} of {shownTotal} results</p>
               <div className="asc-pager__nav">
                 <button
                   type="button"

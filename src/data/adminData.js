@@ -52,10 +52,21 @@ export const pendingPublications = [
     source: { label: "WoS Core", variant: "blue", icon: "wos" },
     status: "approved",
   },
+  {
+    id: 5,
+    title: "Low-Cost Water Quality Sensor",
+    venue: "Sensors and Actuators Reports",
+    qualifier: "Unaccredited Journal",
+    author: "Dr. Ir. Enggar Apriyanto",
+    authorId: "0007135509",
+    date: "Feb 03, 2026",
+    source: { label: "Scholar Node", variant: "gray", icon: "scholar" },
+    status: "rejected",
+  },
 ];
 
 export const PENDING_COUNT = 14;
-export const PENDING_SHOWN = 4;
+export const PENDING_SHOWN = 5;
 
 export const adminUser = {
   name: "Dr. Eleanor Vance",

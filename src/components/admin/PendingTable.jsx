@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { pendingPublications, PENDING_COUNT, PENDING_SHOWN } from "../../data/adminData";
+import { pendingPublications, PENDING_COUNT } from "../../data/adminData";
 
 const FunnelIcon = () => (
   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -29,6 +29,18 @@ const ChevronLeft = () => (
 const ChevronRight = () => (
   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+  </svg>
+);
+
+const SearchIcon = () => (
+  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+  </svg>
+);
+
+const XIcon = () => (
+  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
   </svg>
 );
 
@@ -65,23 +77,54 @@ const FILTER_OPTIONS = [
   { id: "all", label: "All Statuses" },
   { id: "pending", label: "Pending" },
   { id: "approved", label: "Approved" },
+  { id: "rejected", label: "Rejected" },
 ];
+
+const STATUS_LABEL = {
+  pending: "Pending",
+  approved: "Approved",
+  rejected: "Rejected",
+};
 
 export default function PendingTable() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState("all");
+  const [query, setQuery] = useState("");
+
+  const needle = query.trim().toLowerCase();
 
   const visibleRows = pendingPublications.filter(
-    (row) => statusFilter === "all" || row.status === statusFilter
+    (row) =>
+      (statusFilter === "all" || row.status === statusFilter) &&
+      (!needle ||
+        [row.title, row.venue, row.qualifier, row.author, row.authorId].some((value) =>
+          value.toLowerCase().includes(needle)
+        ))
   );
 
   return (
     <div className="ad-tablecard">
       <div className="ad-tablecard__head">
-        <div className="ad-tablecard__title">
-          Pending Publications and Projects for Approval
-          <span className="ad-pill-pending">{PENDING_COUNT} Pending</span>
+        <div className="ad-tablecard__headleft">
+          <div className="ad-tablecard__title">
+            Pending Publications and Projects for Approval
+            <span className="ad-pill-pending">{PENDING_COUNT} Pending</span>
+          </div>
+
+          <div className="ad-tablesearch">
+            <div className="ad-searchfield">
+              <SearchIcon />
+              <input
+                type="text"
+                placeholder="Search publications and projects..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+            </div>
+            <button type="button" className="ad-searchbtn">Search</button>
+          </div>
         </div>
+
         <div className="ad-tablecard__actions">
           <div className="ad-filterwrap">
             <button
@@ -152,7 +195,7 @@ export default function PendingTable() {
                 <td>
                   <span className={`ad-status ad-status--${row.status}`}>
                     <i className="ad-status__dot" />
-                    {row.status === "pending" ? "Pending" : "Approved"}
+                    {STATUS_LABEL[row.status]}
                   </span>
                 </td>
                 <td>
@@ -167,11 +210,18 @@ export default function PendingTable() {
                         Reject
                       </button>
                     </div>
-                  ) : (
+                  ) : row.status === "approved" ? (
                     <div className="ad-actions">
                       <span className="ad-completed">
                         <CheckIcon />
                         Completed
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="ad-actions">
+                      <span className="ad-completed ad-completed--rejected">
+                        <XIcon />
+                        Rejected
                       </span>
                     </div>
                   )}
@@ -184,7 +234,7 @@ export default function PendingTable() {
 
       <div className="ad-tablefoot">
         <p className="ad-tablefoot__info">
-          Showing 1-{PENDING_SHOWN} of {PENDING_COUNT} items
+          Showing {visibleRows.length === 0 ? "0" : `1-${visibleRows.length}`} of {PENDING_COUNT} items
         </p>
         <div className="ad-tablefoot__nav">
           <button type="button" className="ad-pagebtn" disabled>
