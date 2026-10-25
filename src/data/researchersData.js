@@ -44,10 +44,31 @@ export const sdgFilters = [
 ];
 
 export const networks = [
-  { id: "ui",  label: "Universitas Indonesia",    count: 420 },
-  { id: "upj", label: "Universitas Padjajaran",   count: 28  },
-  { id: "ugm", label: "Universitas Gajah Mada",   count: 215 },
-  { id: "uns", label: "Universitas Sebelas Maret", count: 189 },
+  {
+    id: "domestic",
+    label: "Universitas Dalam Negeri",
+    count: 852,
+    universities: [
+      { id: "ui",    label: "Universitas Indonesia",      count: 420 },
+      { id: "unib",  label: "Universitas Bengkulu",       count: 180 },
+      { id: "ugm",   label: "Universitas Gajah Mada",     count: 100 },
+      { id: "unpad", label: "Universitas Padjajaran",     count: 60  },
+      { id: "uns",   label: "Universitas Sebelas Maret",  count: 55  },
+      { id: "itb",   label: "Institut Teknologi Bandung", count: 37  },
+    ],
+  },
+  {
+    id: "foreign",
+    label: "Universitas Luar Negeri",
+    count: 240,
+    universities: [
+      { id: "mpi",    label: "Max Planck Institute",                 count: 60 },
+      { id: "mit",    label: "Massachusetts Institute of Technology", count: 55 },
+      { id: "oxford", label: "University of Oxford",                 count: 45 },
+      { id: "ntu",    label: "Nanyang Technological University",     count: 42 },
+      { id: "tokyo",  label: "University of Tokyo",                  count: 38 },
+    ],
+  },
 ];
 
 export const researchers = [

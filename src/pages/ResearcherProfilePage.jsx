@@ -73,7 +73,8 @@ const networkNodes = [
   { id: "N6", x: 615, y: 255, r: 7, color: "#0d9488", aff: "Intl.", uni: "Max Planck Institute", weight: 2 },
 ];
 
-const universityOptions = [...new Set(networkNodes.map((n) => n.uni))];
+const FOREIGN_UNIVERSITIES = new Set(["Max Planck Institute"]);
+const isForeignUni = (uni) => FOREIGN_UNIVERSITIES.has(uni);
 
 const networkEdges = [
   ["N1", "SA"], ["SA", "BY"], ["SA", "SL"], ["N2", "BY"], ["MC", "BY"],
@@ -121,7 +122,10 @@ function CollaborationNetwork() {
   const W = 660, H = 310;
 
   const hoveredNode = networkNodes.find((n) => n.id === hovered);
-  const matchesUniversity = (node) => university === "all" || node.uni === university || node.main;
+  const matchesUniversity = (node) =>
+    university === "all" ||
+    node.main ||
+    (university === "foreign" ? isForeignUni(node.uni) : !isForeignUni(node.uni));
 
   return (
     <div className="flex gap-5 items-stretch">
@@ -159,9 +163,8 @@ function CollaborationNetwork() {
           style={{ accentColor: ACCENT }}
         >
           <option value="all">All Universities</option>
-          {universityOptions.map((u) => (
-            <option key={u} value={u}>{u}</option>
-          ))}
+          <option value="domestic">Universitas Dalam Negeri</option>
+          <option value="foreign">Universitas Luar Negeri</option>
         </select>
 
         <div className="border-t border-slate-200 my-4" />

@@ -28,6 +28,7 @@ export default function ResearchersPage() {
   const [checkedTopics, setCheckedTopics]     = useState({});
   const [checkedSdgs, setCheckedSdgs]         = useState({});
   const [checkedNetworks, setCheckedNetworks] = useState({});
+  const [checkedUniversities, setCheckedUniversities] = useState({});
   const [sortBy, setSortBy]                   = useState("Most Cited");
   const [currentPage, setCurrentPage]         = useState(1);
   const [sdgExpanded, setSdgExpanded]         = useState(false);
@@ -44,6 +45,7 @@ export default function ResearchersPage() {
     setCheckedTopics({});
     setCheckedSdgs({});
     setCheckedNetworks({});
+    setCheckedUniversities({});
     setSearchQuery("");
     setTopicSearch("");
     setSortBy("Most Cited");
@@ -116,17 +118,31 @@ export default function ResearchersPage() {
           <FilterSection title="Network" open={networkOpen} onToggle={() => setNetworkOpen((v) => !v)}>
             <div className="filter-list">
               {networks.map((n) => (
-                <FilterCheckRow
-                  key={n.id}
-                  id={`network-${n.id}`}
-                  label={n.label}
-                  count={n.count}
-                  checked={!!checkedNetworks[n.id]}
-                  onChange={() => toggleCheck(setCheckedNetworks, n.id)}
-                />
+                <div key={n.id}>
+                  <FilterCheckRow
+                    id={`network-${n.id}`}
+                    label={n.label}
+                    count={n.count}
+                    checked={!!checkedNetworks[n.id]}
+                    onChange={() => toggleCheck(setCheckedNetworks, n.id)}
+                  />
+                  {checkedNetworks[n.id] && (
+                    <div className="filter-sublist">
+                      {n.universities.map((u) => (
+                        <FilterCheckRow
+                          key={u.id}
+                          id={`uni-${u.id}`}
+                          label={u.label}
+                          count={u.count}
+                          checked={!!checkedUniversities[u.id]}
+                          onChange={() => toggleCheck(setCheckedUniversities, u.id)}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
-            <FilterLink onClick={() => {}}>Show More</FilterLink>
           </FilterSection>
         </FilterSidebar>
 
