@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import AdminSidebar from "../components/admin/AdminSidebar";
 import ResearcherCreateForm from "../components/admin/ResearcherCreateForm";
-import { adminUser } from "../data/adminData";
+import { useAdminAuth } from "../context/adminAuthContext";
 import "../styles/pages/admin-dashboard.css";
 import "../styles/pages/admin-researcher.css";
 
@@ -40,6 +40,7 @@ const SaveIcon = () => (
 
 export default function AdminResearcherCreatePage() {
   const navigate = useNavigate();
+  const { user } = useAdminAuth();
   const goBack = () => navigate("/admin/researchers");
 
   return (
@@ -59,10 +60,10 @@ export default function AdminResearcherCreatePage() {
             </div>
 
             <div className="ad-topbar__user">
-              <img src={adminUser.photo} alt={adminUser.name} />
+              <img src={user?.photo} alt={user?.name} />
               <div className="ad-topbar__meta">
-                <p className="ad-topbar__name">{adminUser.name}</p>
-                <p className="ad-topbar__role">{adminUser.role}</p>
+                <p className="ad-topbar__name">{user?.name}</p>
+                <p className="ad-topbar__role">{user?.role}</p>
               </div>
               <span className="ad-topbar__chev"><ChevronDown /></span>
             </div>

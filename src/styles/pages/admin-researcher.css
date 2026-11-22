@@ -795,3 +795,14 @@
   text-align: center;
   padding: 1.5rem 1rem;
 }
+
+.ar-rolenote {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1e40af;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  margin-bottom: 1.25rem;
+}

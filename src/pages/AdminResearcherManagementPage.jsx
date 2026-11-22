@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminSidebar from "../components/admin/AdminSidebar";
+import AdminTopbar from "../components/admin/AdminTopbar";
+import ApprovalDashboard from "../components/admin/ApprovalDashboard";
 import ProfileInfoCard from "../components/admin/ProfileInfoCard";
 import ResearchTopicsCard from "../components/admin/ResearchTopicsCard";
 import SdgAlignmentCard from "../components/admin/SdgAlignmentCard";
 import AssignedPublicationsCard from "../components/admin/AssignedPublicationsCard";
 import ConfirmDialog from "../components/admin/ConfirmDialog";
+import { useAdminAuth } from "../context/adminAuthContext";
 import { editingResearcher } from "../data/adminResearcherData";
-import { adminUser } from "../data/adminData";
 import "../styles/pages/admin-dashboard.css";
 import "../styles/pages/admin-researcher.css";
 import "../styles/pages/admin-study-center.css";
@@ -15,12 +17,6 @@ import "../styles/pages/admin-study-center.css";
 const SearchIcon = () => (
   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-  </svg>
-);
-
-const ChevronDown = () => (
-  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
   </svg>
 );
 
@@ -65,6 +61,7 @@ const TrashIcon = () => (
 
 export default function AdminResearcherManagementPage() {
   const navigate = useNavigate();
+  const { isOperator, isAdmin } = useAdminAuth();
   const [confirm, setConfirm] = useState(null);
   const [query, setQuery] = useState("");
 
@@ -88,25 +85,24 @@ export default function AdminResearcherManagementPage() {
       confirmLabel: "Yes, Delete Researcher",
     });
 
+  if (isAdmin) {
+    return (
+      <ApprovalDashboard
+        entity="researchers"
+        title="Researchers Dashboard"
+        tableTitle="Pending Researcher Requests for Approval"
+        searchPlaceholder="Search researcher name, NIDN, or faculty..."
+      />
+    );
+  }
+
   return (
     <div className="ad-root">
       <div className="ad-shell">
         <AdminSidebar />
 
         <div className="ad-main">
-          {/* Top bar */}
-          <div className="ad-topbar">
-            <div className="ad-topbar__user">
-              <img src={adminUser.photo} alt={adminUser.name} />
-              <div className="ad-topbar__meta">
-                <p className="ad-topbar__name">{adminUser.name}</p>
-                <p className="ad-topbar__role">{adminUser.role}</p>
-              </div>
-              <span className="ad-topbar__chev">
-                <ChevronDown />
-              </span>
-            </div>
-          </div>
+          <AdminTopbar />
 
           {/* Content */}
           <div className="ad-content">
@@ -126,12 +122,20 @@ export default function AdminResearcherManagementPage() {
                   <DownloadIcon />
                   Import List (CSV)
                 </button>
-                <button type="button" className="ar-addnew" onClick={requestCreate}>
-                  <PlusIcon />
-                  Add New Researcher
-                </button>
+                {isOperator && (
+                  <button type="button" className="ar-addnew" onClick={requestCreate}>
+                    <PlusIcon />
+                    Add New Researcher
+                  </button>
+                )}
               </div>
             </div>
+
+            {isOperator && (
+              <p className="ar-rolenote">
+                Operator mode: profile additions, edits, and deletions are queued for Admin approval.
+              </p>
+            )}
 
             {/* Currently-editing bar */}
             <div className="ar-editbar">
@@ -168,18 +172,22 @@ export default function AdminResearcherManagementPage() {
             <div className="ar-savebar">
               <p className="ar-savebar__note">
                 <span className="ar-savebar__check"><CheckCircleIcon /></span>
-                Changes are staged locally until saved.
+                {isOperator
+                  ? "Changes are staged locally until saved."
+                  : "Admin role is review-only for researcher profiles."}
               </p>
-              <div className="ar-savebar__actions">
-                <button type="button" className="ar-delete" onClick={requestDeleteResearcher}>
-                  <TrashIcon />
-                  Delete Researcher
-                </button>
-                <button type="button" className="ar-saveall" onClick={requestSaveAll}>
-                  <SaveIcon />
-                  Save All Changes
-                </button>
-              </div>
+              {isOperator && (
+                <div className="ar-savebar__actions">
+                  <button type="button" className="ar-delete" onClick={requestDeleteResearcher}>
+                    <TrashIcon />
+                    Delete Researcher
+                  </button>
+                  <button type="button" className="ar-saveall" onClick={requestSaveAll}>
+                    <SaveIcon />
+                    Save All Changes
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

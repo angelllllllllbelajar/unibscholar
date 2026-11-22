@@ -315,6 +315,46 @@
 .rp-status--completed { color: #1d4ed8; border-color: #bfdbfe; background: #eff6ff; }
 .rp-status--completed .rp-status__dot { background: #3b82f6; }
 
+/* IPR status variants */
+.rp-status--granted { color: #047857; border-color: #a7f3d0; background: #ecfdf5; }
+.rp-status--granted .rp-status__dot { background: #10b981; }
+
+.rp-status--registered { color: #1d4ed8; border-color: #bfdbfe; background: #eff6ff; }
+.rp-status--registered .rp-status__dot { background: #3b82f6; }
+
+.rp-status--pending { color: #b45309; border-color: #fde68a; background: #fffbeb; }
+.rp-status--pending .rp-status__dot { background: #f59e0b; }
+
+.rp-status--draft { color: #475569; border-color: #e2e8f0; background: #f8fafc; }
+.rp-status--draft .rp-status__dot { background: #94a3b8; }
+
+.rp-rolenote {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1e40af;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  margin-bottom: 1.25rem;
+}
+
+.rp-resetfilters {
+  align-self: flex-start;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #3b82f6;
+  transition: color 0.15s ease;
+}
+
+.rp-resetfilters:hover { color: #1d4ed8; }
+
+.rp-readonly {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
 .rp-rowactions {
   display: flex;
   align-items: center;

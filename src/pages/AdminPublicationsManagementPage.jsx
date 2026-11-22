@@ -1,11 +1,13 @@
 import React, { useMemo, useState } from "react";
 import AdminSidebar from "../components/admin/AdminSidebar";
+import AdminTopbar from "../components/admin/AdminTopbar";
+import ApprovalDashboard from "../components/admin/ApprovalDashboard";
 import PublicationFormModal from "../components/admin/PublicationFormModal";
 import ConfirmDialog from "../components/admin/ConfirmDialog";
-import { adminUser } from "../data/adminData";
+import { useAdminAuth } from "../context/adminAuthContext";
+import { useAdminData } from "../context/adminDataContext";
 import {
   ADMIN_PUB_TOTAL,
-  managedPublications,
   SDG_LABELS,
   SDG_STYLES,
 } from "../data/adminPublicationsData";
@@ -57,7 +59,10 @@ const TrashIcon = () => (
 const SDG_STYLE_FALLBACK = { bg: "#e2e8f0", border: "#cbd5e1", text: "#334155", dot: "#64748b" };
 
 export default function AdminPublicationsManagementPage() {
-  const [rows, setRows] = useState(managedPublications);
+  const { isOperator, isAdmin, user } = useAdminAuth();
+  const { records, submit } = useAdminData();
+  const rows = records.publications;
+
   const [query, setQuery] = useState("");
   const [year, setYear] = useState("All");
   const [faculty, setFaculty] = useState("All");
@@ -112,53 +117,56 @@ export default function AdminPublicationsManagementPage() {
     setStatus("All");
   };
 
-  const deleteRow = (id) => {
-    setRows((prev) => prev.filter((row) => row.id !== id));
-    setChecked((prev) => {
-      const next = { ...prev };
-      delete next[id];
-      return next;
-    });
-  };
-
   const requestDelete = (row) => setConfirm({ type: "delete", row });
+  const requestSave = (form) => setConfirm({ type: "save", form });
 
-  const requestSave = (form) => {
-    if (formModal?.mode === "edit") setConfirm({ type: "save", form });
-    else applySave(form);
-  };
-
-  const applySave = (form) => {
-    const payload = {
-      title: form.title,
-      doi: form.doi,
-      author: form.authors,
-      year: Number(form.year) || 2026,
-      journal: form.journal,
-      faculty: form.faculty,
-      type: form.type,
-      topics: form.topics,
-      volume: form.volume,
-      pages: form.pages,
-      sdgs: form.sdgs,
-      status: form.status === "Verified" ? "Verified" : "Pending",
-    };
-
-    if (formModal?.mode === "edit") {
-      setRows((prev) =>
-        prev.map((row) => (row.id === formModal.id ? { ...row, ...payload } : row))
-      );
-    } else {
-      setRows((prev) => [{ id: Date.now(), nidn: "—", ...payload }, ...prev]);
-    }
-    setFormModal(null);
-  };
+  const buildPayload = (form) => ({
+    title: form.title,
+    doi: form.doi,
+    author: form.authors,
+    year: Number(form.year) || 2026,
+    journal: form.journal,
+    faculty: form.faculty,
+    type: form.type,
+    topics: form.topics,
+    volume: form.volume,
+    pages: form.pages,
+    sdgs: form.sdgs,
+    status: form.status === "Verified" ? "Verified" : "Pending",
+  });
 
   const handleConfirm = () => {
-    if (confirm?.type === "save") applySave(confirm.form);
-    if (confirm?.type === "delete") deleteRow(confirm.row.id);
+    if (confirm?.type === "save") {
+      const payload = buildPayload(confirm.form);
+      const isEdit = formModal?.mode === "edit";
+      submit("publications", isEdit ? "edit" : "add", {
+        targetId: isEdit ? formModal.id : null,
+        payload: isEdit ? payload : { nidn: "—", ...payload },
+        label: payload.title,
+        by: user?.name,
+      });
+      setFormModal(null);
+    }
+    if (confirm?.type === "delete") {
+      submit("publications", "delete", {
+        targetId: confirm.row.id,
+        label: confirm.row.title,
+        by: user?.name,
+      });
+    }
     setConfirm(null);
   };
+
+  if (isAdmin) {
+    return (
+      <ApprovalDashboard
+        entity="publications"
+        title="Publications Dashboard"
+        tableTitle="Pending Publications for Approval"
+        searchPlaceholder="Search publications, authors, or operator..."
+      />
+    );
+  }
 
   return (
     <div className="ad-root">
@@ -166,19 +174,7 @@ export default function AdminPublicationsManagementPage() {
         <AdminSidebar />
 
         <div className="ad-main">
-          {/* Top bar */}
-          <div className="ad-topbar">
-            <div className="ad-topbar__user">
-              <img src={adminUser.photo} alt={adminUser.name} />
-              <div className="ad-topbar__meta">
-                <p className="ad-topbar__name">{adminUser.name}</p>
-                <p className="ad-topbar__role">{adminUser.role}</p>
-              </div>
-              <span className="ad-topbar__chev">
-                <ChevronDown />
-              </span>
-            </div>
-          </div>
+          <AdminTopbar />
 
           {/* Content */}
           <div className="ad-content">
@@ -198,16 +194,24 @@ export default function AdminPublicationsManagementPage() {
                   <DownloadIcon />
                   Import List (CSV)
                 </button>
-                <button
-                  type="button"
-                  className="ap-add"
-                  onClick={() => setFormModal({ mode: "add" })}
-                >
-                  <PlusIcon />
-                  Add Publication
-                </button>
+                {isOperator && (
+                  <button
+                    type="button"
+                    className="ap-add"
+                    onClick={() => setFormModal({ mode: "add" })}
+                  >
+                    <PlusIcon />
+                    Add Publication
+                  </button>
+                )}
               </div>
             </div>
+
+            {isOperator && (
+              <p className="ap-rolenote">
+                Operator mode: additions, edits, and deletions are queued for Admin approval.
+              </p>
+            )}
 
             {/* Filter card */}
             <div className="ap-filtercard">
@@ -348,24 +352,28 @@ export default function AdminPublicationsManagementPage() {
                           </span>
                         </td>
                         <td>
-                          <div className="ap-rowactions">
-                            <button
-                              type="button"
-                              className="ap-iconbtn"
-                              title="Edit publication"
-                              onClick={() => setFormModal({ mode: "edit", id: row.id })}
-                            >
-                              <PencilIcon />
-                            </button>
-                            <button
-                              type="button"
-                              className="ap-iconbtn ap-iconbtn--danger"
-                              title="Delete publication"
-                              onClick={() => requestDelete(row)}
-                            >
-                              <TrashIcon />
-                            </button>
-                          </div>
+                          {isOperator ? (
+                            <div className="ap-rowactions">
+                              <button
+                                type="button"
+                                className="ap-iconbtn"
+                                title="Edit publication"
+                                onClick={() => setFormModal({ mode: "edit", id: row.id })}
+                              >
+                                <PencilIcon />
+                              </button>
+                              <button
+                                type="button"
+                                className="ap-iconbtn ap-iconbtn--danger"
+                                title="Delete publication"
+                                onClick={() => requestDelete(row)}
+                              >
+                                <TrashIcon />
+                              </button>
+                            </div>
+                          ) : (
+                            <span className="ap-readonly">Admin (review only)</span>
+                          )}
                         </td>
                       </tr>
                     ))}
@@ -419,9 +427,9 @@ export default function AdminPublicationsManagementPage() {
       {confirm?.type === "save" && (
         <ConfirmDialog
           tone="save"
-          title="Save Changes?"
-          message="You are about to save the changes made to this publication. This action will update the publication record across the repository."
-          confirmLabel="Yes, Save Changes"
+          title="Submit for Approval?"
+          message="This change will be queued and sent to the Admin for approval. It will not appear in the repository until approved."
+          confirmLabel="Yes, Submit to Admin"
           onConfirm={handleConfirm}
           onCancel={() => setConfirm(null)}
         />
@@ -430,9 +438,9 @@ export default function AdminPublicationsManagementPage() {
       {confirm?.type === "delete" && (
         <ConfirmDialog
           tone="delete"
-          title="Delete Publication?"
-          message={`You are about to permanently remove "${confirm.row.title}". This action cannot be undone.`}
-          confirmLabel="Yes, Delete Publication"
+          title="Request Deletion?"
+          message={`You are requesting to remove "${confirm.row.title}". The Admin must approve this deletion before it is applied.`}
+          confirmLabel="Yes, Request Deletion"
           onConfirm={handleConfirm}
           onCancel={() => setConfirm(null)}
         />

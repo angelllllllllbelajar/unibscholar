@@ -68,9 +68,21 @@ export const pendingPublications = [
 export const PENDING_COUNT = 14;
 export const PENDING_SHOWN = 5;
 
-export const adminUser = {
-  name: "Dr. Eleanor Vance",
-  role: "Admin",
-  title: "Head of Research Oversight (LPPM)",
-  photo: "/researcher-placeholder.png",
+export const adminAccounts = {
+  operator: {
+    username: "operator",
+    name: "Dr. Eleanor Vance",
+    role: "Operator",
+    title: "Research Data Operator (LPPM)",
+    photo: "/researcher-placeholder.png",
+  },
+  admin: {
+    username: "admin",
+    name: "Prof. Dr. Brian Yuliarto",
+    role: "Admin",
+    title: "Head of Research Oversight (LPPM)",
+    photo: "/researcher-placeholder.png",
+  },
 };
+
+export const adminUser = adminAccounts.admin;

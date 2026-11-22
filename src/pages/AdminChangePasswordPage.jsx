@@ -144,7 +144,7 @@ export default function AdminChangePasswordPage() {
           {success && (
             <div className="cp-success" role="status">
               <SuccessIcon />
-              Password updated successfully. You can return to your dashboard.
+              Password updated successfully. You can return to Researchers.
             </div>
           )}
 
@@ -222,9 +222,9 @@ export default function AdminChangePasswordPage() {
             </div>
 
             <div className="cp-row">
-              <Link to="/admin" className="cp-back">
+              <Link to="/admin/researchers" className="cp-back">
                 <BackIcon />
-                Back to Dashboard
+                Back to Researchers
               </Link>
               <span className="cp-ssl">
                 <ShieldIcon />

@@ -1,18 +1,18 @@
 import React, { startTransition } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAdminAuth } from "../context/adminAuthContext";
-import { adminUser } from "../data/adminData";
 import "../styles/pages/admin-sign-out.css";
 
 const HONORIFICS = ["Dr.", "Prof.", "Ir.", "Ph.D.", "M.Sc.", "M.Kom.", "S.Kom."];
 
-const initials = adminUser.name
-  .split(" ")
-  .filter((word) => !HONORIFICS.includes(word))
-  .slice(0, 2)
-  .map((word) => word[0])
-  .join("")
-  .toUpperCase();
+const initialsOf = (name) =>
+  name
+    .split(" ")
+    .filter((word) => !HONORIFICS.includes(word))
+    .slice(0, 2)
+    .map((word) => word[0])
+    .join("")
+    .toUpperCase();
 
 const SignOutIcon = () => (
   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -39,7 +39,7 @@ const ExtIcon = () => (
 );
 
 export default function AdminSignOutPage() {
-  const { logout } = useAdminAuth();
+  const { logout, user } = useAdminAuth();
   const navigate = useNavigate();
 
   const handleConfirm = () => {
@@ -50,6 +50,8 @@ export default function AdminSignOutPage() {
       navigate("/");
     });
   };
+
+  const initials = user ? initialsOf(user.name) : "";
 
   return (
     <div className="so-root">
@@ -93,10 +95,10 @@ export default function AdminSignOutPage() {
             <div className="so-session__row">
               <span className="so-avatar">{initials}</span>
               <div className="so-session__who">
-                <p className="so-session__name">{adminUser.name}</p>
-                <p className="so-session__role">{adminUser.title}</p>
+                <p className="so-session__name">{user?.name}</p>
+                <p className="so-session__role">{user?.title}</p>
               </div>
-              <span className="so-session__pill">{adminUser.role}</span>
+              <span className="so-session__pill">{user?.role}</span>
             </div>
 
             <div className="so-sync">
@@ -111,9 +113,9 @@ export default function AdminSignOutPage() {
             Confirm &amp; Log Out
           </button>
 
-          <button type="button" className="so-cancel" onClick={() => navigate("/admin")}>
+          <button type="button" className="so-cancel" onClick={() => navigate("/admin/researchers")}>
             <BackIcon />
-            Cancel &amp; Return to Dashboard
+            Cancel &amp; Return to Researchers
           </button>
 
           <div className="so-divider" />

@@ -1,13 +1,15 @@
 import React, { useMemo, useState } from "react";
 import AdminSidebar from "../components/admin/AdminSidebar";
+import AdminTopbar from "../components/admin/AdminTopbar";
+import ApprovalDashboard from "../components/admin/ApprovalDashboard";
 import ProjectFormModal from "../components/admin/ProjectFormModal";
 import ConfirmDialog from "../components/admin/ConfirmDialog";
-import { adminUser } from "../data/adminData";
+import { useAdminAuth } from "../context/adminAuthContext";
+import { useAdminData } from "../context/adminDataContext";
 import { SDG_LABELS, SDG_STYLES } from "../data/adminPublicationsData";
 import {
   PROJECT_TOTAL,
   projectStats,
-  managedProjects,
   PROJECT_YEAR_OPTIONS,
   PROJECT_SCHEME_OPTIONS,
   PROJECT_STATUS_OPTIONS,
@@ -128,7 +130,10 @@ const yearRange = (start, end) => {
 };
 
 export default function AdminProjectsManagementPage() {
-  const [rows, setRows] = useState(managedProjects);
+  const { isOperator, isAdmin, user } = useAdminAuth();
+  const { records, submit } = useAdminData();
+  const rows = records.projects;
+
   const [query, setQuery] = useState("");
   const [year, setYear] = useState("2026");
   const [scheme, setScheme] = useState("All");
@@ -157,13 +162,9 @@ export default function AdminProjectsManagementPage() {
   const displayTotal = filtersActive ? filtered.length : PROJECT_TOTAL;
 
   const requestDelete = (row) => setConfirm({ type: "delete", row });
+  const requestSave = (form) => setConfirm({ type: "save", form });
 
-  const requestSave = (form) => {
-    if (formModal?.mode === "edit") setConfirm({ type: "save", form });
-    else applySave(form);
-  };
-
-  const applySave = (form) => {
+  const buildPayload = (form) => {
     const editing = formModal?.mode === "edit" ? rows.find((r) => r.id === formModal.id) : null;
     const abbrev = facultyAbbrev(form.faculty);
     const piName = form.pi.replace(/\(.*\)/, "").trim();
@@ -172,7 +173,7 @@ export default function AdminProjectsManagementPage() {
     const usd = form.funding.match(/\$[\d,.]+/);
     const idr = form.funding.split("(")[0].trim();
 
-    const payload = {
+    return {
       code: form.code,
       title: form.title,
       field: form.topics,
@@ -197,22 +198,40 @@ export default function AdminProjectsManagementPage() {
         editing?.scheme ??
         form.scheme,
     };
-
-    if (editing) {
-      setRows((prev) => prev.map((row) => (row.id === editing.id ? { ...row, ...payload } : row)));
-    } else {
-      setRows((prev) => [{ id: Date.now(), ...payload }, ...prev]);
-    }
-    setFormModal(null);
   };
 
   const handleConfirm = () => {
-    if (confirm?.type === "save") applySave(confirm.form);
+    if (confirm?.type === "save") {
+      const payload = buildPayload(confirm.form);
+      const isEdit = formModal?.mode === "edit";
+      submit("projects", isEdit ? "edit" : "add", {
+        targetId: isEdit ? formModal.id : null,
+        payload,
+        label: payload.title,
+        by: user?.name,
+      });
+      setFormModal(null);
+    }
     if (confirm?.type === "delete") {
-      setRows((prev) => prev.filter((item) => item.id !== confirm.row.id));
+      submit("projects", "delete", {
+        targetId: confirm.row.id,
+        label: confirm.row.title,
+        by: user?.name,
+      });
     }
     setConfirm(null);
   };
+
+  if (isAdmin) {
+    return (
+      <ApprovalDashboard
+        entity="projects"
+        title="Projects Dashboard"
+        tableTitle="Pending Projects & Grants for Approval"
+        searchPlaceholder="Search project title, grant code, PI name, funder, or operator..."
+      />
+    );
+  }
 
   return (
     <div className="ad-root">
@@ -220,19 +239,7 @@ export default function AdminProjectsManagementPage() {
         <AdminSidebar />
 
         <div className="ad-main">
-          {/* Top bar */}
-          <div className="ad-topbar">
-            <div className="ad-topbar__user">
-              <img src={adminUser.photo} alt={adminUser.name} />
-              <div className="ad-topbar__meta">
-                <p className="ad-topbar__name">{adminUser.name}</p>
-                <p className="ad-topbar__role">{adminUser.role}</p>
-              </div>
-              <span className="ad-topbar__chev">
-                <ChevronDown />
-              </span>
-            </div>
-          </div>
+          <AdminTopbar />
 
           {/* Content */}
           <div className="ad-content">
@@ -252,16 +259,24 @@ export default function AdminProjectsManagementPage() {
                   <DownloadIcon />
                   Import List (CSV)
                 </button>
-                <button
-                  type="button"
-                  className="rp-add"
-                  onClick={() => setFormModal({ mode: "add" })}
-                >
-                  <PlusIcon />
-                  Add Project
-                </button>
+                {isOperator && (
+                  <button
+                    type="button"
+                    className="rp-add"
+                    onClick={() => setFormModal({ mode: "add" })}
+                  >
+                    <PlusIcon />
+                    Add Project
+                  </button>
+                )}
               </div>
             </div>
+
+            {isOperator && (
+              <p className="rp-rolenote">
+                Operator mode: additions, edits, and deletions are queued for Admin approval.
+              </p>
+            )}
 
             {/* Stat cards */}
             <div className="rp-stats">
@@ -417,24 +432,28 @@ export default function AdminProjectsManagementPage() {
                           </span>
                         </td>
                         <td>
-                          <div className="rp-rowactions">
-                            <button
-                              type="button"
-                              className="rp-iconbtn"
-                              title="Edit project"
-                              onClick={() => setFormModal({ mode: "edit", id: row.id })}
-                            >
-                              <PencilIcon />
-                            </button>
-                            <button
-                              type="button"
-                              className="rp-iconbtn rp-iconbtn--danger"
-                              title="Delete project"
-                              onClick={() => requestDelete(row)}
-                            >
-                              <TrashIcon />
-                            </button>
-                          </div>
+                          {isOperator ? (
+                            <div className="rp-rowactions">
+                              <button
+                                type="button"
+                                className="rp-iconbtn"
+                                title="Edit project"
+                                onClick={() => setFormModal({ mode: "edit", id: row.id })}
+                              >
+                                <PencilIcon />
+                              </button>
+                              <button
+                                type="button"
+                                className="rp-iconbtn rp-iconbtn--danger"
+                                title="Delete project"
+                                onClick={() => requestDelete(row)}
+                              >
+                                <TrashIcon />
+                              </button>
+                            </div>
+                          ) : (
+                            <span className="rp-readonly">Admin (review only)</span>
+                          )}
                         </td>
                       </tr>
                     ))}
@@ -491,9 +510,9 @@ export default function AdminProjectsManagementPage() {
       {confirm?.type === "save" && (
         <ConfirmDialog
           tone="save"
-          title="Save Changes?"
-          message="You are about to save the changes made to this research project. This action will update the project record across the repository."
-          confirmLabel="Yes, Save Changes"
+          title="Submit for Approval?"
+          message="This change will be queued and sent to the Admin for approval. It will not appear in the repository until approved."
+          confirmLabel="Yes, Submit to Admin"
           onConfirm={handleConfirm}
           onCancel={() => setConfirm(null)}
         />
@@ -502,9 +521,9 @@ export default function AdminProjectsManagementPage() {
       {confirm?.type === "delete" && (
         <ConfirmDialog
           tone="delete"
-          title="Delete Project?"
-          message={`You are about to permanently remove "${confirm.row.title}". This action cannot be undone.`}
-          confirmLabel="Yes, Delete Project"
+          title="Request Deletion?"
+          message={`You are requesting to remove "${confirm.row.title}". The Admin must approve this deletion before it is applied.`}
+          confirmLabel="Yes, Request Deletion"
           onConfirm={handleConfirm}
           onCancel={() => setConfirm(null)}
         />

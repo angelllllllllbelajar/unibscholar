@@ -47,18 +47,26 @@ const ExtIcon = () => (
 );
 
 export default function AdminLoginPage() {
-  const { isAdmin, login } = useAdminAuth();
+  const { isAuthed, login } = useAdminAuth();
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState("G1A024045");
-  const [password, setPassword] = useState("unibSecure2025#");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(true);
+  const [error, setError] = useState("");
 
-  if (isAdmin) return <Navigate to="/admin" replace />;
+  if (isAuthed) return <Navigate to="/admin" replace />;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login();
+    const key = username.trim().toLowerCase();
+    const role = key === "admin" ? "admin" : key === "operator" ? "operator" : null;
+    if (!role) {
+      setError("Unknown username. Sign in as “operator” or “admin”.");
+      return;
+    }
+    setError("");
+    login(role);
     navigate("/admin");
   };
 
@@ -98,6 +106,17 @@ export default function AdminLoginPage() {
           <p className="al-card__sub">
             Enter your Username and Password to access administrative services.
           </p>
+
+          <p className="al-accounts">
+            Demo accounts — username <strong>operator</strong> (add / edit / delete) or{" "}
+            <strong>admin</strong> (approve / reject).
+          </p>
+
+          {error && (
+            <p className="al-error" role="alert">
+              {error}
+            </p>
+          )}
 
           <form onSubmit={handleSubmit}>
             <div className="al-field">

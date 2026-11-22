@@ -115,7 +115,33 @@
   color: #6b7280;
   font-size: 0.875rem;
   line-height: 1.5;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.al-accounts {
+  text-align: left;
+  color: #475569;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.al-accounts strong { color: var(--color-navy); }
+
+.al-error {
+  text-align: left;
+  color: #b91c1c;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1.25rem;
 }
 
 .al-field {
